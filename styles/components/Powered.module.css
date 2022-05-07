@@ -46,4 +46,5 @@
 .logo {
     height: 24px;
     margin: 4px 2px;
+    transform: scale(0.8);
 }
