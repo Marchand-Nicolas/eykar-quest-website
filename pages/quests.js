@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import Header from '../components/header' 
 import { waitForElm, getCookie, setCookie } from "../functions";
 import Popup from '../components/popup'
+import { render } from "react-dom";
+import { unmountComponentAtNode } from "react-dom";
 
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
@@ -31,12 +33,12 @@ export default function Home() {;
   );
   useMemo(
     async () => { try {
-      await waitForElm(".default_background")
+      await waitForElm("#questsContener")
       setTriedQuests(getCookie("triedQuests"))
       document.querySelector("body").style.overscrollBehaviorY = "contain"
       let beginX = 0
       let beginY = 0
-      let x = -50
+      let x = -10
       let y = window.innerHeight / 2
       await waitForElm("#questsContener")
       move(0, 0)
@@ -87,25 +89,28 @@ export default function Home() {;
     }
   ] 
   }]
-  function leavePoint(pointId) {
-    const pointInfos = document.getElementById("content_" + pointId)
-    if (!pointInfos) return
-    pointInfos.remove()
-  }
-  function hoverPoint(quest, pointId) {
+  async function hoverPoint(quest, pointId) {
     const point = document.getElementById(pointId)
-    if (document.getElementById("content_" + pointId)) return
-    const pointInfos = document.createElement("div")
-    pointInfos.id = "content_" + pointId
-    pointInfos.innerHTML = `<p>${quest.description}</p>`
-    pointInfos.className = styles.point_infos_contener
-    point.appendChild(pointInfos)
+    const pointContener = document.getElementById("contentContener_" + pointId)
+    render(
+      <>
+        <p id={"content_" + pointId}>{quest.description}</p>
+        <button className={`global button dark ${styles.quest_start_button}`}>Start</button>
+      </>,
+      pointContener
+    )
+    let check = setInterval(() => {
+      if (point.matches(':hover') || point.matches(':focus')) return
+      clearInterval(check)
+      unmountComponentAtNode(pointContener)
+    }, 50);
   }
   function parseBranch(quest, elementPos, Y) {
-    return <div onMouseDown={() => hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseLeave={() => leavePoint("point_" + elementPos + "_" + Y)} className={styles.quest_point_contener} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
+    return <div onMouseDown={() => hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={styles.quest_point_contener} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
         <p className={styles.quest_point_name}>{quest.name}</p>
-        <div id={"point_" + elementPos + "_" + Y} className={styles.quest_point}>
-          {quest.icon} 
+        <div className={styles.quest_point}>
+          {quest.icon}
+          <div className={styles.point_infos_contener} id={"contentContener_point_" + elementPos + "_" + Y}></div>
         </div>
       </div>
   } 
@@ -134,7 +139,7 @@ export default function Home() {;
       "Okay", function(){return setCookie("triedQuests", true, 10000)})} 
       <div id="questsContener" className={styles.contener}>
       {loadBranch(quests[0], 0, 0)}  
-     </div>
+      </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@
     z-index: 2;
 }
 .quest_point_name {
-    color: white;
+    color: var(--metal_dark);
     font-family    : Verdana, sans-serif;
     width: 100%;
     text-align: center;
@@ -19,18 +19,19 @@
     width: 40px;
     height: 40px;
     transform: translateX(-50%);
-    background-color: white;
     border-radius: 90px;
     transition: 0.4s;
-    cursor: pointer;
     pointer-events: auto;
     display: flex;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.179);
+    background     : var(--menu_background);
+    box-shadow     : var(--menu_shadow);
+    backdrop-filter: var(--menu_filter);
+    border:  var(--menu_border);
 }
 
 .quest_point_icon {
-    color: var(--metal);
+    color: var(--gold);
     bottom: 50%;
     transform: translateY(50%);
     width: 30px;
@@ -52,23 +53,27 @@
 .point_infos_contener {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 15px;
+    color: white;
 }
 .quest_point:hover .point_infos_contener {
     opacity: 1;
-    animation: fadeIn 1s; 
+    animation: fadeIn 1s;
 } 
 
 @keyframes fadeIn {
     0% {
         opacity: 0;
     } 
+    10% {
+        opacity: 0;
+    }
     100% {
         opacity: 1;
     }
 }
 
 .quest_point_contener:hover .quest_point_name {
-    background-color: rgba(0, 0, 0, 0.534);
+    background-color: rgba(255, 243, 204, 0.329);
     transform: translateX(-50%);
 }
 
@@ -96,4 +101,16 @@
 .contener {
     position: fixed;
     z-index: 0
+}
+
+.quest_start_button {
+    position: absolute !important;
+    width: calc(100% - 56px) !important;
+    margin: 0 !important;
+    bottom: 4px;
+    right: 10px;
+    font-size: 1em !important;
+    border: none !important;
+    border-radius: 50px !important;
+    color: var(--gold_light) !important;
 }
