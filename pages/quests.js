@@ -22,7 +22,8 @@ export default function Home() {;
         })
       } 
     } catch{}
-  }
+  },
+  []
   )
   useMemo(
     async () => { try {

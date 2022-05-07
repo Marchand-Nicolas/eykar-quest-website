@@ -27,7 +27,8 @@ export default function Home() {;
           if (ready) connect(connectors[0])
         }) 
     } catch{}
-  }
+  },
+  []
   );
   return (
     <div className="default_background">
