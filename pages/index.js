@@ -16,16 +16,18 @@ export default function Home() {;
   let [connectionStatus, setConnectionStatus]  = useState(0) 
   const { account, connect, connectors } = useStarknet()
   const router = useRouter()  
-  const injected = useMemo(() => new InjectedConnector(), [])
   const name = useDisplayName(account, 12, 4);
   useMemo(
     async () => {
       try {
-        if (connectors.length === 0) return
-          await connectors[0].ready()
-          connectors[0].ready().then(ready => {
-          if (ready) connect(connectors[0])
-        }) 
+        setTimeout(() => {
+          if (typeof window === "undefined") return
+          if (connectors.length === 0) return
+            const connector = connectors[0]
+              connector.ready().then(ready => {
+              if (ready) connect(connectors[0])
+            }) 
+      }, 50);
     } catch{}
   },
   []

@@ -9,7 +9,7 @@ function Header() {
         <nav className={styles.game_nav}>
             <div className={styles.icons}>
                 <Link href="/" passHref>
-                    <Image className={styles.logo} width={80} height={60} src="/logo.svg" alt="Eykar Logo" />
+                    <img className={styles.logo} width={80} height={60} src="/logo.svg" alt="Eykar Logo" />
                 </Link>
                 <Link href="/" passHref>
                 <div className={[styles.button, styles.normal, styles.button_div].join(" ")}>

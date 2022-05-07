@@ -15,16 +15,20 @@ export default function Home() {;
   const injected = useMemo(() => new InjectedConnector(), [])
   let [triedQuests, setTriedQuests] = useState(false) 
   useMemo(
-    async () => { try {
-      if (connectors.length !== 0) {
-          await connectors[0].ready().then(ready => {
-            if (ready) connect(connectors[0])
-        })
-      } 
+    async () => {
+      try {
+        setTimeout(() => {
+          if (typeof window === "undefined") return
+          if (connectors.length === 0) return
+            const connector = connectors[0]
+              connector.ready().then(ready => {
+              if (ready) connect(connectors[0])
+            }) 
+      }, 50);
     } catch{}
   },
   []
-  )
+  );
   useMemo(
     async () => { try {
       await waitForElm(".default_background")
