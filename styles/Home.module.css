@@ -1,116 +1,213 @@
-.container {
-  padding: 0 2rem;
+.nav {
+  position       : absolute;
+  left           : 50%;
+  top         : calc(50% - 60px);
+  transform: translateX(-50%) translateY(-50%);
+  background     : rgba(255, 255, 255, 0.055);
+  box-shadow     : 0px 0px 150px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  padding        : 3em 4em;
+  border-radius  : 20px;
+  border: solid 1px rgba(95, 95, 95, 0.425);
+  pointer-events: none;
+} 
+
+@media (max-width: 700px) {
+  .nav {
+    top      : 50%;
+    left     : 50px;
+    right    : 50px;
+    bottom   : auto;
+    transform: translateY(-50%);
+  }
 }
 
-.main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 440px) {
+  .nav {
+    left : 10px;
+    right: 10px;
+  }
 }
-
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.title a {
-  color: #0070f3;
+.button {
+  font-family    : Verdana, sans-serif;
+  letter-spacing : 0.05em;
+  text-align     : left;
+  font-style     : normal;
+  font-size      : 20px;
+  line-height    : 62px;
+  cursor         : pointer;
+  list-style-type: none;
+  display        : block;
+  margin         : 1.5em 1em 0.5em 0.1em;
+  padding        : 0.1em 1em 0.1em 14em;
   text-decoration: none;
+  color          : #F3F2ED;
+  width          : 100%;
+  height         : 3em;
+  position       : relative;
+  border-radius  : 12px;
+  pointer-events: auto;
 }
 
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+@media (max-width: 536px) {
+  .button {
+    margin        : 0.4em 1em 0.4em 0.0em;
+    padding       : 0.1em 0.4em 0.02em 0em;
+    letter-spacing: 0em;
+    font-size     : 15px;
+  }
 }
 
-.title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
+.button.normal {
+  color           : #F3F2ED;
+  background-color: #232020b7;
+  border          : 2px solid rgba(243, 242, 237, 0.95);
+  box-sizing      : border-box;
 }
 
-.title,
-.description {
+.button.play {
+  color           : var(--metal_light);;
+  background-color: #232020;
+  border          : 1px solid var(--metal);
+  box-sizing      : border-box;
+}
+
+.button.play:hover {
+  border: solid 1px var(--metal_light);
+}
+
+.address {
+  width: 100%;
+  background-color: #232020b7;
+  border-radius: 4px;
+  color: var(--metal_light);
   text-align: center;
-}
-
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
-}
-
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-}
-
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-}
-
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
+} 
 
 .logo {
-  height: 1em;
-  margin-left: 0.5rem;
+  width  : 65%;
+  margin : auto;
+  display: block;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
+.logo_banner {
+  background-image: url('/illustrations/warrior2.webp');
+  background-size: cover;
+  background-position: center 0;
+  width  : calc(100% + 8em);
+  height: 280px;
+  margin : auto;
+  display: block;
+  margin: -3em -4em -4em -4em;
+  position: relative;
+  border-top-left-radius  : 20px;
+  border-top-right-radius: 20px;
+  --scrollbar-width: 1px;
+  --mask-height: 40px;
+  --mask-image-content: linear-gradient(
+    to bottom,
+    transparent,
+    black calc(-1 * var(--mask-height)),
+    black calc(40% - var(--mask-height)),
+    transparent
+);
+--mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
+--mask-image-scrollbar: linear-gradient(black, transparent);
+mask-image: var(--mask-image-content);
+mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+mask-position: 0 0, 100% 0;
+mask-repeat: no-repeat, no-repeat;
+}
+
+@media (max-width: 536px) {
+.logo_banner {
+  height: 220px;
+}
+}
+
+
+@media (max-width: 358px) {
+  .nav {
+    padding: 2em 1em;
   }
+  .logo_banner {
+    margin: -2em -1em;
+    width: calc(100% + 2em);
+    height: 120px;
+  } 
+}
+
+
+.icon {
+  width    : 25px;
+  display  : inline-block;
+  position : absolute;
+  left     : 1.3em;
+  top      : 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 536px) {
+  .icon {
+    width    : 25px;
+    display  : inline-block;
+    position : absolute;
+    left     : 0.8em;
+    top      : 50%;
+    transform: translateY(-50%);
+  }
+
+.logo_banner {
+  height: 220px;
+}
+.nav {
+  padding-bottom : 1.5em;
+}
+}
+
+.button_text {
+  display    : inline-block;
+  margin-left: 1.75em;
+  position   : absolute;
+  left       : 1.3em;
+  top        : 50%;
+  transform  : translateY(-50%);
+}
+
+.button:hover {
+  border: solid 1px var(--metal_light);
+}
+
+.button_loading {
+  position: absolute !important;
+  top: 50%;
+  right: 15px;
+  width: 40px !important;
+  height: 40px !important;
+  transform: scale(0.5) translateY(-150%);
+} 
+
+.button_loading div::after {
+  background-color: var(--metal) !important;
+} 
+
+.button_div {
+  position       : absolute;
+  width          : 100%;
+  height         : 100%;
+  top            : 0;
+  left           : 0;
+  border-radius  : 12px;
+  backdrop-filter: blur(10px);
+  z-index        : -1;
+}
+
+.button:hover .button_div {
+  border: solid 1px #dddddd;
+}
+
+.loading {
+  display   : inline-block;
+  transform : translateY(6px);
+  margin-top: -7px;
 }

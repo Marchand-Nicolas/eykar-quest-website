@@ -1,0 +1,99 @@
+.quest_point_contener {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    pointer-events: none;
+    z-index: 2;
+}
+.quest_point_name {
+    color: white;
+    font-family    : Verdana, sans-serif;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+    transition: 0.4s;
+}
+
+.quest_point {
+    width: 40px;
+    height: 40px;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 90px;
+    transition: 0.4s;
+    cursor: pointer;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.179);
+}
+
+.quest_point_icon {
+    color: var(--metal);
+    bottom: 50%;
+    transform: translateY(50%);
+    width: 30px;
+    position: absolute;
+} 
+
+.quest_point:hover {
+    width: 200px;
+    border-radius: 12px;
+    justify-content: unset;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 5px;
+    height: 200px;
+}
+.point_infos_contener {
+    opacity: 0;
+}
+.point_infos_contener {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+.quest_point:hover .point_infos_contener {
+    opacity: 1;
+    animation: fadeIn 1s; 
+} 
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    } 
+    100% {
+        opacity: 1;
+    }
+}
+
+.quest_point_contener:hover .quest_point_name {
+    background-color: rgba(0, 0, 0, 0.534);
+    transform: translateX(-50%);
+}
+
+.quest_point_contener:hover .quest_point_icon {
+    bottom: 5px;
+    transform: unset;
+}
+
+.horizontalLine {
+    background-color: var(--gold);
+    position: absolute;
+    width: 150px;
+    height: 1px;
+    top: calc(50% + 10px);
+}
+
+.verticalLine {
+    background-color: var(--gold);
+    position: absolute;
+    width: 1px;
+    height: 200px;
+    top: calc(50% + 10px);
+}
+
+.contener {
+    position: fixed;
+    z-index: 0
+}
