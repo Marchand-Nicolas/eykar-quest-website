@@ -16,12 +16,17 @@ export default function Home() {;
   let [triedQuests, setTriedQuests] = useState(false) 
   useMemo(
     async () => { try {
-      await waitForElm(".default_background")
       if (connectors.length !== 0) {
-          connectors[0].ready().then(ready => {
+          await connectors[0].ready().then(ready => {
             if (ready) connect(connectors[0])
         })
       } 
+    } catch{}
+  }
+  )
+  useMemo(
+    async () => { try {
+      await waitForElm(".default_background")
       setTriedQuests(getCookie("triedQuests"))
       document.querySelector("body").style.overscrollBehaviorY = "contain"
       let beginX = 0

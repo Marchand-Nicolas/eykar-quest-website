@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width           : fit-content;
+    width           : calc(fit-content + 4px);
     height          : fit-content;
     background-color: rgba(146, 143, 138, 0.2);
     cursor          : pointer;
@@ -40,9 +40,10 @@
     font-size   : 14px;
     color       : white;
     margin-right: 7px;
+    margin-left: 4px;
 }
 
 .logo {
     height: 24px;
-    margin: 4px 5px;
+    margin: 4px 2px;
 }

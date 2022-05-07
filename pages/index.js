@@ -9,6 +9,7 @@ import Loading from '../components/loading'
 import { useRouter } from 'next/router'
 import Header from '../components/header' 
 import { useDisplayName } from "../hooks/starknet";
+import Image from 'next/image'
 
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
@@ -19,15 +20,14 @@ export default function Home() {;
   const name = useDisplayName(account, 12, 4);
   useMemo(
     async () => {
-      await waitForElm(".default_background")
       try {
         if (connectors.length === 0) return
-        connectors[0].ready().then(ready => {
+          await connectors[0].ready()
+          connectors[0].ready().then(ready => {
           if (ready) connect(connectors[0])
         }) 
     } catch{}
-  } ,
-    []
+  }
   );
   return (
     <div className="default_background">
@@ -35,7 +35,7 @@ export default function Home() {;
      {account && <Header/>} 
       {connectMenuToggled && !account ? <WalletMenu close={() => setConnectMenuToggled(false)} /> : null}
        <nav className={styles.nav}>
-        {!account && <img className={styles.logo} src="/logo.svg" alt="Eykar Logo" />}
+        {!account && <Image className={styles.logo} width={300} height={100} src="/logo.svg" alt="Eykar Logo" />}
         {account && <div className={styles.logo_banner}/>}
         <button onClick={(async () => {
               if (account) return router.push("/quests")
@@ -46,7 +46,6 @@ export default function Home() {;
                   await connector.ready();
                   connect(connector)
                 } catch (err) {
-                  console.log(err)
                   setConnectMenuToggled(true)
                   setConnectionStatus(1)
                 }
