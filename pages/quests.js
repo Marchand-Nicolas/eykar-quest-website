@@ -15,7 +15,6 @@ export default function Home() {;
   const { account, connect, connectors } = useStarknet()
   const router = useRouter()  
   const injected = useMemo(() => new InjectedConnector(), [])
-  let [triedQuests, setTriedQuests] = useState(false) 
   useMemo(
     async () => {
       try {
@@ -34,7 +33,8 @@ export default function Home() {;
   useMemo(
     async () => { try {
       await waitForElm("#questsContener")
-      setTriedQuests(getCookie("triedQuests"))
+      !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a white circle) to start completing it.`,
+      "Okay", function(){return setCookie("triedQuests", true, 10000)})
       document.querySelector("body").style.overscrollBehaviorY = "contain"
       let beginX = 0
       let beginY = 0
@@ -77,15 +77,25 @@ export default function Home() {;
   const quests = [{
     name: "Eligibility",
     description: "Let's check if you have the prerequisites to join the future beta of Eykar!",
+    long_description: "",
     icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
   </svg>,
     connected: [{
       name: "Tweet",
       description: "Make a tweet mentioning Eykar to support us ❤️",
+      long_description: "Make a tweet containing at least @AgeOfEykar",
+      content: <>
+            <input className="global input" placeholder="Please enter your exact tweeter username"></input>
+            <br></br>
+            <p className="global description">After the tweet is sent, you have 10 minutes to click on the button below</p>
+        </>,
       icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
 </svg>,
+      action : function(){
+        console.log("tweet")
+      }
     }
   ] 
   }]
@@ -95,7 +105,15 @@ export default function Home() {;
     render(
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
-        <button className={`global button dark ${styles.quest_start_button}`}>Start</button>
+        <button onClick={() => {
+            Popup(
+              quest.name,
+              quest.long_description,
+              "Complete",
+              quest.action,
+              quest.content,
+            )
+        }} className={`global button dark ${styles.quest_start_button}`}>Start</button>
       </>,
       pointContener
     )
@@ -132,11 +150,10 @@ export default function Home() {;
       )}  
     </div>
   }  
+      
   return (
     <div className="default_background">
       {account && <Header/>} 
-      {triedQuests ? null : Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a white circle) to start completing it.`,
-      "Okay", function(){return setCookie("triedQuests", true, 10000)})} 
       <div id="questsContener" className={styles.contener}>
       {loadBranch(quests[0], 0, 0)}  
       </div>

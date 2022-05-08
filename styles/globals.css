@@ -74,9 +74,26 @@ body {
   text-align: center;
 } 
 
-.global.popup.description {
-
-} 
+.global.input {
+  font-family    : Verdana, sans-serif;
+  letter-spacing : 0.05em;
+  text-align     : left;
+  font-style     : normal;
+  font-size      : 20px;
+  list-style-type: none;
+  display        : block;
+  margin         : 1.5em 1em 0.5em 0.1em;
+  padding        : 0.4em 1em;
+  text-align: center;
+  text-decoration: none;
+  color          : #F3F2ED;
+  width          : 100%;
+  position       : relative;
+  border-radius  : 2px;
+  background-color: #232020b7;
+  border          : 1px solid rgba(243, 242, 237, 0.95);
+  box-sizing      : border-box;
+}
 
 .global.button {
   font-family    : Verdana, sans-serif;
