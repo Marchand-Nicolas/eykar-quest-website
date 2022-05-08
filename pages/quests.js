@@ -84,9 +84,9 @@ export default function Home() {;
     connected: [{
       name: "Tweet",
       description: "Make a tweet mentioning Eykar to support us ❤️",
-      long_description: "Make a tweet containing at least @AgeOfEykar",
+      long_description: "Make a tweet containing at least @AgeOfEykar, with more than 50 characters",
       content: <>
-            <input className="global input" placeholder="Please enter your exact tweeter username"></input>
+            <input className="global input" placeholder="Please enter your exact twitter username"></input>
             <br></br>
             <p className="global description">After the tweet is sent, you have 10 minutes to click on the button below</p>
         </>,
