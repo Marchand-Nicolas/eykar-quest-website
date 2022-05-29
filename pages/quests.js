@@ -17,7 +17,6 @@ export default function Home() {;
   const [questAction, setQuestAction] = useState("")
   const [questActionDescription, setQuestActionDescription] = useState("")
   const [questActionContent, setQuestActionContent] = useState("")
-  const [questActionError, setQuestActionError] = useState("")
   const [questActionTransaction, setQuestActionTransaction] = useState(null)
   const { transactions } = useStarknetTransactionManager()
 
@@ -105,6 +104,7 @@ export default function Home() {;
     custom_button: "Mint",
     action : function(){
       setQuestCompleted(false)
+      setQuestActionTransaction(null)
       mintFirstNFTInvoke({ args: [] })
       setQuestAction("Minting your first NFT")
       setQuestActionDescription("Please wait...")
@@ -203,7 +203,7 @@ export default function Home() {;
       {loadBranch(quests[0], 0, 0)}  
       </div>
       {
-        (!questCompleted && questAction) ? <LoadingScreen title="Minting your first NFT" description="Please wait..." content={
+        (!questCompleted && questAction) ? <LoadingScreen title={questAction} description={questActionTransaction ? questActionDescription : "Please confirm the transaction"} content={
           <>
             <p className={[styles.transaction_status, questActionTransaction && (questActionTransaction.status === "REJECTED" && styles.transaction_status_rejected)].join(" ")}>{questActionTransaction ? "Current status : " + questActionTransaction.status : "..."}</p>
             <button onClick={() => setQuestAction("")} className="global button highlighted popup v2">
