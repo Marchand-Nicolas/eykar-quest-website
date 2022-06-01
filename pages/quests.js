@@ -14,27 +14,30 @@ export default function Home() {
   const { account, connect, connectors } = useStarknet()
   const { contract } = useEykarCommunityContract()
   const { data:mintFirstNFTData, loading:mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFTInvoke } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
-  const { data:playerLevel, loading:playerLevelLoading, error:playerLevelError, refresh:playerLevelRefresh } = useStarknetCall({ contract, method: 'getLevel', args: [ account ] })
-  //const { data:questProgress, loading:questProgressLoading, error:questProgressError, refresh:questProgressRefresh } = useStarknetCall({ contract, method: 'getProgress', args: [12] })
   const [questCompleted, setQuestCompleted] = useState(false)
   const [questAction, setQuestAction] = useState("")
   const [questActionDescription, setQuestActionDescription] = useState("")
   const [questActionContent, setQuestActionContent] = useState("")
   const [questActionTransaction, setQuestActionTransaction] = useState(null)
   const { transactions } = useStarknetTransactionManager()
-  const [questProgress, setQuestProgress] = GetQuestProgress(12);
+  const [questProgress, playerLevel] = GetQuestProgress(12);
+
   function GetQuestProgress(questNumber) {
-    const [result, setResult] = useState([]);
+    const [progress, setProgress] = useState([]);
+    const [level, setLevel] = useState(0);
     useEffect(() => {
-      async function getQuestProgress() {
+      async function getPlayerInfos() {
         let questProgressTemp = []
         if (contract && account && questProgress.length === 0) questProgressTemp = await contract.functions.getProgress(12, account)
         else if (questProgress.length === 0) questProgressTemp = questProgress
-        setResult(questProgressTemp);
+        setProgress(questProgressTemp);
+        let levelTemp = 0
+        levelTemp = await contract.functions.getLevel(account)
+        setLevel(levelTemp);
       }
-      if (questProgress.length === 0 && account && contract) getQuestProgress()
-    }, [questNumber, contract, account])
-    return [result]
+      if (account && contract) getPlayerInfos()
+    }, [questNumber, contract, account, questCompleted])
+    return [progress, level]
   }
   const playerName = useDisplayName(account, 12, 4);
   useEffect(() => {
@@ -69,7 +72,7 @@ export default function Home() {
   useMemo(
     async () => { try {
       await waitForElm("#questsContener")
-      !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a white circle) to start completing it.`,
+      !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,
       "Okay", function(){return setCookie("triedQuests", true, 10000)})
       document.querySelector("body").style.overscrollBehaviorY = "contain"
       let beginX = 0
