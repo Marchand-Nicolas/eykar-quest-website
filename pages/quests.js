@@ -22,8 +22,8 @@ export default function Home() {
   const [questActionContent, setQuestActionContent] = useState("")
   const [questActionTransaction, setQuestActionTransaction] = useState(null)
   const { transactions } = useStarknetTransactionManager()
-  const [questProgress, setQuestProgress] = getQuestProgress(12);
-  function getQuestProgress(questNumber) {
+  const [questProgress, setQuestProgress] = GetQuestProgress(12);
+  function GetQuestProgress(questNumber) {
     const [result, setResult] = useState([]);
     useEffect(() => {
       async function getQuestProgress() {
