@@ -78,6 +78,10 @@
             {
                 "name": "questNumber",
                 "type": "felt"
+            },
+            {
+                "name": "player",
+                "type": "felt"
             }
         ],
         "name": "getProgress",
@@ -95,7 +99,12 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "name": "player",
+                "type": "felt"
+            }
+        ],
         "name": "getLevel",
         "outputs": [
             {
@@ -110,6 +119,10 @@
         "inputs": [
             {
                 "name": "quest_id",
+                "type": "felt"
+            },
+            {
+                "name": "player",
                 "type": "felt"
             }
         ],
