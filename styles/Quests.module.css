@@ -24,6 +24,13 @@
     white-space: nowrap;
 }
 
+.quest_point_contener_completed .quest_point_name {
+    opacity: 0;
+}
+.quest_point_contener_completed:hover .quest_point_name {
+    opacity: 1;
+}
+
 .quest_point {
     width: 40px;
     height: 40px;
@@ -51,6 +58,15 @@
     transform: translateY(50%);
     width: 30px;
     position: absolute;
+} 
+
+.quest_point_contener_completed .quest_point {
+    border: none;
+    background-color: unset;
+    backdrop-filter: var(--menu_filter);
+}
+.quest_point_contener_completed .quest_point_icon {
+    color: #384d2c86;
 } 
 
 .quest_point:hover {

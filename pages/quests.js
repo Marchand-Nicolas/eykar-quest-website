@@ -116,8 +116,9 @@ export default function Home() {
     description: "We'll mint your first NFT on Eykar!",
     long_description: "Let's mint your first NFT on Eykar! You will keep it throughout your journey. As you complete quests (like this one), your NFT will gain levels and evolve! Good luck ;-)",
     icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-    </svg>,
+  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+</svg>,
     custom_button: "Mint",
     action : function(){
       setQuestCompleted(false)
@@ -186,33 +187,36 @@ export default function Home() {
       unmountComponentAtNode(pointContener)
     }, 50);
   }
-  function parseBranch(quest, elementPos, Y) {
-    return <div onMouseDown={() => quest.dependent ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={styles.quest_point_contener} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
-        {quest.dependent ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
-        <div id={"questElement_" + quest.id} className={[styles.quest_point, quest.dependent ? styles.quest_point_locked : null].join(" ")}>
+  function parseBranch(quest, elementPos, Y, previousQuestCompleted) {
+    const completed = questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false
+    return <div onMouseDown={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
+        {quest.dependent && !previousQuestCompleted ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
+        <div id={"questElement_" + quest.id} className={[styles.quest_point, quest.dependent && !previousQuestCompleted ? styles.quest_point_locked : null].join(" ")}>
           {
-            quest.dependent ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            completed ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg> : quest.dependent && !previousQuestCompleted ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg> : quest.icon
           }
-          {quest.dependent ? null : <div className={styles.point_infos_contener} id={quest.name && "contentContener_point_" + elementPos + "_" + Y}></div>}
+          {quest.dependent && !previousQuestCompleted ? null : <div className={styles.point_infos_contener} id={quest.name && "contentContener_point_" + elementPos + "_" + Y}></div>}
         </div>
       </div>
   }
-  function loadBranch(quest, pos, Y) {
+  function loadBranch(quest, pos, Y, previousQuestCompleted) {
     const elementPos = pos + 150
-    if (!quest.connected) return parseBranch(quest, elementPos, Y)
+    if (!quest.connected) return parseBranch(quest, elementPos, Y, previousQuestCompleted)
     function computeChildY(index) {
       if (quest.connected.length === 1) return Y
       return Y + 200 / (quest.connected.length - 1) * (index) - 100
     } 
     return <div>
-      {parseBranch(quest, elementPos, Y)}
+      {parseBranch(quest, elementPos, Y, previousQuestCompleted)}
       <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px))`}} className={styles.horizontalLine}></div>
       {quest.connected.length > 1 && <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px)) translateX(150px)`}} className={styles.verticalLine}></div>} 
       {quest.connected.map((element, index) => 
         <div key={"branch_" + quest.name + "_" + index}>
-          {loadBranch(element, elementPos, computeChildY(index))}
+          {loadBranch(element, elementPos, computeChildY(index), questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false)}
         </div>
       )}  
     </div>
@@ -222,7 +226,7 @@ export default function Home() {
     <div className="default_background">
       {account && <Header/>} 
       <div id="questsContener" className={styles.contener}>
-      {loadBranch(quests[0], 0, 0)}  
+      {loadBranch(quests[0], 0, 0, true)}  
       {account && <div className={styles.player_infos_contener}>
         <p>{playerName}</p>
         Level {account ? (playerLevel ? playerLevel[0].words[0] : "...") : 0}
