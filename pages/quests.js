@@ -14,7 +14,7 @@ export default function Home() {
   const { account, connect, connectors } = useStarknet()
   const { contract } = useEykarCommunityContract()
   const { data:mintFirstNFTData, loading:mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFTInvoke } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
-  const { data:playerLevel, loading:playerLevelLoading, error:playerLevelError, refresh:playerLevelRefresh } = useStarknetCall({ contract, method: 'getLevel', args: [] })
+  const { data:playerLevel, loading:playerLevelLoading, error:playerLevelError, refresh:playerLevelRefresh } = useStarknetCall({ contract, method: 'getLevel', args: [ account ] })
   //const { data:questProgress, loading:questProgressLoading, error:questProgressError, refresh:questProgressRefresh } = useStarknetCall({ contract, method: 'getProgress', args: [12] })
   const [questCompleted, setQuestCompleted] = useState(false)
   const [questAction, setQuestAction] = useState("")
@@ -28,7 +28,7 @@ export default function Home() {
     useEffect(() => {
       async function getQuestProgress() {
         let questProgressTemp = []
-        if (contract && account && questProgress.length === 0) questProgressTemp = await contract.functions.getProgress(12)
+        if (contract && account && questProgress.length === 0) questProgressTemp = await contract.functions.getProgress(12, account)
         else if (questProgress.length === 0) questProgressTemp = questProgress
         setResult(questProgressTemp);
       }
