@@ -142,6 +142,10 @@
     color: var(--gold_light) !important;
 }
 
+.quest_start_button_completed {
+    background-color: #384d2c86 !important;
+}
+
 .transaction_status {
     flex-basis: 100%;
     color: var(--gold_light)
@@ -160,4 +164,11 @@
     color: white;
     padding: 10px;
     opacity: 0.8;
+}
+
+.player_infos_contener {
+    background-color: #f9e8c8bd;;
+    padding: 15px;
+    border-radius: 12px;
+    transform: translate(120px, calc(-100% - 100px));
 }

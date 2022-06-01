@@ -1,26 +1,42 @@
 import { waitForElm, getCookie, setCookie } from "../functions";
 import { render, unmountComponentAtNode } from "react-dom";
 import { useEykarCommunityContract } from '../hooks/eykarCommunity'
-import { useStarknetInvoke, useStarknet, useStarknetTransactionManager } from '@starknet-react/core'
+import { useStarknetInvoke, useStarknetCall, useStarknet, useStarknetTransactionManager } from '@starknet-react/core'
 import { useState, useEffect, useMemo } from "react";
+import { useDisplayName } from "../hooks/starknet";
 import LoadingScreen from "../components/loadingScreen";
 import styles from '../styles/Quests.module.css'
 import React from 'react'
 import Header from '../components/header' 
 import Popup from '../components/popup'
 
-export default function Home() {;
+export default function Home() {
   const { account, connect, connectors } = useStarknet()
   const { contract } = useEykarCommunityContract()
-  const { data:mintFirstNFTData, loading:mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTRest, invoke:mintFirstNFTInvoke } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
+  const { data:mintFirstNFTData, loading:mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFTInvoke } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
+  const { data:playerLevel, loading:playerLevelLoading, error:playerLevelError, refresh:playerLevelRefresh } = useStarknetCall({ contract, method: 'getLevel', args: [] })
+  //const { data:questProgress, loading:questProgressLoading, error:questProgressError, refresh:questProgressRefresh } = useStarknetCall({ contract, method: 'getProgress', args: [12] })
   const [questCompleted, setQuestCompleted] = useState(false)
   const [questAction, setQuestAction] = useState("")
   const [questActionDescription, setQuestActionDescription] = useState("")
   const [questActionContent, setQuestActionContent] = useState("")
   const [questActionTransaction, setQuestActionTransaction] = useState(null)
   const { transactions } = useStarknetTransactionManager()
-
-  console.log(mintFirstNFTData, mintFirstNFTLoading, mintFirstNFTError, transactions)
+  const [questProgress, setQuestProgress] = getQuestProgress(12);
+  function getQuestProgress(questNumber) {
+    const [result, setResult] = useState([]);
+    useEffect(() => {
+      async function getQuestProgress() {
+        let questProgressTemp = []
+        if (contract && account && questProgress.length === 0) questProgressTemp = await contract.functions.getProgress(12)
+        else if (questProgress.length === 0) questProgressTemp = questProgress
+        setResult(questProgressTemp);
+      }
+      if (questProgress.length === 0 && account && contract) getQuestProgress()
+    }, [questNumber, contract, account])
+    return [result]
+  }
+  const playerName = useDisplayName(account, 12, 4);
   useEffect(() => {
       for (const transaction of transactions)
           if (transaction.transactionHash === mintFirstNFTData) {
@@ -96,6 +112,7 @@ export default function Home() {;
   );
   const quests = [{
     name: "First NFT",
+    id: 1,
     description: "We'll mint your first NFT on Eykar!",
     long_description: "Let's mint your first NFT on Eykar! You will keep it throughout your journey. As you complete quests (like this one), your NFT will gain levels and evolve! Good luck ;-)",
     icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -112,6 +129,7 @@ export default function Home() {;
     },
     connected: [{
     name: "Eligibility",
+    id: 2,
     description: "Let's check if you have the prerequisites to join the future beta of Eykar!",
     long_description: "",
     dependent: true,
@@ -122,6 +140,7 @@ export default function Home() {;
       },
         connected: [{
           name: "Tweet",
+          id: 3,
           description: "Make a tweet mentioning Eykar to support us ❤️",
           long_description: "Make a tweet containing at least @AgeOfEykar or eykar.org, with more than 50 characters.",
           content: <>
@@ -143,10 +162,12 @@ export default function Home() {;
   async function hoverPoint(quest, pointId) {
     const point = document.getElementById(pointId)
     const pointContener = document.getElementById("contentContener_" + pointId)
+    const questCompleted = questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false
     render(
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
-        <button onClick={() => {
+        {
+        !questCompleted ? <button onClick={() => {
             Popup(
               quest.name,
               quest.long_description,
@@ -154,7 +175,8 @@ export default function Home() {;
               quest.action,
               quest.content,
             )
-        }} className={`global button dark ${styles.quest_start_button}`}>Start</button>
+        }} className={`global button dark ${styles.quest_start_button}`}>Start</button> : <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_completed}`}>Completed</button>
+        }
       </>,
       pointContener
     )
@@ -167,7 +189,7 @@ export default function Home() {;
   function parseBranch(quest, elementPos, Y) {
     return <div onMouseDown={() => quest.dependent ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={styles.quest_point_contener} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
         {quest.dependent ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
-        <div className={[styles.quest_point, quest.dependent ? styles.quest_point_locked : null].join(" ")}>
+        <div id={"questElement_" + quest.id} className={[styles.quest_point, quest.dependent ? styles.quest_point_locked : null].join(" ")}>
           {
             quest.dependent ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -194,13 +216,17 @@ export default function Home() {;
         </div>
       )}  
     </div>
-  }  
+  }
       
   return (
     <div className="default_background">
       {account && <Header/>} 
       <div id="questsContener" className={styles.contener}>
       {loadBranch(quests[0], 0, 0)}  
+      {account && <div className={styles.player_infos_contener}>
+        <p>{playerName}</p>
+        Level {account ? (playerLevel ? playerLevel[0].words[0] : "...") : 0}
+        </div>}
       </div>
       {
         (!questCompleted && questAction) ? <LoadingScreen title={questAction} description={questActionTransaction ? questActionDescription : "Please confirm the transaction"} content={

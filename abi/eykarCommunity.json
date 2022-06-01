@@ -76,11 +76,44 @@
     {
         "inputs": [
             {
+                "name": "questNumber",
+                "type": "felt"
+            }
+        ],
+        "name": "getProgress",
+        "outputs": [
+            {
+                "name": "progress_len",
+                "type": "felt"
+            },
+            {
+                "name": "progress",
+                "type": "felt*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getLevel",
+        "outputs": [
+            {
+                "name": "level",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "name": "quest_id",
                 "type": "felt"
             }
         ],
-        "name": "getQuestProgress",
+        "name": "hasCompletedQuest",
         "outputs": [
             {
                 "name": "quest_progress",
@@ -113,7 +146,7 @@
     },
     {
         "inputs": [],
-        "name": "get_url",
+        "name": "getUrl",
         "outputs": [
             {
                 "name": "url_len",
@@ -167,7 +200,7 @@
                 "type": "felt"
             }
         ],
-        "name": "complete_quest",
+        "name": "completeQuest",
         "outputs": [],
         "type": "function"
     },

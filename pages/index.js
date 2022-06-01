@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
-import { useStarknet, InjectedConnector } from '@starknet-react/core'
-import { waitForElm } from "../functions";
+import { useStarknet } from '@starknet-react/core'
 import styles from '../styles/Home.module.css'
 import React from 'react'
 import Powered from '../components/powered'
@@ -35,9 +34,9 @@ export default function Home() {;
   return (
     <div className="default_background">
       <Powered />
-     {account && <Header/>} 
+      {account && <Header/>} 
       {connectMenuToggled && !account ? <WalletMenu close={() => setConnectMenuToggled(false)} /> : null}
-       <nav className={styles.nav}>
+      <nav className={styles.nav}>
         {!account && <Image className={styles.logo} width={300} height={100} src="/logo.svg" alt="Eykar Logo" />}
         {account && <div className={styles.logo_banner}/>}
         <button onClick={(async () => {
