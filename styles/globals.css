@@ -128,6 +128,9 @@ body {
   border          : 2px solid var(--gold);
 }
 
+.global.popup.description {
+  text-align: center;
+}
 
 .global.popup.button {
   width: 200px;

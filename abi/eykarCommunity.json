@@ -198,12 +198,7 @@
     {
         "inputs": [],
         "name": "mintFirstNFT",
-        "outputs": [
-            {
-                "name": "token_id",
-                "type": "Uint256"
-            }
-        ],
+        "outputs": [],
         "type": "function"
     },
     {
@@ -214,6 +209,17 @@
             }
         ],
         "name": "completeQuest",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "quest_id",
+                "type": "felt"
+            }
+        ],
+        "name": "undoQuest",
         "outputs": [],
         "type": "function"
     },

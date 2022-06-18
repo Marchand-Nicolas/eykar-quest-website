@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    align-items: center;
+    color: var(--gold_light);
+    background     : var(--menu_background);
+    box-shadow     : var(--menu_shadow);
+    backdrop-filter: var(--menu_filter);
+    border:  var(--menu_border);
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 12px;
+    padding: 20px;
+    animation: fade 4s;
+    opacity: 0;
+}
+.container h2 {
+    font-weight: lighter;
+    font-size: 1.4rem;
+    margin: 0 20px;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
