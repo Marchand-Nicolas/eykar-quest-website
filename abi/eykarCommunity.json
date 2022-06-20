@@ -213,13 +213,8 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "name": "quest_id",
-                "type": "felt"
-            }
-        ],
-        "name": "undoQuest",
+        "inputs": [],
+        "name": "test",
         "outputs": [],
         "type": "function"
     },

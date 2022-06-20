@@ -30,16 +30,14 @@ export default function Home() {
 
   const { data:transferData, loadingtransferLoading, error:transferError, reset:transferReset, invoke:transfer } = useStarknetInvoke({ ethContract, method: 'transfer'})
   const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
-  const { data:undoQuestData, undoQuestLoading, error:undoQuestError, reset:undoQuestReset, invoke:undoQuest } = useStarknetInvoke({ contract, method: 'undoQuest'})
-
-  console.log(transactions)
+  const { data:testData, testLoading, error:testError, reset:testReset, invoke:testInvoke } = useStarknetInvoke({ contract, method: 'test'})
 
   useEffect(() => {
     if (!currentTransactionType) return
     let transactionHash = undefined
     switch (currentTransactionType) {
       case 1:
-        transactionHash= undoQuestData
+        transactionHash= mintFirstNFTData
       break;
     }
     if (!transactionHash) return
@@ -166,7 +164,7 @@ export default function Home() {
               if (quest.actionType === "invoke") {
                 switch (quest.transactionType) {
                   case 1:
-                    undoQuest({ args: [1] })
+                    mintFirstNFT({ args: [] })
                     setQuestAction("Minting your first NFT")
                     setQuestActionDescription("Please wait...")
                     setQuestActionContent(<button className="global button highlighted popup v2">Close</button>)
