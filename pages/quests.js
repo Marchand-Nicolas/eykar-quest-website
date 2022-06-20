@@ -32,6 +32,8 @@ export default function Home() {
   const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
   const { data:undoQuestData, undoQuestLoading, error:undoQuestError, reset:undoQuestReset, invoke:undoQuest } = useStarknetInvoke({ contract, method: 'undoQuest'})
 
+  console.log(transactions)
+
   useEffect(() => {
     if (!currentTransactionType) return
     let transactionHash = undefined
@@ -44,10 +46,10 @@ export default function Home() {
     for (const transaction of transactions)
         if (transaction.transactionHash === transactionHash) {
           setCurrentTransaction(transaction)
-          if (transaction.status === 'ACCEPTED_ON_L2'
-              || transaction.status === 'ACCEPTED_ON_L1')
-              setQuestCompleted(true)
-              setNotification(<TransactionCompleted/>)
+          if (transaction.status === 'ACCEPTED_ON_L2' || transaction.status === 'ACCEPTED_ON_L1') {
+            setQuestCompleted(true)
+            setNotification(<TransactionCompleted/>)
+          }
         }
 }, [currentTransaction, transactions])
 
@@ -235,6 +237,7 @@ export default function Home() {
       </div>
       {menu}
       {(questAction && !questCompleted) ? <QuestTransactionMenu questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
+      {notification}
     </div>
   );
 }
