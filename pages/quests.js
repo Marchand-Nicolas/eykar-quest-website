@@ -10,7 +10,7 @@ import React from 'react'
 import Header from '../components/header' 
 import Popup from '../functions/popup'
 import TransactionCompleted from '../components/transactionCompleted'
-import quests from './questList'
+import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
 import { toFelt } from "../utils/felt";
 
