@@ -1,7 +1,7 @@
 import styles from '../styles/components/TransactionCompleted.module.css'
 import Image from 'next/image'
 
-export default function () {
+export default function transactionCompleted () {
     return (
         <div className={styles.container}>
             <Image src="/icons/medals.svg" width={40} height={40} />
