@@ -12,6 +12,7 @@ import Popup from '../functions/popup'
 import TransactionCompleted from '../components/transactionCompleted'
 import quests from './questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
+import { toFelt } from "../utils/felt";
 
 export default function Home() {
   const { account, connect, connectors } = useStarknet()
@@ -28,9 +29,22 @@ export default function Home() {
   const [ notification, setNotification ] = useState(null)
   const { transactions } = useStarknetTransactionManager()
 
-  const { data:transferData, loadingtransferLoading, error:transferError, reset:transferReset, invoke:transfer } = useStarknetInvoke({ ethContract, method: 'transfer'})
+  const { data:transferData, transferLoading, error:transferError, reset:transferReset, invoke:transfer } = useStarknetInvoke({ ethContract, method: 'transfer'})
   const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
-  const { data:testData, testLoading, error:testError, reset:testReset, invoke:testInvoke } = useStarknetInvoke({ contract, method: 'test'})
+  const { data:testData, testLoading, error:testError, reset:testReset, invoke:testInvoke } = useStarknetInvoke({ contract, method: 'testd'})
+
+  const { data:approveData, approveLoading, error:approveError, reset:approveReset, invoke:approve } = useStarknetInvoke({ ethContract, method: 'approve'})
+
+  // It doesn't work
+  /*useEffect(() => {
+    ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', {high: 0, low: 123}] })
+  }, [ethContract, approve])*/
+  
+  // It doesn't work
+  //ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]] })
+  
+  // It works
+ // ethContract && ethContract.approve('0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0])
 
   useEffect(() => {
     if (!currentTransactionType) return
@@ -148,33 +162,34 @@ export default function Home() {
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
         {
-        !questCompleted ? <button onClick={() => {
-            setMenu(
-              <div className="global popup contener">
-                <h1 className="global popup title">{quest.name}</h1>
-                <p className="global popup description">{quest.description}</p>
-                {quest.content}
-                <br></br>
-                <button onClick={() => completeQuest()} className="global button highlighted popup">{quest.custom_button ? quest.custom_button : "Done"}</button>
-              </div>
-            )
-            function completeQuest() {
-              setMenu(null)
-              setQuestCompleted(false)
-              if (quest.actionType === "invoke") {
-                switch (quest.transactionType) {
-                  case 1:
-                    mintFirstNFT({ args: [] })
-                    setQuestAction("Minting your first NFT")
-                    setQuestActionDescription("Please wait...")
-                    setQuestActionContent(<button className="global button highlighted popup v2">Close</button>)
-                    setCurrentTransaction(null)
-                    setCurrentTransactionType(quest.transactionType)
-                  break;
+          quest.devOnly ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Unavailable</button> :
+          !questCompleted ? <button onClick={() => {
+              setMenu(
+                <div className="global popup contener">
+                  <h1 className="global popup title">{quest.name}</h1>
+                  <p className="global popup description">{quest.description}</p>
+                  {quest.content}
+                  <br></br>
+                  <button onClick={() => completeQuest()} className="global button highlighted popup">{quest.custom_button ? quest.custom_button : "Done"}</button>
+                </div>
+              )
+              function completeQuest() {
+                setMenu(null)
+                setQuestCompleted(false)
+                if (quest.actionType === "invoke") {
+                  switch (quest.transactionType) {
+                    case 1:
+                      mintFirstNFT({ args: [] })
+                      setQuestAction("Minting your first NFT")
+                      setQuestActionDescription("Please wait...")
+                      setQuestActionContent(<button className="global button highlighted popup v2">Close</button>)
+                      setCurrentTransaction(null)
+                      setCurrentTransactionType(quest.transactionType)
+                    break;
+                  }
                 }
               }
-            }
-        }} className={`global button dark ${styles.quest_start_button}`}>Start</button> : <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_completed}`}>Completed</button>
+          }} className={`global button dark ${styles.quest_start_button}`}>Start</button> : <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_completed}`}>Completed</button>
         }
       </>,
       pointContener)
@@ -225,7 +240,7 @@ export default function Home() {
 
   return (
     <div className="default_background">
-      {account && <Header/>} 
+      {account && <Header/>}
       <div id="questsContener" className={styles.contener}>
       {loadBranch(quests[0], 0, 0, true)}  
       {account && <div className={styles.player_infos_contener}>

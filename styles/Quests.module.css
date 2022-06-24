@@ -162,6 +162,10 @@
     background-color: #384d2c86 !important;
 }
 
+.quest_start_button_locked {
+    background-color: #881d1d !important;
+}
+
 .transaction_status {
     flex-basis: 100%;
     color: var(--gold_light)
