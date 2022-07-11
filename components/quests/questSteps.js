@@ -4,7 +4,7 @@ import waitForTransaction from "../../utils/waitForTransaction";
 import { useEthContract  } from "../../hooks/ethContract";
 import Loading from "../loading";
 
-export default function questSteps(props) {
+export default function QuestSteps(props) {
     const { contract: ethContract } = useEthContract()
     const [progress, setProgress] = useState(0);
     const steps = props.quest.steps;
