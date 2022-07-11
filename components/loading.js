@@ -1,8 +1,8 @@
 import styles from '../styles/components/Loading.module.css'
 
-function Loading(className) {
+function Loading(props) {
     return (
-<div className={[styles.ldsRoller, className].join(" ")}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div className={[styles.ldsRoller, props.className].join(" ")}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     )
 }
 

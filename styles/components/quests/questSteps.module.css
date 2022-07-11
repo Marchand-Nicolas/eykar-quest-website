@@ -1,0 +1,80 @@
+.container {
+    display: flex;
+    margin-top: 40px;
+    margin-left: 20px;
+    justify-content: center;
+}
+
+.stepBar {
+    width: 3px;
+    border-radius: 45px;
+    background-color: var(--gold);
+    position: relative;
+}
+
+.stepActionContener {
+    background-color: var(--menu_background);
+    width: 100%;
+    min-height: 100px;
+    border-radius: 12px;
+    margin-left: 25px;
+    color: var(--gold_light);
+    padding: 20px;
+    position: relative;
+}
+
+.stepNumber {
+    color: var(--gold_light);
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    transform: translateY(-50%) translateX(-50%);
+    border-radius: 90px;
+    transition: 0.4s;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+    background     : rgb(49, 44, 42);
+    box-shadow     : var(--menu_shadow);
+    border:  var(--menu_border);
+    position: absolute;
+}
+
+.stepIcon {
+    width: 20px;
+    height: 20px;
+    transform: translateX(-50%) translateY(-50%);
+    margin-left: 50%;
+    margin-top: 50%;
+    color: var(--gold_light);
+}
+
+.stepIcon.completed {
+    color: #384d2c;
+}
+
+.completeStepButton {
+    border: none;
+    padding: 7px 25px;
+    background-color: var(--gold);
+    border-radius: 90px;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.loading {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%) scale(0.8);
+}
+
+.questCompletedTitle {
+    text-align: center;
+    width: 100%;
+    line-height: 60px;
+}

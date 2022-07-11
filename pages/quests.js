@@ -12,7 +12,7 @@ import Popup from '../functions/popup'
 import TransactionCompleted from '../components/transactionCompleted'
 import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
-import { toFelt } from "../utils/felt";
+import QuestSteps from "../components/quests/questSteps";
 
 export default function Home() {
   const { account, connect, connectors } = useStarknet()
@@ -36,15 +36,16 @@ export default function Home() {
   const { data:approveData, approveLoading, error:approveError, reset:approveReset, invoke:approve } = useStarknetInvoke({ ethContract, method: 'approve'})
 
   // It doesn't work
-  /*useEffect(() => {
-    ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', {high: 0, low: 123}] })
+  /*
+  useEffect(() => {
+    ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000, 1]] })
   }, [ethContract, approve])*/
   
   // It doesn't work
   //ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]] })
   
   // It works
- // ethContract && ethContract.approve('0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0])
+  //ethContract && ethContract.approve('0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]).then(async (transactionHash) => await waitForTransaction(transactionHash))
 
   useEffect(() => {
     if (!currentTransactionType) return
@@ -96,10 +97,6 @@ export default function Home() {
   useMemo(
     async () => { try {
       if (typeof window !== "undefined") {
-        const body = document.querySelector('body')
-        body.addEventListener('closeQuestMenu',  (e) => {
-          setQuestAction(null)
-        });
         // connect player wallet
         setTimeout(() => {
           if (connectors.length === 0) return
@@ -169,13 +166,22 @@ export default function Home() {
                   <h1 className="global popup title">{quest.name}</h1>
                   <p className="global popup description">{quest.description}</p>
                   {quest.content}
-                  <br></br>
+                  {
+                    <QuestSteps quest={quest} completeQuest={completeQuest} />
+                  }
+                  {
+                    /*
+                    <br></br>
                   <button onClick={() => completeQuest()} className="global button highlighted popup">{quest.custom_button ? quest.custom_button : "Done"}</button>
+                  */
+                  }
                 </div>
               )
               function completeQuest() {
+                /*
                 setMenu(null)
                 setQuestCompleted(false)
+                */
                 if (quest.actionType === "invoke") {
                   switch (quest.transactionType) {
                     case 1:
@@ -186,6 +192,8 @@ export default function Home() {
                       setCurrentTransaction(null)
                       setCurrentTransactionType(quest.transactionType)
                     break;
+                    default:
+                      fetch()
                   }
                 }
               }
