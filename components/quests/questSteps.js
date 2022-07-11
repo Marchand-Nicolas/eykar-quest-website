@@ -6,7 +6,7 @@ import Loading from "../loading";
 
 export default function questSteps(props) {
     const { contract: ethContract } = useEthContract()
-    const [progress, setProgress] = useState(2);
+    const [progress, setProgress] = useState(0);
     const steps = props.quest.steps;
     const [loading, setLoading] = useState(false);
     function Step() {
