@@ -187,6 +187,9 @@ export default function Home() {
               break;
               default: setMenu(
                 <div className="global popup contener">
+                      <svg onClick={() => setMenu(null)} className='global popup close' fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                       <h1 className="global popup title">{quest.name}</h1>
                       <p className="global popup description">{quest.description}</p>
                       {quest.content}

@@ -55,7 +55,7 @@ export default function QuestSteps(props) {
             <br></br>
             {
                 steps.length !== 0 && <>
-                    <h2 className={styles.stepNumber}>{steps.length} steps</h2>
+                    <h2 className={styles.stepNumber}>{steps.length} step{steps.length !== 1 && "s"}</h2>
                     <div className={styles.container}>
                         <div className={styles.stepBar} style={{height: (steps.length - 1) * 100}}>
                             {

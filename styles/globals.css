@@ -142,6 +142,20 @@ body {
   max-width: 500px;
 }
 
+.global.popup.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  color: var(--gold_light);
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.global.popup.close:hover {
+  transform: rotate(180deg);
+}
+
 .foreground {
   position: fixed;
   top: 0;
