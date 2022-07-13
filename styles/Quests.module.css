@@ -82,7 +82,7 @@
 .quest_point_locked {
     pointer-events: none;
     background: #E7C878;
-    transform: translateY(10px);
+    transform: translateX(-50%) translateY(10px);
 }
 .quest_point_locked .quest_point_icon {
     color: rgb(44, 44, 44);
