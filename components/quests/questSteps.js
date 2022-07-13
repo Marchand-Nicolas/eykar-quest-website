@@ -2,9 +2,11 @@ import { useState } from "react";
 import styles from "../../styles/components/quests/questSteps.module.css";
 import waitForTransaction from "../../utils/waitForTransaction";
 import { useEthContract  } from "../../hooks/ethContract";
+import { useEykarCommunityContract } from '../../hooks/eykarCommunity'
 import Loading from "../loading";
 
 export default function QuestSteps(props) {
+    const { contract } = useEykarCommunityContract()
     const { contract: ethContract } = useEthContract()
     const [progress, setProgress] = useState(0);
     const steps = props.quest.steps;
@@ -15,10 +17,10 @@ export default function QuestSteps(props) {
             case 1:
                 action = <>
                     <p>Allow Transaction</p>
-                    <button disabled={loading} id="allowButton" onClick={() => {
-                        ethContract.approve('0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]).then(async (transaction) => {
+                    <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
+                        ethContract.approve(contract.address, [100000000, 0]).then(async (transaction) => {
                             setLoading(true);
-                            await waitForTransaction(transaction, "allowButton")
+                            await waitForTransaction(transaction.transaction_hash, "allowButton")
                             setLoading(false);
                             setProgress(progress + 1)
                         })
@@ -29,9 +31,9 @@ export default function QuestSteps(props) {
                 action = <>
                 <p>Send goerli eth</p>
                 <button disabled={loading} id="allowButton" onClick={() => {
-                    ethContract.transfer('0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]).then(async (transaction) => {
+                    contract.addToApiContract([100000000, 0]).then(async (transaction) => {
                         setLoading(true);
-                        await waitForTransaction(transaction, "allowButton")
+                        await waitForTransaction(transaction.transaction_hash, "allowButton")
                         setLoading(false);
                         setProgress(progress + 1)
                     })
@@ -42,7 +44,7 @@ export default function QuestSteps(props) {
         return (
             <div className={styles.stepActionContener}>
                 {
-                    progress < steps.length ? action : <h3 className={styles.questCompletedTitle}>Quest ompleted</h3>
+                    progress < steps.length ? action : <h3 className={styles.questCompletedTitle}>Quest completed</h3>
                 }
                 {loading && <Loading className={styles.loading} />}
             </div>
@@ -81,7 +83,7 @@ export default function QuestSteps(props) {
             {
                 progress === steps.length && <>
                     <br></br>
-                    <button onClick={() => props.completeQuest(props.quest.id)} className="global button highlighted popup">{props.quest.custom_button ? props.quest.custom_button : "Done"}</button>
+                    <button onClick={() => props.completeQuest()} className="global button highlighted popup">{props.quest.custom_button ? props.quest.custom_button : "Done"}</button>
                 </>
             }
         </>

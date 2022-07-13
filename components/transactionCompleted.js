@@ -1,11 +1,7 @@
-import styles from '../styles/components/TransactionCompleted.module.css'
-import Image from 'next/image'
+import Notification from './notification'
 
-export default function transactionCompleted () {
+export default function TransactionCompleted () {
     return (
-        <div className={styles.container}>
-            <Image alt='Medal' src="/icons/medals.svg" width={40} height={40} />
-            <h2>Successful transaction</h2>
-        </div>
+        <Notification message={"Successful transaction"} icon={"/icons/medals.svg"} />
     )
 }

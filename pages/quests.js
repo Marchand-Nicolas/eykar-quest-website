@@ -10,6 +10,7 @@ import React from 'react'
 import Header from '../components/header' 
 import Popup from '../functions/popup'
 import TransactionCompleted from '../components/transactionCompleted'
+import Notification from "../components/notification";
 import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
 import QuestSteps from "../components/quests/questSteps";
@@ -34,6 +35,20 @@ export default function Home() {
   const { data:testData, testLoading, error:testError, reset:testReset, invoke:testInvoke } = useStarknetInvoke({ contract, method: 'testd'})
 
   const { data:approveData, approveLoading, error:approveError, reset:approveReset, invoke:approve } = useStarknetInvoke({ ethContract, method: 'approve'})
+
+  useEffect(() => {
+    if (account) fetch("https://api.eykar.org/complete_quest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        player: account,
+        questId: 2
+      })
+    })
+  }, [account])
+
 
   // It doesn't work
   /*
@@ -161,36 +176,35 @@ export default function Home() {
         {
           quest.devOnly ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Unavailable</button> :
           !questCompleted ? <button onClick={() => {
-              setMenu(
+            switch (quest.transactionType) {
+              case 1:
+                mintFirstNFT({ args: [] })
+                setQuestAction("Minting your first NFT")
+                setQuestActionDescription("Please wait...")
+                setQuestActionContent(<button onClick={() => setQuestAction("")} className="global button highlighted popup v2">Close</button>)
+                setCurrentTransaction(null)
+                setCurrentTransactionType(quest.transactionType)
+              break;
+              default: setMenu(
                 <div className="global popup contener">
-                  <h1 className="global popup title">{quest.name}</h1>
-                  <p className="global popup description">{quest.description}</p>
-                  {quest.content}
-                  {
-                    <QuestSteps quest={quest} completeQuest={completeQuest} />
-                  }
-                  {
-                    /*
-                    <br></br>
-                  <button onClick={() => completeQuest()} className="global button highlighted popup">{quest.custom_button ? quest.custom_button : "Done"}</button>
-                  */
-                  }
-                </div>
-              )
+                      <h1 className="global popup title">{quest.name}</h1>
+                      <p className="global popup description">{quest.description}</p>
+                      {quest.content}
+                      {
+                        <QuestSteps quest={quest} completeQuest={completeQuest} />
+                      }
+                    </div>
+                )
+              }
               function completeQuest() {
-                /*
                 setMenu(null)
-                setQuestCompleted(false)
-                */
+                setQuestAction('-')
+                setQuestCompleted(true)
+                setNotification(<Notification message={"Quest completed"} icon={"/icons/medals.svg"} />)
                 if (quest.actionType === "invoke") {
                   switch (quest.transactionType) {
-                    case 1:
-                      mintFirstNFT({ args: [] })
-                      setQuestAction("Minting your first NFT")
-                      setQuestActionDescription("Please wait...")
-                      setQuestActionContent(<button className="global button highlighted popup v2">Close</button>)
-                      setCurrentTransaction(null)
-                      setCurrentTransactionType(quest.transactionType)
+                    case 2:
+
                     break;
                     default:
                       fetch()
@@ -257,7 +271,7 @@ export default function Home() {
         </div>}
       </div>
       {menu}
-      {(questAction && !questCompleted) ? <QuestTransactionMenu questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
+      {(questAction && !questCompleted) ? <QuestTransactionMenu content={questActionContent} questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
       {notification}
     </div>
   );

@@ -180,7 +180,7 @@
                 "type": "Uint256"
             }
         ],
-        "name": "add",
+        "name": "addToApiContract",
         "outputs": [],
         "type": "function"
     },
@@ -205,6 +205,10 @@
         "inputs": [
             {
                 "name": "quest_id",
+                "type": "felt"
+            },
+            {
+                "name": "target",
                 "type": "felt"
             }
         ],
