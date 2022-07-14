@@ -4,6 +4,6 @@ import EykarCommunityAbi from '../abi/eykarCommunity.json'
 export function useEykarCommunityContract() {
   return useContract({
     abi: EykarCommunityAbi,
-    address: '0x04e6a7859b43f298fa57d910a524df28097a23ef5b5fc8e4c0a577bc2fcd88ae',
+    address: '0x01ab9e8fea516a529a130ee715488bac1cbd0f369a317113a09960dc9a969e83',
   })
 }

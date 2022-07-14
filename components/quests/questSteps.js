@@ -103,7 +103,7 @@ export default function QuestSteps(props) {
                                             realTime = realTime - 1
                                             const placeholder = document.getElementById("stupidPlaceholderText")
                                             if (realTime === 25) {
-                                                placeholder.innerText = "Yes"
+                                                placeholder.innerText = "No."
                                             }
                                             if (realTime === 19) {
                                                 placeholder.innerText = "Almost there..."
