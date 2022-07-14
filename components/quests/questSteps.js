@@ -28,7 +28,7 @@ export default function QuestSteps(props) {
         questId: 2
       })
     })
-    */0x04e6a7859b43f298fa57d910a524df28097a23ef5b5fc8e4c0a577bc2fcd88ae
+    */
 
 
     function Step() {
@@ -135,6 +135,7 @@ export default function QuestSteps(props) {
                 </>
             break;
             case 4:
+                document.getElementById("closeButtonContainer").innerHTML = ""
                 action = <>
                     <h2>Validate the quest on the blockchain</h2>
                     <button id="completeStepButton" onClick={async () => {

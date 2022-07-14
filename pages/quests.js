@@ -173,16 +173,18 @@ export default function Home() {
               break;
               default: setMenu(
                 <div className="global popup contener">
+                    <div id="closeButtonContainer">
                       <svg onClick={() => setMenu(null)} className='global popup close' fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
-                      <h1 className="global popup title">{quest.name}</h1>
-                      <p className="global popup description">{quest.description}</p>
-                      {quest.content}
-                      {
-                        <QuestSteps quest={quest} completeQuest={completeQuest} />
-                      }
                     </div>
+                    <h1 className="global popup title">{quest.name}</h1>
+                    <p className="global popup description">{quest.description}</p>
+                    {quest.content}
+                    {
+                      <QuestSteps quest={quest} completeQuest={completeQuest} />
+                    }
+                  </div>
                 )
               }
               function completeQuest() {
@@ -222,7 +224,7 @@ export default function Home() {
     return <div>
       {parseBranch(quest, elementPos, Y, previousQuestCompleted)}
       <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px))`}} className={styles.horizontalLine}></div>
-      {quest.connected.length > 1 && <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px)) translateX(150px)`}} className={styles.verticalLine}></div>} 
+      {quest.connected.length > 1 && <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px)) translateX(150px)`}} className={[styles.verticalLine, quest.connected[0].clear ? styles.bottom : quest.connected[quest.connected.length - 1].clear ? styles.top : null].join(" ")} />}
       {quest.connected.map((element, index) => 
         <div key={"branch_" + quest.name + "_" + index}>
           {loadBranch(element, elementPos, computeChildY(index), quest.name ? questProgress.length > 0 ? quest.id ? questProgress[0][quest.id - 1].words[0] : true : false : previousQuestCompleted)}

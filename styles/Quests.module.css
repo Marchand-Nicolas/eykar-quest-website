@@ -37,7 +37,7 @@
     height: 40px;
     transform: translateX(-50%);
     border-radius: 90px;
-    transition: 0.4s;
+    transition: 0.4s width, 0.4s height;
     pointer-events: auto;
     display: flex;
     justify-content: center;
@@ -161,6 +161,19 @@
     height: 200px;
     top: calc(50% + 10px);
 }
+
+.verticalLine.bottom, .verticalLine.top {
+    height: 100px;
+}
+
+.verticalLine.bottom {
+    top: calc(50% + 60px);
+}
+
+.verticalLine.top {
+    top: calc(50% - 40px);
+}
+
 
 .contener {
     position: fixed;
