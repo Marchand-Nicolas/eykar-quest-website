@@ -1,15 +1,19 @@
 import { render } from "react-dom";
 import { unmountComponentAtNode } from "react-dom";
 
-function Popup(title, description, buttonName, action, content) { 
+function Popup(title, description, buttonName, action, content, custom, init) { 
+    if (init) init()
     render(
-        <div className="global popup contener">
-            <h1 className="global popup title">{title}</h1>
-            <p className="global popup description">{description}</p>
+        <div className="popup background">
+        <div className="popup contener">
+            <h1 className="popup title">{title}</h1>
+            <p className="popup description">{description}</p>
             {content}
             <br></br>
-            <br></br>
-            <button onClick={() => {action(); unmountComponentAtNode(document.getElementById("popup"))}} className="global button highlighted popup">{buttonName}</button>
+            {
+                !custom.button ? <button onClick={() => {action ? action() : null; unmountComponentAtNode(document.getElementById("popup"))}} className="button highlighted popup">{buttonName}</button> : custom.button
+            }
+    </div>
     </div>,
     document.getElementById("popup")
     );

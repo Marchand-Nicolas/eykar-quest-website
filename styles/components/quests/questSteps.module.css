@@ -65,6 +65,10 @@
     left: 20px;
     cursor: pointer;
 }
+.completeStepButton.v2 {
+    margin-top: 15px;
+    position: unset;
+}
 
 .loading {
     position: absolute;
@@ -77,4 +81,14 @@
     text-align: center;
     width: 100%;
     line-height: 60px;
+}
+
+.quizChoice input {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.center {
+    display: block !important;
+    margin: 40px auto 0 auto;
 }

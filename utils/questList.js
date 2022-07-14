@@ -26,33 +26,123 @@ export default [{
         content: <>
             <p className="global description">Please provide your wallet with goerli eth and allow us to collect some of it.</p>
         </>,
-            connected: [{
-                name: "Discord",
-                id: 4,
-                description: "Login with your Discord account, and get access to exclusive roles on the official Eykar server",
+        connected: [
+            {
+                connected: [
+                {
+                    devOnly: true,
+                    name: "Discord",
+                    id: 4,
+                    description: "Login with your Discord account, and get access to exclusive roles on the official Eykar server",
+                    long_description: "",
+                    dependent: true,
+                    icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>,
+                    steps: [3]
+                },
+                {
+                    devOnly: true,
+                    name: "Tweet",
+                    id: 3,
+                    description: "Make a tweet mentioning Eykar to support us ❤️",
+                    long_description: "Make a tweet containing at least @AgeOfEykar or eykar.org, with more than 50 characters.",
+                    content: <>
+                            <input className="global input" placeholder="Please enter your exact twitter username"></input>
+                            <br></br>
+                            <p className="global description">After the tweet is sent, you have 10 minutes to click on the button below</p>
+                        </>,
+                        icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                    </svg>,
+                    dependent: true
+                    }
+                ]
+            },
+            {
+                name: "Quiz",
+                id: 5,
+                description: "Let's test your knowledge of Eykar!",
                 long_description: "",
                 dependent: true,
                 icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>,
-                steps: [3]
+                steps: [3, 3, 3, 3, 4],
+                questions : [
+                    {
+                        name: "How big is the map of Eykar ?",
+                        choices: [
+                            {
+                                name: "Small"
+                            },
+                            {
+                                name: "Medium"
+                            },
+                            {
+                                name: "Large"
+                            },
+                            {
+                                name: "Extra Large"
+                            },
+                            {
+                                name: "Super mega big",
+                                correct: true
+                            },
+                            {
+                                name: "Infinite"
+                            }
+                        ]
+                    },
+                    {
+                        name: "Can we make money playing the game?",
+                        choices: [
+                            {
+                                name: "Yes",
+                                correct: true
+                            },
+                            {
+                                name: "No"
+                            }
+                        ]
+                    },
+                    {
+                        name: "How to earn real money playing the game?",
+                        choices: [
+                            {
+                                name: "By building diamond mines"
+                            },
+                            {
+                                name: "By earning Eykar tokens"
+                            },
+                            {
+                                name: "By having the most prestigious alliance.",
+                                correct: true
+                            },
+                            {
+                                name: "By attacking other players to steal the money they have invested"
+                            }
+                        ]
+                    },
+                    {
+                        name: "How can you participate in the creation of the game?",
+                        multiple: true,
+                        choices: [
+                            {
+                                name: "By participating in the development, all the code is open source on Github",
+                                correct: true
+                            },
+                            {
+                                name: "By making suggestions (on the Discord server for example)",
+                                correct: true
+                            },
+                            {
+                                name: "By inviting lots of bots to the Discord server 😡😠😠"
+                            },
+                        ]
+                    },
+                ]
             },
-            {
-                devOnly: true,
-                name: "Tweet",
-                id: 3,
-                description: "Make a tweet mentioning Eykar to support us ❤️",
-                long_description: "Make a tweet containing at least @AgeOfEykar or eykar.org, with more than 50 characters.",
-                content: <>
-                        <input className="global input" placeholder="Please enter your exact twitter username"></input>
-                        <br></br>
-                        <p className="global description">After the tweet is sent, you have 10 minutes to click on the button below</p>
-                    </>,
-                    icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                </svg>,
-                dependent: true
-                }
         ] 
     }]
 }]

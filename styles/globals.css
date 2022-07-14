@@ -25,6 +25,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.center {
+  text-align: center;
+}
+
 .default_background {
   background-image     : url("/background.webp");
   background-attachment: fixed;
@@ -45,7 +49,7 @@ body {
   background-color: #42403f;
 }
 
-.global.popup.contener {
+.popup.contener {
   width          : 660px;
   min-height         : 100px;
   border-radius  : 0px 0px 16px 16px;
@@ -60,7 +64,17 @@ body {
   transform: translateX(-50%) translateY(-50%);
   z-index: 10;
   padding: 15px;
-} 
+}
+
+.popup.background {
+  display              : block;
+  position             : absolute;
+  top                  : 0;
+  bottom               : 0;
+  left                 : 0;
+  right                : 0;
+  background     : rgba(49, 44, 42, 0.6);
+}
 
 .title {
   font-family    : Verdana, sans-serif;
@@ -73,11 +87,11 @@ body {
   color: rgb(228, 228, 228);
 }
 
-.global.popup.title {
+.popup.title {
   text-align: center;
 } 
 
-.global.input {
+.input {
   font-family    : Verdana, sans-serif;
   letter-spacing : 0.05em;
   text-align     : left;
@@ -98,7 +112,7 @@ body {
   box-sizing      : border-box;
 }
 
-.global.button {
+.button {
   font-family    : Verdana, sans-serif;
   letter-spacing : 0.05em;
   text-align     : left;
@@ -120,29 +134,29 @@ body {
   box-sizing      : border-box;
 }
 
-.global.button.dark {
+.button.dark {
   background-color: #232020;
 }
 
-.global.button.highlighted {
+.button.highlighted {
   border          : 2px solid var(--gold);
 }
 
-.global.popup.description {
+.popup.description {
   text-align: center;
 }
 
-.global.popup.button {
+.popup.button {
   width: 200px;
   display: block;
   margin: 0 auto;
 }
-.global.popup.button.v2 {
+.popup.button.v2 {
   width: calc(100% - 50px);
   max-width: 500px;
 }
 
-.global.popup.close {
+.popup.close {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -152,7 +166,7 @@ body {
   transition: 0.4s;
 }
 
-.global.popup.close:hover {
+.popup.close:hover {
   transform: rotate(180deg);
 }
 

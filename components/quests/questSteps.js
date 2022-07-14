@@ -4,6 +4,9 @@ import waitForTransaction from "../../utils/waitForTransaction";
 import { useEthContract  } from "../../hooks/ethContract";
 import { useEykarCommunityContract } from '../../hooks/eykarCommunity'
 import Loading from "../loading";
+import Popup from '../../functions/popup'
+import { unmountComponentAtNode } from "react-dom";
+import { useStarknet } from '@starknet-react/core'
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
@@ -11,6 +14,23 @@ export default function QuestSteps(props) {
     const [progress, setProgress] = useState(0);
     const steps = props.quest.steps;
     const [loading, setLoading] = useState(false);
+    const quest = props.quest
+    const { account } = useStarknet()
+
+    /*
+    fetch("https://api.eykar.org/complete_quest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        player: account,
+        questId: 2
+      })
+    })
+    */0x04e6a7859b43f298fa57d910a524df28097a23ef5b5fc8e4c0a577bc2fcd88ae
+
+
     function Step() {
         let action = null
         switch (steps[progress]) {
@@ -18,7 +38,7 @@ export default function QuestSteps(props) {
                 action = <>
                     <p>Allow Transaction</p>
                     <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
-                        ethContract.approve(contract.address, [100000000, 0]).then(async (transaction) => {
+                        ethContract.approve(contract.address, [900000000000000, 0]).then(async (transaction) => {
                             setLoading(true);
                             await waitForTransaction(transaction.transaction_hash, "allowButton")
                             setLoading(false);
@@ -31,7 +51,7 @@ export default function QuestSteps(props) {
                 action = <>
                 <p>Send goerli eth</p>
                 <button disabled={loading} id="allowButton" onClick={() => {
-                    contract.addToApiContract([100000000, 0]).then(async (transaction) => {
+                    contract.addToApiContract([900000000000000, 0]).then(async (transaction) => {
                         setLoading(true);
                         await waitForTransaction(transaction.transaction_hash, "allowButton")
                         setLoading(false);
@@ -39,6 +59,99 @@ export default function QuestSteps(props) {
                     })
                 }} className={styles.completeStepButton}>Send</button>
             </>
+            break;
+            case 3:
+                const question = quest.questions[progress]
+                action = <>
+                    <h2>{question.name}</h2>
+                    {
+                        question.choices.map((choice, index) => <div className={styles.quizChoice} key={`choice_${quest}_${progress}_${index}`}>
+                            <input name="choices" type={question.multiple ? "checkbox" : "radio"} />{choice.name}
+                        </div>
+                        )
+                    }
+                    <button onClick={() => {
+                        if (question.choices) {
+                            const choices = document.querySelectorAll("input[name=choices]")
+                            let score = 0
+                            for (let index = 0; index < choices.length; index++) {
+                                const element = choices[index];
+                                const correct = question.choices[index].correct
+                                if ((!correct && element.checked) || (correct && !element.checked)) {
+                                    score = score - 1
+                                }
+                            }
+                            if (score < 0) {
+                                Popup("Wrong !", <strong id="timer">Try again in 15 seconds</strong>, "", null,
+                                    <>
+                                        <Loading className={styles.center} />
+                                        <br></br>
+                                        <h2 id="stupidPlaceholderText" className="title center">
+                                            Is patience a virtue?
+                                        </h2>
+                                    </>, {
+                                        button:<></>
+                                    }, function() {
+                                        setTimeout(() => {
+                                            unmountComponentAtNode(document.getElementById("popup"))
+                                        }, 30000)
+                                        let time = 15
+                                        let realTime = 30
+
+                                        const interval = setInterval(() => {
+                                            time = time - 1
+                                            realTime = realTime - 1
+                                            const placeholder = document.getElementById("stupidPlaceholderText")
+                                            if (realTime === 25) {
+                                                placeholder.innerText = "Yes"
+                                            }
+                                            if (realTime === 19) {
+                                                placeholder.innerText = "Almost there..."
+                                            }
+                                            if (realTime === 14) {
+                                                placeholder.innerText = "Oops, I probably counted wrong."
+                                            }
+                                            if (realTime === 10) {
+                                                placeholder.innerText = "This time it's almost over."
+                                            }
+                                            if (realTime === 5) {
+                                                placeholder.innerText = "it would have been faster to reload the page."
+                                            }
+                                            if (time === 0) time = 15
+                                            const timer = document.getElementById("timer")
+                                            if (!timer || realTime === 0) return clearInterval(interval)
+                                            timer.innerText = `Try again in ${time} seconds`
+                                        }, 1000)
+                                    }
+                                )
+                            }
+                            else {
+                                setProgress(progress + 1)
+                            }
+                        }
+                    }} className={styles.completeStepButton}>
+                        Check
+                    </button>
+                </>
+            break;
+            case 4:
+                action = <>
+                    <h2>Validate the quest on the blockchain</h2>
+                    <button id="completeStepButton" onClick={async () => {
+                        const button = document.getElementById("completeStepButton")
+                        button.disabled = true
+                        button.innerText = "Contacting the server..."
+                        const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({player: account, questId: quest.id})
+                        })).json()
+                        console.log(result)
+                        button.innerText = "Transaction in progress..."
+                        await waitForTransaction(result.transactionHash, "completeStepButton")
+                        setProgress(progress + 1)
+                    }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>
+                    <p id=""></p>
+                </>
             break;
         }
         return (

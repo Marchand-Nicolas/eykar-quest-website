@@ -36,20 +36,6 @@ export default function Home() {
 
   const { data:approveData, approveLoading, error:approveError, reset:approveReset, invoke:approve } = useStarknetInvoke({ ethContract, method: 'approve'})
 
-  useEffect(() => {
-    if (account) fetch("https://api.eykar.org/complete_quest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        player: account,
-        questId: 2
-      })
-    })
-  }, [account])
-
-
   // It doesn't work
   /*
   useEffect(() => {
@@ -239,7 +225,7 @@ export default function Home() {
       {quest.connected.length > 1 && <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px)) translateX(150px)`}} className={styles.verticalLine}></div>} 
       {quest.connected.map((element, index) => 
         <div key={"branch_" + quest.name + "_" + index}>
-          {loadBranch(element, elementPos, computeChildY(index), questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false)}
+          {loadBranch(element, elementPos, computeChildY(index), questProgress.length > 0 ? quest.id ? questProgress[0][quest.id - 1].words[0] : true : false)}
         </div>
       )}  
     </div>
@@ -247,6 +233,7 @@ export default function Home() {
 
     // convert quest datas to html
     function parseBranch(quest, elementPos, Y, previousQuestCompleted) {
+      if (!quest.name) return null
       const completed = questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false
       return <div onMouseDown={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
           {quest.dependent && !previousQuestCompleted ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
