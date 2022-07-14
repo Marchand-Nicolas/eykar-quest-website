@@ -225,7 +225,7 @@ export default function Home() {
       {quest.connected.length > 1 && <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px)) translateX(150px)`}} className={styles.verticalLine}></div>} 
       {quest.connected.map((element, index) => 
         <div key={"branch_" + quest.name + "_" + index}>
-          {loadBranch(element, elementPos, computeChildY(index), questProgress.length > 0 ? quest.id ? questProgress[0][quest.id - 1].words[0] : true : false)}
+          {loadBranch(element, elementPos, computeChildY(index), quest.name ? questProgress.length > 0 ? quest.id ? questProgress[0][quest.id - 1].words[0] : true : false : previousQuestCompleted)}
         </div>
       )}  
     </div>
