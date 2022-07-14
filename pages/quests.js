@@ -9,7 +9,6 @@ import styles from '../styles/Quests.module.css'
 import React from 'react'
 import Header from '../components/header' 
 import Popup from '../functions/popup'
-import TransactionCompleted from '../components/transactionCompleted'
 import Notification from "../components/notification";
 import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
@@ -62,7 +61,6 @@ export default function Home() {
           setCurrentTransaction(transaction)
           if (transaction.status === 'ACCEPTED_ON_L2' || transaction.status === 'ACCEPTED_ON_L1') {
             setQuestCompleted(true)
-            setNotification(<TransactionCompleted/>)
           }
         }
 }, [currentTransaction, transactions])
@@ -91,7 +89,7 @@ export default function Home() {
       }
       if (account && contract) getPlayerInfos()
     }, [questNumber, contract, account, questCompleted])
-    return [progress, level, questCompleted]
+    return [progress, level, questCompleted, questAction]
   }
   const playerName = useDisplayName(account, 12, 4);
 
@@ -198,7 +196,6 @@ export default function Home() {
 
                     break;
                     default:
-                      fetch()
                   }
                 }
               }
