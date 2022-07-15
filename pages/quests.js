@@ -103,7 +103,7 @@ export default function Home() {
           connector.ready().then(ready => {
             if (ready) connect(connectors[0])
           }) 
-        }, 50);
+        }, 150);
       }
       // mouse movement system
       const questContainer = await waitForElm("#questsContainer")

@@ -28,7 +28,7 @@ export default function Home() {;
               connector.ready().then(ready => {
               if (ready) connect(connectors[0])
             }) 
-      }, 50);
+      }, 150);
     } catch{}
   },
   []
