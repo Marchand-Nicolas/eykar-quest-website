@@ -50,10 +50,11 @@ export default function Home() {;
                   setConnectionStatus(1)
                   await connector.ready();
                   connect(connector)
-                } catch {errorScreen()}
+                } catch(err) {errorScreen(err)}
               }
-              else errorScreen()
-              function errorScreen() {
+              else errorScreen(err)
+              function errorScreen(err) {
+                if (err) console.log(err)
                 setMenu(
                   <fieldset className="popup">
                       <legend>ArgentX</legend>
