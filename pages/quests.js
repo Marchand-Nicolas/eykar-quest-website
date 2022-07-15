@@ -106,7 +106,7 @@ export default function Home() {
         }, 50);
       }
       // mouse movement system
-      await waitForElm("#questsContener")
+      const questContainer = await waitForElm("#questsContener")
       !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,
       "Okay", function(){return setCookie("triedQuests", true, 10000)})
       document.querySelector("body").style.overscrollBehaviorY = "contain"
@@ -117,12 +117,13 @@ export default function Home() {
       await waitForElm("#questsContener")
       move(0, 0)
       function move(moveX, moveY) {
+        if (!questContainer) return
         x =  x + moveX - beginX
         beginX = moveX
         y = y + moveY - beginY
         beginY = moveY
-        document.getElementById("questsContener").style.left = x + "px"
-        document.getElementById("questsContener").style.top = y + "px"
+        questContainer.style.left = x + "px"
+        questContainer.style.top = y + "px"
       } 
       document.addEventListener("touchstart", (e) => {
         beginX = e.changedTouches[0].pageX
