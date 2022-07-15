@@ -27,6 +27,15 @@ export default function Home() {
 
   const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
 
+  if (!account && connectors) setTimeout(() => {
+    if (typeof window === "undefined") return
+    if (connectors.length === 0) return
+      const connector = connectors[0]
+        connector.ready().then(ready => {
+        if (ready) connect(connectors[0])
+    }) 
+  }, 150);
+
   useEffect(() => {
     if (!currentTransactionType) return
     let transactionHash = undefined
@@ -71,16 +80,6 @@ export default function Home() {
   }
   useMemo(
     async () => { try {
-      if (typeof window !== "undefined") {
-        // connect player wallet
-        setTimeout(() => {
-          if (connectors.length === 0) return
-          const connector = connectors[0]
-          connector.ready().then(ready => {
-            if (ready) connect(connectors[0])
-          }) 
-        }, 150);
-      }
       // mouse movement system
       const questContainer = await waitForElm("#questsContainer")
       !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,

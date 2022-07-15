@@ -17,31 +17,16 @@ export default function Home() {;
   const [ menu, setMenu ] = useState(<></>)
   const { account, connect, connectors } = useStarknet()
   const router = useRouter()  
-  const name = useDisplayName(account, 12, 4);
-  useMemo(
-    async () => {
-        setTimeout(() => {
-          try {
-            if (typeof window === "undefined") return
-            console.log(connectors)
-            if (connectors.length === 0) return
-              const connector = connectors[0]
-              console.log(connector)
-                connector.ready().then(ready => {
-                  console.log("a-------------------------")
-                  try {
-                    if (ready) connect(connectors[0])
-                  } catch (error) {
-                    console.log(error)
-                  }
-              }) 
-          } catch (error) {
-            console.log(error)
-          }
-      }, 150);
-  },
-  [connectors]
-  );
+
+  if (!account && connectors) setTimeout(() => {
+    if (typeof window === "undefined") return
+    if (connectors.length === 0) return
+      const connector = connectors[0]
+        connector.ready().then(ready => {
+        if (ready) connect(connectors[0])
+    }) 
+  }, 150);
+
   return (
     <div className="default_background">
       <Powered />
