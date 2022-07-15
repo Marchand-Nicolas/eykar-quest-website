@@ -256,9 +256,9 @@ export default function Home() {
       <div id="questsContener" className={styles.contener}>
       {loadBranch(quests[0], 0, 0, true)}  
       {account && <div className={styles.player_infos_contener}>
-        <p>{playerName}</p>
-        Level {account ? (playerLevel ? playerLevel[0].words[0] : "...") : 0}
-        </div>}
+        <img src={`https://nft.eykar.org/quest-nft/${playerLevel ? playerLevel[0].words[0] : 0}`} />
+        <p>Level {playerLevel ? playerLevel[0].words[0] : 0}</p>
+      </div>}
       </div>
       {menu}
       {(questAction && !questCompleted) ? <QuestTransactionMenu content={questActionContent} questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
