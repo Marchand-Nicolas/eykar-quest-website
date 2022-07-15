@@ -46,7 +46,7 @@ export default function Home() {;
                   connect(connector)
                 } catch(err) {errorScreen(err)}
               }
-              else errorScreen(err)
+              else errorScreen()
               function errorScreen(err) {
                 if (err) console.log(err)
                 setMenu(

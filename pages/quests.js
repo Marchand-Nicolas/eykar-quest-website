@@ -27,7 +27,6 @@ export default function Home() {
 
   const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
 
-  console.log(connectors)
 
   if (!account && connectors) setTimeout(() => {
     if (typeof window === "undefined") return
