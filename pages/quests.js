@@ -1,10 +1,8 @@
 import { waitForElm, getCookie, setCookie } from "../functions";
 import { render, unmountComponentAtNode } from "react-dom";
 import { useEykarCommunityContract } from '../hooks/eykarCommunity'
-import { useEthContract  } from "../hooks/ethContract";
 import { useStarknetInvoke, useStarknet, useStarknetTransactionManager } from '@starknet-react/core'
 import { useState, useEffect, useMemo } from "react";
-import { useDisplayName } from "../hooks/starknet";
 import styles from '../styles/Quests.module.css'
 import React from 'react'
 import Header from '../components/header' 
@@ -17,7 +15,6 @@ import QuestSteps from "../components/quests/questSteps";
 export default function Home() {
   const { account, connect, connectors } = useStarknet()
   const { contract } = useEykarCommunityContract()
-  const { contract: ethContract } = useEthContract()
   const [questCompleted, setQuestCompleted] = useState(false)
   const [questAction, setQuestAction] = useState("")
   const [questActionDescription, setQuestActionDescription] = useState("")
@@ -26,26 +23,9 @@ export default function Home() {
   const [currentTransaction, setCurrentTransaction] = useState(null)
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
-  const [ notification, setNotification ] = useState(null)
   const { transactions } = useStarknetTransactionManager()
 
-  const { data:transferData, transferLoading, error:transferError, reset:transferReset, invoke:transfer } = useStarknetInvoke({ ethContract, method: 'transfer'})
   const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
-  const { data:testData, testLoading, error:testError, reset:testReset, invoke:testInvoke } = useStarknetInvoke({ contract, method: 'testd'})
-
-  const { data:approveData, approveLoading, error:approveError, reset:approveReset, invoke:approve } = useStarknetInvoke({ ethContract, method: 'approve'})
-
-  // It doesn't work
-  /*
-  useEffect(() => {
-    ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000, 1]] })
-  }, [ethContract, approve])*/
-  
-  // It doesn't work
-  //ethContract && approve({ args: ['0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]] })
-  
-  // It works
-  //ethContract && ethContract.approve('0x6806c42960e739918af543b733e76eb4f52a99402ec00e57794cb26cb3a6723', [100000000, 0]).then(async (transactionHash) => await waitForTransaction(transactionHash))
 
   useEffect(() => {
     if (!currentTransactionType) return
@@ -91,8 +71,6 @@ export default function Home() {
     }, [questNumber, contract, account, questCompleted])
     return [progress, level, questCompleted, questAction]
   }
-  const playerName = useDisplayName(account, 12, 4);
-
   useMemo(
     async () => { try {
       if (typeof window !== "undefined") {
@@ -179,6 +157,7 @@ export default function Home() {
                 setQuestActionContent(<button onClick={() => setQuestAction("")} className="global button highlighted popup v2">Close</button>)
                 setCurrentTransaction(null)
                 setCurrentTransactionType(quest.transactionType)
+                Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
               break;
               default: setMenu(
                 <div className="global popup contener">
@@ -200,7 +179,7 @@ export default function Home() {
                 setMenu(null)
                 setQuestAction('-')
                 setQuestCompleted(true)
-                setNotification(<Notification message={"Quest completed"} icon={"/icons/medals.svg"} />)
+                Notification({message:"Quest completed", icon:"/icons/medals.svg"})
                 if (quest.actionType === "invoke") {
                   switch (quest.transactionType) {
                     case 2:
@@ -272,7 +251,6 @@ export default function Home() {
       </div>
       {menu}
       {(questAction && !questCompleted) ? <QuestTransactionMenu content={questActionContent} questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
-      {notification}
     </div>
   );
 }

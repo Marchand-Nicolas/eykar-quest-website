@@ -20,7 +20,6 @@ export default function Home() {;
   const name = useDisplayName(account, 12, 4);
   useMemo(
     async () => {
-      try {
         setTimeout(() => {
           try {
             if (typeof window === "undefined") return
@@ -40,7 +39,6 @@ export default function Home() {;
             console.log(error)
           }
       }, 150);
-    } catch{}
   },
   [connectors]
   );

@@ -11,13 +11,25 @@
     bottom: 20px;
     border-radius: 12px;
     padding: 20px;
+    margin-left: 20px;
     animation: fade 4s;
     opacity: 0;
+}
+.container.warning {
+    background: var(--gold_light);
+    color: var(--metal_dark);
+    border: none
 }
 .container h2 {
     font-weight: lighter;
     font-size: 1.4rem;
     margin: 0 20px;
+}
+.container.warning h2 {
+    font-size: 0.8rem;
+}
+.container svg {
+    width: 40px;
 }
 
 @keyframes fade {

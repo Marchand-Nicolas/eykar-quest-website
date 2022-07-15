@@ -7,6 +7,7 @@ import Loading from "../loading";
 import Popup from '../../functions/popup'
 import { unmountComponentAtNode } from "react-dom";
 import { useStarknet } from '@starknet-react/core'
+import Notification from "../../components/notification";
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
@@ -40,12 +41,18 @@ export default function QuestSteps(props) {
                     <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
                         ethContract.approve(contract.address, [900000000000000, 0]).then(async (transaction) => {
                             setLoading(true);
+                            Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                             await waitForTransaction(transaction.transaction_hash, "allowButton")
                             setLoading(false);
                             setProgress(progress + 1)
                         })
                     }} className={styles.completeStepButton}>Allow</button>
                 </>
+                ethContract.allowance(account, contract.address).then(allowance => {
+                    if (parseInt(allowance[0].low) >= 900000000000000) {
+                        setProgress(progress + 1)
+                    }
+                })
             break;
             case 2:
                 action = <>
@@ -53,6 +60,7 @@ export default function QuestSteps(props) {
                 <button disabled={loading} id="allowButton" onClick={() => {
                     contract.addToApiContract([900000000000000, 0]).then(async (transaction) => {
                         setLoading(true);
+                        Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                         await waitForTransaction(transaction.transaction_hash, "allowButton")
                         setLoading(false);
                         setProgress(progress + 1)
@@ -148,13 +156,13 @@ export default function QuestSteps(props) {
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({player: account, questId: quest.id})
                             })).json()
-                            console.log(result)
                             button.innerText = "Transaction in progress..."
-                            document.getElementById("transaction").innerText = result.transactionHash
+                            document.getElementById("transaction").innerText = "Open in voyager"
+                            document.getElementById("transaction").href = "https://beta.voyager.online/tx/" + result.transactionHash
                             await waitForTransaction(result.transactionHash, "completeStepButton")
                             setProgress(progress + 1)
                         }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>
-                        <p id="transaction"></p>
+                        <a className={styles.transactionHash} id="transaction" href="#" target="_blank" rel="noreferrer"></a>
                     </div>
                 </>
             break;

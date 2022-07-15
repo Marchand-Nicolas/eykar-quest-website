@@ -22,7 +22,8 @@ export default function App () {
             <body className="default_background_color">
                 <Main />
                 <NextScript />
-                <div id="popup"></div>
+                <div id="popup" />
+                <div id="notification" />
             </body>
         </Html>
     )

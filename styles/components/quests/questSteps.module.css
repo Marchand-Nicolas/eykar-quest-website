@@ -67,7 +67,7 @@
 }
 .completeStepButton.v2 {
     position: unset;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .loading {
@@ -91,4 +91,10 @@
 .center {
     display: block !important;
     margin: 40px auto 0 auto;
+}
+
+.transactionHash {
+    font-size: 1em;
+    color: var(--gold_light);
+    text-decoration: underline;
 }
