@@ -238,8 +238,19 @@
     padding: 5px;
     border-bottom-left-radius: .4em;
     border-bottom-right-radius: .4em;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .player_infos_contener img {
     width: 200px;
+    -webkit-user-drag: none; 
+    -khtml-user-drag: none; 
+    -moz-user-drag: none; 
+    -o-user-drag: none; 
+    user-drag: none; 
 }

@@ -48,9 +48,7 @@ export default function Home() {;
                 const connector = connectors[0];
                 try {
                   setConnectionStatus(1)
-                  console.log("a")
                   await connector.ready();
-                  console.log("b")
                   connect(connector)
                 } catch (err) {
                   console.log(err)

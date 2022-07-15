@@ -6,7 +6,7 @@
   flex-basis: 100%;
 }
 
-.contener {
+.container {
   width : 660px;
   max-width: calc(100% - 20px);
   position: absolute;
@@ -20,10 +20,10 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  background-color: red;
   border-radius  : 0px 0px 16px 16px;
   background     : rgba(49, 44, 42, 0.6);
   box-shadow     : 0px 0px 150px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(16px);
   border: solid 1px rgba(73, 73, 73, 0.24);
+  padding: 1em 15px;
 }

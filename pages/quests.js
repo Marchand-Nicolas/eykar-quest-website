@@ -106,7 +106,7 @@ export default function Home() {
         }, 50);
       }
       // mouse movement system
-      const questContainer = await waitForElm("#questsContener")
+      const questContainer = await waitForElm("#questsContainer")
       !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,
       "Okay", function(){return setCookie("triedQuests", true, 10000)})
       document.querySelector("body").style.overscrollBehaviorY = "contain"
@@ -114,7 +114,8 @@ export default function Home() {
       let beginY = 0
       let x = -10
       let y = window.innerHeight / 2
-      await waitForElm("#questsContener")
+      let zoom = 1
+      await waitForElm("#questsContainer")
       move(0, 0)
       function move(moveX, moveY) {
         if (!questContainer) return
@@ -125,6 +126,16 @@ export default function Home() {
         questContainer.style.left = x + "px"
         questContainer.style.top = y + "px"
       } 
+      document.addEventListener('wheel', (e) => {
+        console.log(e)
+        if (e.deltaY < 0) {
+          zoom = zoom * 1.1
+        }
+        if (e.deltaY > 0) {
+          zoom = zoom / 1.1
+        }
+        questContainer.style.transform = `scale(${zoom})`
+      });
       document.addEventListener("touchstart", (e) => {
         beginX = e.changedTouches[0].pageX
         beginY = e.changedTouches[0].pageY
@@ -253,7 +264,7 @@ export default function Home() {
   return (
     <div className="default_background">
       {account && <Header/>}
-      <div id="questsContener" className={styles.contener}>
+      <div id="questsContainer" className={styles.contener}>
       {loadBranch(quests[0], 0, 0, true)}  
       {account && <div className={styles.player_infos_contener}>
         <img src={`https://nft.eykar.org/quest-nft/${playerLevel ? playerLevel[0].words[0] : 0}`} />
