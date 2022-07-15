@@ -65,6 +65,11 @@
     left: 20px;
     cursor: pointer;
 }
+.completeStepButton.v1 {
+    position: unset;
+    margin-top: 10px;
+    margin-right: 10px;
+}
 .completeStepButton.v2 {
     position: unset;
     margin-right: 10px;

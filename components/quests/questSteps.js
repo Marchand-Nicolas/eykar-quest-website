@@ -38,15 +38,20 @@ export default function QuestSteps(props) {
             case 1:
                 action = <>
                     <p>Allow Transaction</p>
-                    <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
-                        ethContract.approve(contract.address, [900000000000000, 0]).then(async (transaction) => {
-                            setLoading(true);
-                            Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
-                            await waitForTransaction(transaction.transaction_hash, "allowButton")
-                            setLoading(false);
-                            setProgress(progress + 1)
-                        })
-                    }} className={styles.completeStepButton}>Allow</button>
+                    <div className="line">
+                        <a href="https://faucet.goerli.starknet.io/" target="_blank" rel="noreferrer">
+                            <button className={[styles.completeStepButton, styles.v1].join(" ")}>Request testnet eth</button>
+                        </a>
+                        <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
+                            ethContract.approve(contract.address, [900000000000000, 0]).then(async (transaction) => {
+                                setLoading(true);
+                                Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
+                                await waitForTransaction(transaction.transaction_hash, "allowButton")
+                                setLoading(false);
+                                setProgress(progress + 1)
+                            })
+                        }} className={[styles.completeStepButton, styles.v1].join(" ")}>Allow</button>
+                    </div>
                 </>
                 ethContract.allowance(account, contract.address).then(allowance => {
                     if (parseInt(allowance[0].low) >= 900000000000000) {

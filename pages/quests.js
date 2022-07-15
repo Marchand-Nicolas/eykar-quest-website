@@ -52,22 +52,20 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
       async function getPlayerInfos() {
-        if ((questAction && questCompleted || questProgress.length === 0) && !loading) {
-          setLoading(true);
-          if (questAction) {
-            setQuestAction('');
-            setQuestCompleted(false);
-          }
-          let questProgressTemp = [];
-          questProgressTemp = await contract.functions.getProgress(12, account)
-          setProgress(questProgressTemp);
-          let levelTemp = 0
-          levelTemp = await contract.functions.getLevel(account)
-          setLevel(levelTemp);
-          setLoading(false);
+        setLoading(true);
+        if (questAction) {
+          setQuestAction('');
+          setQuestCompleted(false);
         }
+        let questProgressTemp = [];
+        questProgressTemp = await contract.functions.getProgress(12, account)
+        setProgress(questProgressTemp);
+        let levelTemp = 0
+        levelTemp = await contract.functions.getLevel(account)
+        setLevel(levelTemp);
+        setLoading(false);
       }
-      if (account && contract) getPlayerInfos()
+      if ((questAction && questCompleted || questProgress.length === 0) && !loading && account && contract) getPlayerInfos()
     }, [questNumber, contract, account, questCompleted])
     return [progress, level, questCompleted, questAction]
   }
