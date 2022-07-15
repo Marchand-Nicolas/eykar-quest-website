@@ -142,13 +142,13 @@ export default [{
                         ]
                     },
                 ],
-                connected: [
+                /*connected: [
                     {
                         clear: true
                     },
                     {
                         name: "Quiz",
-                        id: 7,
+                        id: 6,
                         description: "Let's test your knowledge of Eykar!",
                         long_description: "",
                         dependent: true,
@@ -183,7 +183,7 @@ export default [{
                             }
                         ]
                     }
-                ]
+                ]*/
             },
         ] 
     }]
