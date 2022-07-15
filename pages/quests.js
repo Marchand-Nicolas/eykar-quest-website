@@ -127,7 +127,6 @@ export default function Home() {
         questContainer.style.top = y + "px"
       } 
       document.addEventListener('wheel', (e) => {
-        console.log(e)
         if (e.deltaY < 0) {
           zoom = zoom * 1.1
         }
