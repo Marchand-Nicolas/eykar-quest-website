@@ -138,20 +138,24 @@ export default function QuestSteps(props) {
                 document.getElementById("closeButtonContainer").innerHTML = ""
                 action = <>
                     <h2>Validate the quest on the blockchain</h2>
-                    <button id="completeStepButton" onClick={async () => {
-                        const button = document.getElementById("completeStepButton")
-                        button.disabled = true
-                        button.innerText = "Contacting the server..."
-                        const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                            body: JSON.stringify({player: account, questId: quest.id})
-                        })).json()
-                        console.log(result)
-                        button.innerText = "Transaction in progress..."
-                        await waitForTransaction(result.transactionHash, "completeStepButton")
-                        setProgress(progress + 1)
-                    }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>
-                    <p id=""></p>
+                    <br></br>
+                    <div className="line">
+                        <button id="completeStepButton" onClick={async () => {
+                            const button = document.getElementById("completeStepButton")
+                            button.disabled = true
+                            button.innerText = "Contacting the server..."
+                            const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({player: account, questId: quest.id})
+                            })).json()
+                            console.log(result)
+                            button.innerText = "Transaction in progress..."
+                            document.getElementById("transaction").innerText = result.transactionHash
+                            await waitForTransaction(result.transactionHash, "completeStepButton")
+                            setProgress(progress + 1)
+                        }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>
+                        <p id="transaction"></p>
+                    </div>
                 </>
             break;
         }

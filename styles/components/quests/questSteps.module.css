@@ -66,8 +66,8 @@
     cursor: pointer;
 }
 .completeStepButton.v2 {
-    margin-top: 15px;
     position: unset;
+    margin-right: 15px;
 }
 
 .loading {
