@@ -44,20 +44,16 @@ export default function Home() {;
         {account && <div className={styles.logo_banner}/>}
         <button onClick={(async () => {
               if (account) return router.push("/quests")
-              if (connectors.length === 1) {
+              if (connectors.length > 0) {
                 const connector = connectors[0];
                 try {
                   setConnectionStatus(1)
                   await connector.ready();
                   connect(connector)
-                } catch (err) {
-                  console.log(err)
-                  alert(JSON.stringify(err))
-                  setConnectMenuToggled(true)
-                  setConnectionStatus(1)
-                }
+                } catch {errorScreen()}
               }
-              else {
+              else errorScreen()
+              function errorScreen() {
                 setMenu(
                   <fieldset className="popup">
                       <legend>ArgentX</legend>
