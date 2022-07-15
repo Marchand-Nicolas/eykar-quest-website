@@ -22,16 +22,27 @@ export default function Home() {;
     async () => {
       try {
         setTimeout(() => {
-          if (typeof window === "undefined") return
-          if (connectors.length === 0) return
-            const connector = connectors[0]
-              connector.ready().then(ready => {
-              if (ready) connect(connectors[0])
-            }) 
+          try {
+            if (typeof window === "undefined") return
+            console.log(connectors)
+            if (connectors.length === 0) return
+              const connector = connectors[0]
+              console.log(connector)
+                connector.ready().then(ready => {
+                  console.log("a-------------------------")
+                  try {
+                    if (ready) connect(connectors[0])
+                  } catch (error) {
+                    console.log(error)
+                  }
+              }) 
+          } catch (error) {
+            console.log(error)
+          }
       }, 150);
     } catch{}
   },
-  []
+  [connectors]
   );
   return (
     <div className="default_background">
