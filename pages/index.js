@@ -52,6 +52,7 @@ export default function Home() {;
                   connect(connector)
                 } catch (err) {
                   console.log(err)
+                  alert(JSON.stringify(err))
                   setConnectMenuToggled(true)
                   setConnectionStatus(1)
                 }
