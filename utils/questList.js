@@ -142,7 +142,7 @@ export default [{
                         ]
                     },
                 ],
-                /*connected: [
+                connected: [
                     {
                         clear: true
                     },
@@ -183,7 +183,7 @@ export default [{
                             }
                         ]
                     }
-                ]*/
+                ]
             },
         ] 
     }]

@@ -7,9 +7,7 @@ import WalletMenu from '../components/walletmenu'
 import Loading from '../components/loading'
 import { useRouter } from 'next/router'
 import Header from '../components/header' 
-import { useDisplayName } from "../hooks/starknet";
 import Image from 'next/image'
-import Popup from '../functions/popup'
 
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
