@@ -24,11 +24,13 @@ export default function Home() {
   const [ tokenId, setTokenId ] = useState(undefined)
   const [ tokenIds, setTokenIds ] = useState(undefined)
   const [ reloadDatas, setReloadDatas ] = useState(false)
+  const [ reloadTokens, setReloadTokens ] = useState(false)
   const [questProgress, playerLevel] = GetQuestProgress(12)
   const [currentTransaction, setCurrentTransaction] = useState(null)
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
   const { transactions } = useStarknetTransactionManager()
+
 
   const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
 
@@ -55,6 +57,11 @@ export default function Home() {
           setCurrentTransaction(transaction)
           if (transaction.status === 'ACCEPTED_ON_L2' || transaction.status === 'ACCEPTED_ON_L1') {
             setQuestCompleted(true)
+            switch (currentTransactionType) {
+              case 1:
+                setReloadTokens(true)
+              break;
+            }
           }
         }
 }, [currentTransaction, transactions])
@@ -62,6 +69,7 @@ export default function Home() {
   useEffect(() => {
     if (account)
     try {
+      if (reloadTokens) setReloadTokens(false)
       fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}`).then(res => res.json()).then(res => {
         const assets = res.assets.map(asset => asset.token_id)
         setTokenIds(assets)
@@ -71,7 +79,7 @@ export default function Home() {
       Notification({message:"The Aspect api is currently unavailable. Please check back later.", warning: true})
       throw(error)
     }
-  }, [account])
+  }, [account, reloadTokens])
 
   // load player progress
   function GetQuestProgress(questNumber) {
