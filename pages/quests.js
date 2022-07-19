@@ -266,9 +266,6 @@ export default function Home() {
           </div>
         </div>
     }
-
-    console.log(token)
-
   return (
     <div className="default_background">
       {account && <Header/>}
