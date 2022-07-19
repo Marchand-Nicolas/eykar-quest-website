@@ -63,7 +63,7 @@ export default function QuestSteps(props) {
                 action = <>
                 <p>Send goerli eth</p>
                 <button disabled={loading} id="allowButton" onClick={() => {
-                    contract.addToApiContract([900000000000000, 0]).then(async (transaction) => {
+                    contract.addToApiContract([900000000000000, 0], props.tokenId).then(async (transaction) => {
                         setLoading(true);
                         Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                         await waitForTransaction(transaction.transaction_hash, "allowButton")
@@ -83,6 +83,7 @@ export default function QuestSteps(props) {
                         </div>
                         )
                     }
+                    
                     <button onClick={() => {
                         if (question.choices) {
                             const choices = document.querySelectorAll("input[name=choices]")
@@ -159,11 +160,11 @@ export default function QuestSteps(props) {
                             button.innerText = "Contacting the server..."
                             const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
                                 headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify({player: account, questId: quest.id})
+                                body: JSON.stringify({tokenId: props.tokenId[0], questId: quest.id, player: account})
                             })).json()
                             button.innerText = "Transaction in progress..."
                             document.getElementById("transaction").innerText = "Open in voyager"
-                            document.getElementById("transaction").href = "https://beta.voyager.online/tx/" + result.transactionHash
+                            document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + result.transactionHash
                             await waitForTransaction(result.transactionHash, "completeStepButton")
                             setProgress(progress + 1)
                         }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>

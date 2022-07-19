@@ -141,8 +141,8 @@ export default [{
                             },
                         ]
                     },
-                ],
-                /*connected: [
+                ]/*,
+                connected: [
                     {
                         clear: true
                     },

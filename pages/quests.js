@@ -11,6 +11,7 @@ import Notification from "../components/notification";
 import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
 import QuestSteps from "../components/quests/questSteps";
+import Loading from "../components/loading";
 
 export default function Home() {
   const { account, connect, connectors } = useStarknet()
@@ -19,13 +20,19 @@ export default function Home() {
   const [questAction, setQuestAction] = useState("")
   const [questActionDescription, setQuestActionDescription] = useState("")
   const [questActionContent, setQuestActionContent] = useState("")
-  const [questProgress, playerLevel] = GetQuestProgress(12);
+  const [loadingDatas, setLoadingDatas] = useState(false);
+  const [ tokenId, setTokenId ] = useState(undefined)
+  const [ tokenIds, setTokenIds ] = useState(undefined)
+  const [ reloadDatas, setReloadDatas ] = useState(false)
+  const [ reloadTokens, setReloadTokens ] = useState(false)
+  const [questProgress, playerLevel] = GetQuestProgress(12)
   const [currentTransaction, setCurrentTransaction] = useState(null)
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
   const { transactions } = useStarknetTransactionManager()
 
-  const { data:mintFirstNFTData, mintFirstNFTLoading, error:mintFirstNFTError, reset:mintFirstNFTReset, invoke:mintFirstNFT } = useStarknetInvoke({ contract, method: 'mintFirstNFT'})
+
+  const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
 
   if (!account && connectors) setTimeout(() => {
     if (typeof window === "undefined") return
@@ -41,7 +48,7 @@ export default function Home() {
     let transactionHash = undefined
     switch (currentTransactionType) {
       case 1:
-        transactionHash= mintFirstNFTData
+        transactionHash= mintNFTData
       break;
     }
     if (!transactionHash) return
@@ -50,32 +57,52 @@ export default function Home() {
           setCurrentTransaction(transaction)
           if (transaction.status === 'ACCEPTED_ON_L2' || transaction.status === 'ACCEPTED_ON_L1') {
             setQuestCompleted(true)
+            switch (currentTransactionType) {
+              case 1:
+                setReloadTokens(true)
+              break;
+            }
           }
         }
 }, [currentTransaction, transactions])
+
+  useEffect(() => {
+    if (account)
+    try {
+      if (reloadTokens) setReloadTokens(false)
+      fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}`).then(res => res.json()).then(res => {
+        const assets = res.assets.map(asset => asset.token_id)
+        setTokenIds(assets)
+        setTokenId([assets[0], 0])
+      })
+    } catch (error) {
+      Notification({message:"The Aspect api is currently unavailable. Please check back later.", warning: true})
+      throw(error)
+    }
+  }, [account, reloadTokens])
 
   // load player progress
   function GetQuestProgress(questNumber) {
     const [progress, setProgress] = useState([]);
     const [level, setLevel] = useState(0);
-    const [loading, setLoading] = useState(false);
     useEffect(() => {
       async function getPlayerInfos() {
-        setLoading(true);
+        setReloadDatas(false)
+        setLoadingDatas(true);
         if (questAction) {
           setQuestAction('');
           setQuestCompleted(false);
         }
         let questProgressTemp = [];
-        questProgressTemp = await contract.functions.getProgress(12, account)
+        questProgressTemp = await contract.functions.getProgress(12, tokenId)
         setProgress(questProgressTemp);
         let levelTemp = 0
-        levelTemp = await contract.functions.getLevel(account)
+        levelTemp = await contract.functions.getLevel(tokenId)
         setLevel(levelTemp);
-        setLoading(false);
+        setLoadingDatas(false);
       }
-      if ((questAction && questCompleted || questProgress.length === 0) && !loading && account && contract) getPlayerInfos()
-    }, [questNumber, contract, account, questCompleted])
+      if (((questAction && questCompleted) || questProgress.length === 0 || reloadDatas) && !loadingDatas && account && contract && tokenId) getPlayerInfos()
+    }, [questNumber, contract, account, questCompleted, tokenId, reloadDatas])
     return [progress, level, questCompleted, questAction]
   }
   useMemo(
@@ -148,7 +175,7 @@ export default function Home() {
           !questCompleted ? <button onClick={() => {
             switch (quest.transactionType) {
               case 1:
-                mintFirstNFT({ args: [] })
+                mintNFT({ args: [] })
                 setQuestAction("Minting your first NFT")
                 setQuestActionDescription("Please wait...")
                 setQuestActionContent(<button onClick={() => setQuestAction("")} className="global button highlighted popup v2">Close</button>)
@@ -167,7 +194,7 @@ export default function Home() {
                     <p className="global popup description">{quest.description}</p>
                     {quest.content}
                     {
-                      <QuestSteps quest={quest} completeQuest={completeQuest} />
+                      <QuestSteps tokenId={tokenId} quest={quest} completeQuest={completeQuest} />
                     }
                   </div>
                 )
@@ -240,7 +267,21 @@ export default function Home() {
     <div className="default_background">
       {account && <Header/>}
       <div id="questsContainer" className={styles.contener}>
-      {loadBranch(quests[0], 0, 0, true)}  
+      {
+        tokenIds && tokenIds.length > 1 && <div className={styles.tokensContainer}>
+            {
+              tokenIds.map((tokenId, index) => 
+                <div onClick={() => {
+                  setTokenId([tokenId, 0])
+                  setReloadDatas(true)
+                }} className={styles.token} key={"token_" + index}>
+                  {index}
+                </div>
+              )
+            }
+        </div>
+      }
+      {loadBranch(quests[0], tokenIds && tokenIds.length > 1 ? 50 : 0, 0, true)}  
       {account && <div className={styles.player_infos_contener}>
         <img src={`https://nft.eykar.org/quest-nft/${playerLevel ? playerLevel[0].words[0] : 0}`} />
         <p>Level {playerLevel ? playerLevel[0].words[0] : 0}</p>
@@ -248,6 +289,7 @@ export default function Home() {
       </div>
       {menu}
       {(questAction && !questCompleted) ? <QuestTransactionMenu content={questActionContent} questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
+      {loadingDatas && <Loading className={styles.loading} />}
     </div>
   );
 }

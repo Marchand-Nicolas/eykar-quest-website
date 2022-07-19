@@ -254,3 +254,50 @@
     -o-user-drag: none; 
     user-drag: none; 
 }
+
+.tokensContainer {
+    position: absolute;
+    left: 20px;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background     : var(--menu_background);
+    box-shadow     : var(--menu_shadow);
+    backdrop-filter: var(--menu_filter);
+    border:  var(--menu_border);
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: fit-content;
+    border-radius: 1em;
+}
+
+.token {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold_light);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border-radius: 0;
+    transition: background-color 0.4s, border-radius cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+    cursor: pointer;
+}
+
+.token:hover {
+    background-color: rgb(39, 39, 39);
+    border-radius: 2em;
+}
+
+.loading {
+    position: fixed !important;
+    bottom: 20px;
+    right: 20px;
+}

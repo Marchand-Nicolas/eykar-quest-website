@@ -80,8 +80,8 @@
                 "type": "felt"
             },
             {
-                "name": "player",
-                "type": "felt"
+                "name": "tokenId",
+                "type": "Uint256"
             }
         ],
         "name": "getProgress",
@@ -101,8 +101,8 @@
     {
         "inputs": [
             {
-                "name": "player",
-                "type": "felt"
+                "name": "tokenId",
+                "type": "Uint256"
             }
         ],
         "name": "getLevel",
@@ -122,8 +122,8 @@
                 "type": "felt"
             },
             {
-                "name": "player",
-                "type": "felt"
+                "name": "tokenId",
+                "type": "Uint256"
             }
         ],
         "name": "hasCompletedQuest",
@@ -176,7 +176,22 @@
     {
         "inputs": [
             {
+                "name": "newAddress",
+                "type": "felt"
+            }
+        ],
+        "name": "setAdmin",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "name": "amount",
+                "type": "Uint256"
+            },
+            {
+                "name": "tokenId",
                 "type": "Uint256"
             }
         ],
@@ -197,7 +212,7 @@
     },
     {
         "inputs": [],
-        "name": "mintFirstNFT",
+        "name": "mintNFT",
         "outputs": [],
         "type": "function"
     },
@@ -208,8 +223,8 @@
                 "type": "felt"
             },
             {
-                "name": "target",
-                "type": "felt"
+                "name": "tokenId",
+                "type": "Uint256"
             }
         ],
         "name": "completeQuest",
