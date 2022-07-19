@@ -22,6 +22,8 @@ export default function Home() {
   const [questActionContent, setQuestActionContent] = useState("")
   const [loadingDatas, setLoadingDatas] = useState(false);
   const [ tokenId, setTokenId ] = useState(undefined)
+  const [ token, setToken ] = useState(undefined)
+  const [ tokens, setTokens ] = useState(undefined)
   const [ tokenIds, setTokenIds ] = useState(undefined)
   const [ reloadDatas, setReloadDatas ] = useState(false)
   const [ reloadTokens, setReloadTokens ] = useState(false)
@@ -71,7 +73,9 @@ export default function Home() {
     try {
       if (reloadTokens) setReloadTokens(false)
       fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}`).then(res => res.json()).then(res => {
+        setTokens(res.assets)
         const assets = res.assets.map(asset => asset.token_id)
+        setToken(res.assets[0])
         setTokenIds(assets)
         setTokenId([assets[0], 0])
       })
@@ -263,6 +267,8 @@ export default function Home() {
         </div>
     }
 
+    console.log(token)
+
   return (
     <div className="default_background">
       {account && <Header/>}
@@ -272,6 +278,7 @@ export default function Home() {
             {
               tokenIds.map((tokenId, index) => 
                 <div onClick={() => {
+                  setToken(tokens.find(token => token.token_id === tokenId))
                   setTokenId([tokenId, 0])
                   setReloadDatas(true)
                 }} className={styles.token} key={"token_" + index}>
@@ -285,6 +292,11 @@ export default function Home() {
       {account && <div className={styles.player_infos_contener}>
         <img src={`https://nft.eykar.org/quest-nft/${playerLevel ? playerLevel[0].words[0] : 0}`} />
         <p>Level {playerLevel ? playerLevel[0].words[0] : 0}</p>
+        <button>
+          <a href={token ? token.aspect_link : "#"} target={"_blank"} rel="noreferrer">
+            <img src="/logos/aspect.png" />
+          </a>
+        </button>
       </div>}
       </div>
       {menu}
