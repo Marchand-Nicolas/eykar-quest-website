@@ -141,7 +141,7 @@ export default [{
                             },
                         ]
                     },
-                ],
+                ]/*,
                 connected: [
                     {
                         clear: true
@@ -183,7 +183,7 @@ export default [{
                             }
                         ]
                     }
-                ]
+                ]*/
             },
         ] 
     }]

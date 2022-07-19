@@ -83,6 +83,7 @@ export default function QuestSteps(props) {
                         </div>
                         )
                     }
+                    
                     <button onClick={() => {
                         if (question.choices) {
                             const choices = document.querySelectorAll("input[name=choices]")
@@ -159,7 +160,7 @@ export default function QuestSteps(props) {
                             button.innerText = "Contacting the server..."
                             const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
                                 headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify({tokenId: props.tokenId, questId: quest.id, player: account})
+                                body: JSON.stringify({tokenId: props.tokenId[0], questId: quest.id, player: account})
                             })).json()
                             button.innerText = "Transaction in progress..."
                             document.getElementById("transaction").innerText = "Open in voyager"
