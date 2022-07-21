@@ -12,6 +12,7 @@ import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
 import QuestSteps from "../components/quests/questSteps";
 import Loading from "../components/loading";
+import waitForIndexation from "../components/quests/mint/waitForIndexation";
 
 export default function Home() {
   const { account, connect, connectors } = useStarknet()
@@ -33,7 +34,6 @@ export default function Home() {
   const [ menu, setMenu ] = useState(null)
   const { transactions } = useStarknetTransactionManager()
 
-
   const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
 
   if (!account && connectors) setTimeout(() => {
@@ -45,7 +45,7 @@ export default function Home() {
     }) 
   }, 150);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (!currentTransactionType) return
     let transactionHash = undefined
     switch (currentTransactionType) {
@@ -61,7 +61,7 @@ export default function Home() {
             setQuestCompleted(true)
             switch (currentTransactionType) {
               case 1:
-                setReloadTokens(true)
+                if (!token) waitForIndexation(account, contract, setToken, setTokenIds, setTokenId, setReloadDatas)
               break;
             }
           }
@@ -73,7 +73,7 @@ export default function Home() {
     try {
       if (reloadTokens) setReloadTokens(false)
       fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}`).then(res => res.json()).then(res => {
-        setTokens(res.assets)
+      setTokens(res.assets)
         const assets = res.assets.map(asset => asset.token_id)
         setToken(res.assets[0])
         setTokenIds(assets)
