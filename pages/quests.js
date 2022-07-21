@@ -286,7 +286,7 @@ export default function Home() {
         </div>
       }
       {loadBranch(quests[0], tokenIds && tokenIds.length > 1 ? 50 : 0, 0, true)}  
-      {account && <div className={styles.player_infos_contener}>
+      {token && <div className={styles.player_infos_contener}>
         <img src={`https://nft.eykar.org/quest-nft/${playerLevel ? playerLevel[0].words[0] : 0}`} />
         <p>Level {playerLevel ? playerLevel[0].words[0] : 0}</p>
         <button>
