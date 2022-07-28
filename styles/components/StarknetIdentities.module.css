@@ -1,0 +1,43 @@
+.idContainer {
+    background-color: var(--gold_light);
+    border-radius: 2em;
+    margin: 1em 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.idContainer img {
+    width: 50px;
+    height: 50px;
+    border-radius: 2em;
+    background-color: gray;
+    box-shadow: 0 0 0.2em 0.2em var(--gold_light);
+}
+
+.idContainer .link {
+    margin: 0 0 0 7px;
+    color: black;
+    text-decoration: underline;
+    font-size: 12px;
+}
+
+.idContainer button {
+    margin: 0 0 0 7px;
+    background-color: var(--menu_background) !important;
+    color: var(--gold_light) !important;
+}
+
+.loading {
+    animation: ldsRoller 0.8s linear infinite;
+    zoom: 0.5;
+}
+
+@keyframes ldsRoller {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}  

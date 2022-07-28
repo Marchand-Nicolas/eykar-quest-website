@@ -8,6 +8,7 @@ import Popup from '../../functions/popup'
 import { unmountComponentAtNode } from "react-dom";
 import { useStarknet } from '@starknet-react/core'
 import Notification from "../../components/notification";
+import StarknetIdentities from "../starknetIdentities";
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
@@ -171,6 +172,9 @@ export default function QuestSteps(props) {
                         <a className={styles.transactionHash} id="transaction" href="#" target="_blank" rel="noreferrer"></a>
                     </div>
                 </>
+            break;
+            case 5:
+                action = <StarknetIdentities setProgress={setProgress} tokenId={props.tokenId[0]} />
             break;
         }
         return (
