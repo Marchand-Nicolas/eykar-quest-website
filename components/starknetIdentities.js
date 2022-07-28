@@ -13,7 +13,7 @@ export default function starknetIdentities(props) {
         setLoading(true)
         if (refresh) return setRefresh(false)
         if (!account) return
-        const res = await (await fetch("https://api-testnet.aspect.co/api/v0/assets?contract_address=0x04564121a7ad7757c425e4dac1a855998bf186303107d1c28edbf0de420e7023")).json()
+        const res = await (await fetch("https://api-testnet.aspect.co/api/v0/assets?owner_address=" + account + "&contract_address=0x04564121a7ad7757c425e4dac1a855998bf186303107d1c28edbf0de420e7023")).json()
         setIdentities(res.assets)
         setLoading(false)
         console.log(res.assets)
@@ -44,7 +44,7 @@ export default function starknetIdentities(props) {
                             document.getElementById("transaction" +  index).innerText = "Open in voyager"
                             document.getElementById("transaction" +  index).href = "https://beta-goerli.voyager.online/tx/" + result.transactionHash
                             await waitForTransaction(result.transactionHash, "selectButton" + index)
-                            props.setProgress(progress + 1)
+                            props.setProgress(props.progress + 1)
                 }} className="button gold">Select</button>
                 <a className={styles.link} href="#" target="_blank" rel="noreferrer" id={"transaction" +  index}></a>
             </div>) :
