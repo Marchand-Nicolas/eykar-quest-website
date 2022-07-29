@@ -61,6 +61,10 @@
     position: absolute;
 } 
 
+.quest_point_contener_unavailable .quest_point_icon {
+    color: var(--error);
+}
+
 .quest_point_contener_completed .quest_point {
     border: none;
     background-color: unset;

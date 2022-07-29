@@ -181,7 +181,7 @@ export default function Home() {
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
         {
-          quest.devOnly || !canCompleteQuest ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Unavailable</button> :
+          quest.devOnly || !canCompleteQuest ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Please wait</button> :
           !questCompleted ? <button onClick={() => {
             switch (quest.transactionType) {
               case 1:
@@ -258,7 +258,7 @@ export default function Home() {
     function parseBranch(quest, elementPos, Y, previousQuestCompleted) {
       if (!quest.name) return null
       const completed = questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false
-      return <div onMouseDown={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
+      return <div onMouseDown={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : !canCompleteQuest ? styles.quest_point_contener_unavailable : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
           {quest.dependent && !previousQuestCompleted ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
           <div id={"questElement_" + quest.id} className={[styles.quest_point, quest.dependent && !previousQuestCompleted ? styles.quest_point_locked : null].join(" ")}>
             {
