@@ -65,20 +65,41 @@ export default [{
                             },
                             {
                                 devOnly: true,
-                                name: "Tweet",
+                                name: "Twitter",
                                 id: 8,
-                                description: "Make a tweet mentioning Eykar to support us ❤️",
-                                long_description: "Make a tweet containing at least @AgeOfEykar or eykar.org, with more than 50 characters.",
-                                content: <>
-                                        <input className="global input" placeholder="Please enter your exact twitter username"></input>
-                                        <br></br>
-                                        <p className="global description">After the tweet is sent, you have 10 minutes to click on the button below</p>
-                                    </>,
-                                    icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                description: "Verify your Twitter account on Starknet.id, and unlock exclusive quests.",
+                                icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                                 </svg>,
-                                dependent: true
-                                }
+                                dependent: true,
+                                steps: [6, 4],
+                                customContent: [
+                                    <p>
+                                        Verify your Twitter account on Starknet.id, then click Okay
+                                    </p>,
+                                ],
+                                details: {
+                                    0: {
+                                        buttons: [
+                                            <a href="https://starknet.id" target="_blank" rel="noreferrer"><button className="button gold">Open Starknet.id</button></a>
+                                        ]
+                                    }
+                                },
+                                connected: [
+                                    {
+                                        devOnly: true,
+                                        name: "Tweet",
+                                        id: 8,
+                                        description: "Make a tweet mentioning Eykar to support us ❤️",
+                                        long_description: "Make a tweet containing at least @AgeOfEykar or eykar.org, with more than 50 characters.",
+                                            icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                        </svg>,
+                                        dependent: true,
+                                        steps: [6, 4],
+                                    }
+                                ]
+                            }
                             ]
                     },
                 ]

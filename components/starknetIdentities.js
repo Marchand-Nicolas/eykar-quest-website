@@ -48,7 +48,7 @@ export default function starknetIdentities(props) {
                 }} className="button gold">Select</button>
                 <a className={styles.link} href="#" target="_blank" rel="noreferrer" id={"transaction" +  index}></a>
             </div>) :
-            <p>You haven't minted any idendity for the moment.</p>
+            <p>You haven&apos;t minted any idendity for the moment.</p>
         }
         <div className="line">
             <a href="https://starknet.id/" target="_blank" rel="noreferrer"><button className="button gold">Mint new idendity</button></a>
