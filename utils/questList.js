@@ -63,7 +63,7 @@ export default [{
                                     }
                                 }
                             },
-                            {
+                            /*{
                                 devOnly: true,
                                 name: "Twitter",
                                 id: 8,
@@ -99,7 +99,7 @@ export default [{
                                         steps: [6, 4],
                                     }
                                 ]
-                            }
+                            }*/
                             ]
                     },
                 ]

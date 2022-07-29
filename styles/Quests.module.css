@@ -318,3 +318,25 @@
     bottom: 20px;
     right: 20px;
 }
+
+.Warningcontainer {
+    display: flex;
+    align-items: center;
+    box-shadow     : var(--menu_shadow);
+    backdrop-filter: var(--menu_filter);
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 12px;
+    padding: 20px;
+    margin-left: 20px;
+    background: var(--gold_light);
+    color: var(--metal_dark);
+    border: none;
+    font-weight: lighter;
+    font-size: 0.5rem;
+}
+
+.Warningcontainer svg {
+    width: 40px;
+}

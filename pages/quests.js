@@ -36,6 +36,12 @@ export default function Home() {
 
   const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
 
+  const date = new Date()
+  const beginingDate = 1659106966150
+  const maxQuest = Math.floor((date.getTime() - beginingDate) / 1000 / 3600 / 24 / 7) + 4
+  const canCompleteQuest = playerLevel < maxQuest
+  const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
+
   if (!account && connectors) setTimeout(() => {
     if (typeof window === "undefined") return
     if (connectors.length === 0) return
@@ -175,7 +181,7 @@ export default function Home() {
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
         {
-          quest.devOnly ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Unavailable</button> :
+          quest.devOnly || !canCompleteQuest ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Unavailable</button> :
           !questCompleted ? <button onClick={() => {
             switch (quest.transactionType) {
               case 1:
@@ -260,7 +266,9 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg> : quest.dependent && !previousQuestCompleted ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg> : quest.icon
+              </svg> : canCompleteQuest ? quest.icon : <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             }
             {quest.dependent && !previousQuestCompleted ? null : <div className={styles.point_infos_contener} id={quest.name && "contentContener_point_" + elementPos + "_" + Y}></div>}
           </div>
@@ -299,6 +307,16 @@ export default function Home() {
       {menu}
       {(questAction && !questCompleted) ? <QuestTransactionMenu content={questActionContent} questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
       {loadingDatas && <Loading className={styles.loading} />}
+      {
+        !canCompleteQuest && <div key={"notification_" + Math.random()}>
+          <div className={styles.Warningcontainer}>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+              <h2>You have completed the maximum number of quests for the moment. You will be able to do one more in {Math.floor(daysLeftBeforeQuest)} Days and {Math.floor((daysLeftBeforeQuest - Math.floor(daysLeftBeforeQuest)) * 24)} hours.</h2>
+          </div> 
+        </div>
+      }
     </div>
   );
 }
