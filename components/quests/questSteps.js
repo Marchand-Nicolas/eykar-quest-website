@@ -35,6 +35,15 @@ export default function QuestSteps(props) {
 
     function Step() {
         let action = null
+        let buttons = []
+        if (quest.details) {
+            const stepDetails = quest.details[progress]
+            if (stepDetails) {
+                if (stepDetails.buttons) {
+                    buttons = stepDetails.buttons
+                }
+            }
+        }
         switch (steps[progress]) {
             case 1:
                 action = <>
@@ -150,7 +159,6 @@ export default function QuestSteps(props) {
                 </>
             break;
             case 4:
-                document.getElementById("closeButtonContainer").innerHTML = ""
                 action = <>
                     <h2>Validate the quest on the blockchain</h2>
                     <br></br>
@@ -163,6 +171,18 @@ export default function QuestSteps(props) {
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({tokenId: props.tokenId[0], questId: quest.id, player: account})
                             })).json()
+                            if (result.error) {
+                                button.disabled = false
+                                button.innerText = "Try again"
+                                let errorMessage = ""
+                                switch (result.error) {
+                                    case 1:
+                                        errorMessage = "The identity linked to your NFT does not have a verified discord account. Go to starknet.id to fix the problem."
+                                    break;
+                                }
+                                Popup("Error", errorMessage, "Okay")
+                                return;
+                            }
                             button.innerText = "Transaction in progress..."
                             document.getElementById("transaction").innerText = "Open in voyager"
                             document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + result.transactionHash
@@ -176,11 +196,30 @@ export default function QuestSteps(props) {
             case 5:
                 action = <StarknetIdentities setProgress={setProgress} progress={progress} tokenId={props.tokenId[0]} />
             break;
+            case 6:
+                let customContentIndex = 0
+                for (let index = 0; index < progress; index++) {
+                    const step = steps[index];
+                    if (step === 6) customContentIndex++ 
+                }
+                action = <>
+                    {quest.customContent[customContentIndex]}
+                    <div className="line">
+                        {
+                            buttons.map((button, index) => <div key={"button_" + index}>{button}</div>)
+                        }
+                        <button className="button gold" onClick={() => setProgress(progress + 1)}>
+                            Okay
+                        </button>
+                    </div>
+                </>
+            break;
         }
+        
         return (
             <div className={styles.stepActionContener}>
                 {
-                    progress < steps.length ? action : <h3 className={styles.questCompletedTitle}>Quest completed</h3>
+                    progress < steps.length ? <>{action}</> : <h3 className={styles.questCompletedTitle}>Quest completed</h3>
                 }
                 {loading && <Loading className={styles.loading} />}
             </div>
