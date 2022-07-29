@@ -6,10 +6,6 @@ import { useRouter } from 'next/router'
 function WalletMenu({ close }) {
     const {  connectors } = useStarknet()
     const router = useRouter()
-    if (connectors.length === 1) {
-        setCookie("connector", connectors[0].id(), 10000)
-        router.push("/quests")
-    } 
     return (
         <div className={styles.menu}>
             {close ? <button className={styles.menu_close} onClick={() => { close() }} >
