@@ -42,14 +42,13 @@ export default function Home() {
   const canCompleteQuest = playerLevel < maxQuest
   const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
 
-  if (!account && connectors) setTimeout(() => {
-    if (typeof window === "undefined") return
-    if (connectors.length === 0) return
-      const connector = connectors[0]
-        connector.ready().then(ready => {
-        if (ready) connect(connectors[0])
+  useEffect(() => {
+    const connectorId = getCookie("connector")
+    const connector = connectors.find(connector => connector.id() === connectorId)
+    connector.ready().then(ready => {
+      connect(connector)
     }) 
-  }, 150);
+  }, [connectors])
 
   useEffect(async () => {
     if (!currentTransactionType) return

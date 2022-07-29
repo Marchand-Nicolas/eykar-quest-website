@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useStarknet } from '@starknet-react/core'
 import styles from '../styles/Home.module.css'
 import React from 'react'
@@ -8,55 +8,40 @@ import Loading from '../components/loading'
 import { useRouter } from 'next/router'
 import Header from '../components/header' 
 import Image from 'next/image'
+import { getCookie } from "../functions";
 
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
   let [connectionStatus, setConnectionStatus]  = useState(0) 
-  const [ menu, setMenu ] = useState(<></>)
   const { account, connect, connectors } = useStarknet()
   const router = useRouter()  
 
-  if (!account && connectors) setTimeout(() => {
-    if (typeof window === "undefined") return
-    if (connectors.length === 0) return
-      const connector = connectors[0]
-        connector.ready().then(ready => {
-        if (ready) connect(connectors[0])
-    }) 
-  }, 150);
-
-  return (
+    useEffect(() => {
+      const connectorId = getCookie("connector")
+      const connector = connectors.find(connector => connector.id() === connectorId)
+      console.log(connector)
+      if (!connector) return;
+      connector.ready().then(ready => {
+        connect(connector)
+      }) 
+    }, [connectors])
+  
+    return (
     <div className="default_background">
       <Powered />
       {account && <Header/>} 
-      {connectMenuToggled && !account ? <WalletMenu close={() => setConnectMenuToggled(false)} /> : null}
-      {menu}
+      {connectMenuToggled ? <WalletMenu close={() => setConnectMenuToggled(false)} /> : null}
       <nav className={styles.nav}>
         {!account && <Image className={styles.logo} width={300} height={100} src="/logo.svg" alt="Eykar Logo" />}
         {account && <div className={styles.logo_banner}/>}
         <button onClick={(async () => {
-              if (account) return router.push("/quests")
-              if (connectors.length > 0) {
-                const connector = connectors[0];
-                try {
-                  setConnectionStatus(1)
-                  await connector.ready();
-                  connect(connector)
-                } catch(err) {errorScreen(err)}
-              }
-              else errorScreen()
-              function errorScreen(err) {
-                if (err) console.log(err)
-                setMenu(
-                  <fieldset className="popup">
-                      <legend>ArgentX</legend>
-                      <p>Please download ArgentX to continue.</p>
-                    <a href="https://www.argent.xyz/argent-x/" target="_blank" rel="noreferrer">
-                      <button className="button gold">Download</button>
-                    </a>
-                  </fieldset>
-                )
-              }
+                if (account) {
+                  router.push("/quests")
+                }
+                else {
+                  setConnectMenuToggled(true)
+                }
+
             })} className={
             [styles.button, styles.play].join(" ")} >
             <div className={styles.button_div}></div>

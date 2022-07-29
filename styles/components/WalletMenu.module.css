@@ -4,7 +4,7 @@
     left           : 50%;
     top            : 50%;
     transform      : translate(-50%, -50%);
-    background     : rgba(38, 41, 44, 0.5);
+    background     : var(--menu_background);
     backdrop-filter: blur(10px);
     border-radius  : 20px;
     z-index        : 1;
@@ -28,7 +28,7 @@
 }
 
 .menu_close:hover {
-    stroke: rgb(124, 124, 124);
+    stroke: var(--gold);
 }
 
 .menu_title {
@@ -48,13 +48,16 @@
 
 .button {
     text-decoration : none;
-    color           : white;
-    background-color: #293b55;
+    color           : black;
+    background-color: var(--gold);
     display         : flex;
     align-items     : center;
     border-radius   : 15px;
     height          : 40px;
     margin-left     : 7.5px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
 }
 
 .button_text {
