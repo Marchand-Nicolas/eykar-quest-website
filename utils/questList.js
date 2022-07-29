@@ -131,7 +131,7 @@ export default [{
                                 name: "Extra Large"
                             },
                             {
-                                name: "Super mega big",
+                                name: "Bigger than our universe",
                                 correct: true
                             },
                             {
@@ -161,7 +161,7 @@ export default [{
                                 name: "By earning Eykar tokens"
                             },
                             {
-                                name: "By having the most prestigious alliance.",
+                                name: "By having the most prestigious Guild.",
                                 correct: true
                             },
                             {
