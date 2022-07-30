@@ -45,6 +45,7 @@ export default function Home() {
   useEffect(() => {
     const connectorId = getCookie("connector")
     const connector = connectors.find(connector => connector.id() === connectorId)
+    if (!connector) return console.log(connectors);
     connector.ready().then(ready => {
       connect(connector)
     }) 

@@ -19,8 +19,6 @@ export default function StarknetIdentities(props) {
         console.log(res.assets)
     }, [account, refresh])
 
-    console.log(identities)
-
     return <>
         <h1>Your identities</h1>
         <br></br>
