@@ -32,8 +32,8 @@ export default function Home() {;
       {account && <Header/>} 
       {connectMenuToggled ? <WalletMenu close={() => setConnectMenuToggled(false)} /> : null}
       <nav className={styles.nav}>
-        {!account && <Image className={styles.logo} width={300} height={100} src="/logo.svg" alt="Eykar Logo" />}
-        {account && <div className={styles.logo_banner}/>}
+        {/*!account && <Image className={styles.logo} width={300} height={100} src="/logo.svg" alt="Eykar Logo" />*/}
+        {/*account && */<div className={styles.logo_banner}/>}
         <button onClick={(async () => {
                 if (account) {
                   router.push("/quests")

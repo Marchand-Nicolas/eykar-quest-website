@@ -12,7 +12,7 @@ function WalletMenu({ close }) {
                 <svg alt="close icon" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
                 : null}
-            <p className={styles.menu_title}>You need a Starknet wallet</p>
+            <p className={styles.menu_title}>{connectors.length ? "Please select a wallet" : "You need a Starknet wallet"}</p>
             {
                 connectors.length === 0 ? 
                 <a className={styles.button} href="https://chrome.google.com/webstore/detail/argent-x-starknet-wallet/dlcobpjiigpikoobohmabehhmhfoodbb" target="_blank" rel="noreferrer" >
