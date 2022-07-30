@@ -181,8 +181,9 @@ export default function Home() {
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
         {
+          !questCompleted ? 
           quest.devOnly || !canCompleteQuest ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Please wait</button> :
-          !questCompleted ? <button onClick={() => {
+          <button onClick={() => {
             switch (quest.transactionType) {
               case 1:
                 mintNFT({ args: [] })
