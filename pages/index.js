@@ -7,7 +7,6 @@ import WalletMenu from '../components/walletmenu'
 import Loading from '../components/loading'
 import { useRouter } from 'next/router'
 import Header from '../components/header' 
-import Image from 'next/image'
 import { getCookie } from "../functions";
 
 export default function Home() {;

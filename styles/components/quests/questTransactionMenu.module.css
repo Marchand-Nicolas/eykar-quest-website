@@ -1,0 +1,33 @@
+.warningContainer {
+    background-color: var(--menu_background);
+    padding: 15px;
+    border-radius: 0.7em;
+    width: 100%;
+}
+
+.warningContainer p {
+    color: white;
+}
+.warningContainer a {
+    color: var(--gold);
+text-decoration: underline;
+}
+
+.errorContainer {
+    background-color: var(--menu_background);
+    padding: 15px;
+    border-radius: 0.7em;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.errorContainer p {
+    color: var(--error);
+}
+
+.errorContainer svg {
+    width: 40px;
+    color: var(--error);
+    margin-right: 20px;
+}
