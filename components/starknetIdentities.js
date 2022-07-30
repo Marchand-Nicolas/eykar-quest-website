@@ -4,7 +4,7 @@ import styles from '../styles/components/StarknetIdentities.module.css'
 import Loading from "./loading"
 import waitForTransaction from "../utils/waitForTransaction"
 
-export default function starknetIdentities(props) {
+export default function StarknetIdentities(props) {
     const [identities, setIdentities] = useState([])
     const [refresh, setRefresh] = useState(false)
     const [loading, setLoading] = useState(false)
