@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useStarknet } from '@starknet-react/core'
+import { useConnectors } from '@starknet-react/core'
 import styles from '../styles/Home.module.css'
 import React from 'react'
 import Powered from '../components/powered'
@@ -12,7 +12,7 @@ import { getCookie } from "../functions";
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
   let [connectionStatus, setConnectionStatus]  = useState(0) 
-  const { account, connect, connectors } = useStarknet()
+  const { connect, connectors, account } = useConnectors()
   const router = useRouter()  
 
     useEffect(() => {

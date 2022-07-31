@@ -1,7 +1,7 @@
 import { waitForElm, getCookie, setCookie } from "../functions";
 import { render, unmountComponentAtNode } from "react-dom";
 import { useEykarCommunityContract } from '../hooks/eykarCommunity'
-import { useStarknetInvoke, useStarknet, useStarknetTransactionManager } from '@starknet-react/core'
+import { useStarknetInvoke, useConnectors, useStarknetTransactionManager } from '@starknet-react/core'
 import { useState, useEffect, useMemo } from "react";
 import styles from '../styles/Quests.module.css'
 import React from 'react'
@@ -15,7 +15,7 @@ import Loading from "../components/loading";
 import waitForIndexation from "../components/quests/mint/waitForIndexation";
 
 export default function Home() {
-  const { account, connect, connectors } = useStarknet()
+  const { connect, connectors, account } = useConnectors()
   const { contract } = useEykarCommunityContract()
   const [questCompleted, setQuestCompleted] = useState(false)
   const [questAction, setQuestAction] = useState("")

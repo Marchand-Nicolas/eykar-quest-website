@@ -1,10 +1,8 @@
 import styles from '../styles/Quests.module.css'
 import styles2 from '../styles/components/quests/questTransactionMenu.module.css'
 import LoadingScreen from "./loadingScreen";
-import { useStarknet } from '@starknet-react/core';
 
 export default function QuestTransactionMenu(props) {
-  const { account } = useStarknet()
   return (
     (!props.questCompleted && props.questAction) ? <LoadingScreen title={props.questAction} description={props.transaction ? props.questActionDescription : "Please confirm the transaction."} content={
         <>
