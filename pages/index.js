@@ -15,9 +15,7 @@ export default function Home() {;
   const { connect, connectors } = useConnectors()
   const { account } = useStarknet()
   const router = useRouter()  
-
-  console.log(connectors)
-
+  
     useEffect(() => {
       const connectorId = getCookie("connector")
       const connector = connectors.find(connector => connector.id() === connectorId)

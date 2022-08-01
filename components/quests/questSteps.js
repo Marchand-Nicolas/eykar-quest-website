@@ -58,6 +58,9 @@ export default function QuestSteps(props) {
             case 2:
                 action = <>
                 <p>Send goerli eth</p>
+                <a href="https://faucet.goerli.starknet.io/" target="_blank" rel="noreferrer">
+                    <button className={[styles.completeStepButton, styles.v1].join(" ")}>Request testnet eth</button>
+                </a>
                 <button disabled={loading} id="allowButton" onClick={() => {
                     contract.addToApiContract([900000000000000, 0], props.tokenId).then(async (transaction) => {
                         setLoading(true);
@@ -66,7 +69,7 @@ export default function QuestSteps(props) {
                         setLoading(false);
                         setProgress(progress + 1)
                     })
-                }} className={styles.completeStepButton}>Send</button>
+                }} className={[styles.completeStepButton, styles.v1].join(" ")}>Send</button>
             </>
             break;
             case 3:
@@ -92,7 +95,7 @@ export default function QuestSteps(props) {
                                 }
                             }
                             if (score < 0) {
-                                Popup("Wrong !", <strong id="timer">Try again in 15 seconds</strong>, "", null,
+                                Popup("Wrong !", <strong id="timer">Try again in 10 seconds</strong>, "", null,
                                     <>
                                         <Loading className={styles.center} />
                                         <br></br>
@@ -104,30 +107,30 @@ export default function QuestSteps(props) {
                                     }, function() {
                                         setTimeout(() => {
                                             unmountComponentAtNode(document.getElementById("popup"))
-                                        }, 30000)
-                                        let time = 15
-                                        let realTime = 30
+                                        }, 20000)
+                                        let time = 10
+                                        let realTime = 20
 
                                         const interval = setInterval(() => {
                                             time = time - 1
                                             realTime = realTime - 1
                                             const placeholder = document.getElementById("stupidPlaceholderText")
-                                            if (realTime === 25) {
+                                            if (realTime === 16) {
                                                 placeholder.innerText = "No."
                                             }
-                                            if (realTime === 19) {
+                                            if (realTime === 13) {
                                                 placeholder.innerText = "Almost there..."
                                             }
-                                            if (realTime === 14) {
+                                            if (realTime === 9) {
                                                 placeholder.innerText = "Oops, I probably counted wrong."
                                             }
-                                            if (realTime === 10) {
+                                            if (realTime === 6) {
                                                 placeholder.innerText = "This time it's almost over."
                                             }
-                                            if (realTime === 5) {
+                                            if (realTime === 3) {
                                                 placeholder.innerText = "it would have been faster to reload the page."
                                             }
-                                            if (time === 0) time = 15
+                                            if (time === 0) time = 10
                                             const timer = document.getElementById("timer")
                                             if (!timer || realTime === 0) return clearInterval(interval)
                                             timer.innerText = `Try again in ${time} seconds`
@@ -139,7 +142,7 @@ export default function QuestSteps(props) {
                                 setProgress(progress + 1)
                             }
                         }
-                    }} className={styles.completeStepButton}>
+                    }} className={[styles.completeStepButton, styles.v1].join(" ")}>
                         Check
                     </button>
                 </>

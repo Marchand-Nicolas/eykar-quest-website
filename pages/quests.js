@@ -13,6 +13,7 @@ import QuestTransactionMenu from '../components/questTransactionMenu'
 import QuestSteps from "../components/quests/questSteps";
 import Loading from "../components/loading";
 import waitForIndexation from "../components/quests/mint/waitForIndexation";
+import WalletMenu from "../components/walletmenu";
 
 export default function Home() {
   const { connect, connectors } = useConnectors()
@@ -193,7 +194,7 @@ export default function Home() {
                 setQuestActionContent(<button onClick={() => setQuestAction("")} className="global button highlighted popup v2">Close</button>)
                 setCurrentTransaction(null)
                 setCurrentTransactionType(quest.transactionType)
-                Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
+                Notification({message:"The Goerli network is slow, it is normal to wait a few minutes for the transaction to be completed", warning: true})
               break;
               default: setMenu(
                 <div className="global popup contener">
@@ -321,6 +322,9 @@ export default function Home() {
               <h2>You have completed the maximum number of quests for the moment. You will be able to do one more in {Math.floor(daysLeftBeforeQuest)} Days and {Math.floor((daysLeftBeforeQuest - Math.floor(daysLeftBeforeQuest)) * 24)} hours.</h2>
           </div> 
         </div>
+      }
+      {
+        !account && <WalletMenu close={() => setConnectMenuToggled(false)} />
       }
     </div>
   );
