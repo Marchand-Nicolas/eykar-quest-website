@@ -198,7 +198,7 @@ export default function Home() {
               default: setMenu(
                 <div className="global popup contener">
                     <div id="closeButtonContainer">
-                      <svg onClick={() => setMenu(null)} className='global popup close' fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg onClick={() => {setMenu(null);refresh()}} className='global popup close' fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </div>
