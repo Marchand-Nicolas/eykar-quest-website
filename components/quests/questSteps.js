@@ -4,11 +4,12 @@ import waitForTransaction from "../../utils/waitForTransaction";
 import { useEthContract  } from "../../hooks/ethContract";
 import { useEykarCommunityContract } from '../../hooks/eykarCommunity'
 import Loading from "../loading";
-import Popup from '../../functions/popup'
+import Popup from '../../utils/popup'
 import { unmountComponentAtNode } from "react-dom";
 import { useStarknet } from '@starknet-react/core'
 import Notification from "../../components/notification";
 import StarknetIdentities from "../starknetIdentities";
+import callApi from "../../utils/callApi";
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
@@ -76,6 +77,7 @@ export default function QuestSteps(props) {
                 const question = quest.questions[progress]
                 action = <>
                     <h2>{question.name}</h2>
+                    {question.multiple && <><br></br><strong>Multiple choice question</strong></>}
                     {
                         question.choices.map((choice, index) => <div className={styles.quizChoice} key={`choice_${quest}_${progress}_${index}`}>
                             <input name="choices" type={question.multiple ? "checkbox" : "radio"} />{choice.name}
@@ -156,20 +158,10 @@ export default function QuestSteps(props) {
                             const button = document.getElementById("completeStepButton")
                             button.disabled = true
                             button.innerText = "Contacting the server..."
-                            const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
-                                headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify({tokenId: props.tokenId[0], questId: quest.id, player: account})
-                            })).json()
-                            if (result.error) {
+                            const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId[0], questId: quest.id, player: account})
+                            if (!result.transaction) {
                                 button.disabled = false
                                 button.innerText = "Try again"
-                                let errorMessage = ""
-                                switch (result.error) {
-                                    case 1:
-                                        errorMessage = "The identity linked to your NFT does not have a verified discord account. Go to starknet.id to fix the problem."
-                                    break;
-                                }
-                                Popup("Error", errorMessage, "Okay")
                                 return;
                             }
                             button.innerText = "Transaction in progress..."

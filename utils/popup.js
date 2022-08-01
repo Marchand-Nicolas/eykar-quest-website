@@ -1,7 +1,7 @@
 import { render } from "react-dom";
 import { unmountComponentAtNode } from "react-dom";
 
-function Popup(title, description = "", buttonName, action, content, custom = {}, init) { 
+function Popup(title, description = "", buttonName = "Okay", action, content, custom = {}, init) { 
     if (init) init()
     render(
             <div className="popup background">

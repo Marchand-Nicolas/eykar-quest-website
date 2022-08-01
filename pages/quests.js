@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import styles from '../styles/Quests.module.css'
 import React from 'react'
 import Header from '../components/header' 
-import Popup from '../functions/popup'
+import Popup from '../utils/popup'
 import Notification from "../components/notification";
 import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'

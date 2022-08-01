@@ -1,5 +1,5 @@
 import { unmountComponentAtNode } from 'react-dom'
-import Popup from '../../../functions/popup'
+import Popup from '../../../utils/popup'
 import Loading from '../../loading'
 
 export default function waitForIndexation(account, contract, setToken, setTokenIds, setTokenId, setReloadDatas) {

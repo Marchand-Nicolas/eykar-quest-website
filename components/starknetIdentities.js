@@ -16,7 +16,6 @@ export default function StarknetIdentities(props) {
         const res = await (await fetch("https://api-testnet.aspect.co/api/v0/assets?owner_address=" + account + "&contract_address=0x04564121a7ad7757c425e4dac1a855998bf186303107d1c28edbf0de420e7023")).json()
         setIdentities(res.assets)
         setLoading(false)
-        console.log(res.assets)
     }, [account, refresh])
 
     return <>
@@ -33,10 +32,7 @@ export default function StarknetIdentities(props) {
                             const button = document.getElementById("selectButton" + index)
                             button.disabled = true
                             button.innerText = "Contacting the server..."
-                            const result = await (await fetch("https://api.eykar.org/complete_quest", { method: "POST",
-                                headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify({tokenId: props.tokenId, questId: 4, player: account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
-                            })).json()
+                            const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId, questId: 4, player: account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
                             button.innerText = "Transaction in progress"
                             document.getElementById("aspectButton" + index).innerText = "Aspect"
                             document.getElementById("transaction" +  index).innerText = "Open in voyager"
