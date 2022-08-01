@@ -19,20 +19,6 @@ export default function QuestSteps(props) {
     const quest = props.quest
     const { account } = useStarknet()
 
-    /*
-    fetch("https://api.eykar.org/complete_quest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        player: account,
-        questId: 2
-      })
-    })
-    */
-
-
     function Step() {
         let action = null
         let buttons = []

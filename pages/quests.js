@@ -211,6 +211,9 @@ export default function Home() {
                   </div>
                 )
               }
+              function refresh() {
+                setReloadDatas(true)
+              }
               function completeQuest() {
                 setMenu(null)
                 setQuestAction('-')
