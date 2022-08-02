@@ -3,6 +3,7 @@ import { useStarknet} from '@starknet-react/core'
 import styles from '../styles/components/StarknetIdentities.module.css'
 import Loading from "./loading"
 import waitForTransaction from "../utils/waitForTransaction"
+import callApi from "../utils/callApi"
 
 export default function StarknetIdentities(props) {
     const [identities, setIdentities] = useState([])
@@ -33,6 +34,11 @@ export default function StarknetIdentities(props) {
                             button.disabled = true
                             button.innerText = "Contacting the server..."
                             const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId, questId: 4, player: account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
+                            if (!result.transaction) {
+                                button.disabled = false
+                                button.innerText = "Try again"
+                                return;
+                            }
                             button.innerText = "Transaction in progress"
                             document.getElementById("aspectButton" + index).innerText = "Aspect"
                             document.getElementById("transaction" +  index).innerText = "Open in voyager"
