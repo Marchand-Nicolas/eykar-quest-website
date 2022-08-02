@@ -324,7 +324,7 @@ export default function Home() {
         </div>
       }
       {
-        !account && <WalletMenu close={() => setConnectMenuToggled(false)} />
+        !account && <WalletMenu />
       }
     </div>
   );
