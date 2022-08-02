@@ -33,8 +33,6 @@ function error(type, datas) {
             Popup(`Error while processing the request`, <>
                     <strong>Message</strong> : {datas.error}
                     <br></br>
-                    <strong>Error code</strong> : {datas.code}
-                    <br></br>
                     <br></br>
                     <strong>Please contact us</strong>
                 </>);
