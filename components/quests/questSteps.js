@@ -150,6 +150,7 @@ export default function QuestSteps(props) {
                 </>
             break;
             case 4:
+                console.log(props.tokenId)
                 action = <>
                     <h2>Validate the quest on the blockchain</h2>
                     <br></br>
@@ -175,7 +176,6 @@ export default function QuestSteps(props) {
                 </>
             break;
             case 5:
-                console.log(props.tokenId)
                 action = <StarknetIdentities setProgress={setProgress} progress={progress} tokenId={props.tokenId[0]} />
             break;
             case 6:
