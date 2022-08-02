@@ -18,7 +18,7 @@ export default function StarknetIdentities(props) {
         setIdentities(res.assets)
         setLoading(false)
     }, [account, refresh])
-
+    console.log(props.tokenId)
     return <>
         <h1>Your identities</h1>
         <br></br>

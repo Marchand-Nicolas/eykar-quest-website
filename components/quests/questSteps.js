@@ -175,6 +175,7 @@ export default function QuestSteps(props) {
                 </>
             break;
             case 5:
+                console.log(props.tokenId)
                 action = <StarknetIdentities setProgress={setProgress} progress={progress} tokenId={props.tokenId[0]} />
             break;
             case 6:
