@@ -44,8 +44,6 @@ export default function Home() {
   const canCompleteQuest = playerLevel < maxQuest
   const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
 
-  console.log(tokenId)
-
   useEffect(() => {
     const connectorId = getCookie("connector")
     const connector = connectors.find(connector => connector.id() === connectorId)
@@ -115,7 +113,7 @@ export default function Home() {
         setLevel(levelTemp);
         setLoadingDatas(false);
       }
-      if (((questAction && questCompleted) || questProgress.length === 0 || reloadDatas) && !loadingDatas && account && contract && tokenId) getPlayerInfos()
+      if (((questAction && questCompleted) || questProgress.length === 0 || reloadDatas) && !loadingDatas && account && contract && tokenId ? tokenId[0] : false) getPlayerInfos()
     }, [questNumber, contract, account, questCompleted, tokenId, reloadDatas])
     return [progress, level, questCompleted, questAction]
   }
