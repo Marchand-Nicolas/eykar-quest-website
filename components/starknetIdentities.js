@@ -32,6 +32,7 @@ export default function StarknetIdentities(props) {
                             const button = document.getElementById("selectButton" + index)
                             button.disabled = true
                             button.innerText = "Contacting the server..."
+                            console.log(props.tokenId)
                             const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId, questId: 4, player: account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
                             if (!result.transactionHash) {
                                 button.disabled = false

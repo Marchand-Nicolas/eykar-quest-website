@@ -44,6 +44,8 @@ export default function Home() {
   const canCompleteQuest = playerLevel < maxQuest
   const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
 
+  console.log(tokenId)
+
   useEffect(() => {
     const connectorId = getCookie("connector")
     const connector = connectors.find(connector => connector.id() === connectorId)
