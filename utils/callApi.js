@@ -31,10 +31,7 @@ function error(type, datas) {
         break;
         default:
             Popup(`Error while processing the request`, <>
-                    <strong>Message</strong> : {datas.error}
-                    <br></br>
-                    <br></br>
-                    <strong>Please contact us</strong>
+                    {datas.error}
                 </>);
         break;
     }
