@@ -12,7 +12,7 @@ import quests from '../utils/questList'
 import QuestTransactionMenu from '../components/questTransactionMenu'
 import QuestSteps from "../components/quests/questSteps";
 import Loading from "../components/loading";
-import waitForIndexation from "../components/quests/mint/waitForIndexation";
+import waitForIndexation from "../utils/waitForIndexation";
 import WalletMenu from "../components/walletmenu";
 
 export default function Home() {
