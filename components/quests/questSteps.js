@@ -160,7 +160,7 @@ export default function QuestSteps(props) {
                             button.disabled = true
                             button.innerText = "Contacting the server..."
                             const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId[0], questId: quest.id, player: account})
-                            if (!result) {
+                            if (!result || result ? result.error : false) {
                                 button.disabled = false
                                 button.innerText = "Try again"
                                 return;
