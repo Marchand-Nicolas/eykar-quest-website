@@ -15,7 +15,7 @@ export default function StarknetIdentities(props) {
         setLoading(true)
         if (refresh) return setRefresh(false)
         if (!account) return
-        const res = await (await fetch("https://api-testnet.aspect.co/api/v0/assets?owner_address=" + account + "&contract_address=0x04564121a7ad7757c425e4dac1a855998bf186303107d1c28edbf0de420e7023")).json()
+        const res = await (await fetch("https://api-testnet.aspect.co/api/v0/assets?owner_address=" + account + "&contract_address=0x027cac460bfddb38ee6403490fb23836dc047410edcf6cba5167ef04cfe2e821")).json()
         setIdentities(res.assets)
         setLoading(false)
     }, [account, refresh])

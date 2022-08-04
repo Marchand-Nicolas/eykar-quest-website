@@ -226,30 +226,20 @@ export default [{
                                 ]
                             },
                             {
-                                name: "What are the benefits of attacking other players?",
+                                name: "What are the interests of attacking other players?",
                                 multiple: true,
                                 choices: [
                                     {
-                                        name: "Small"
+                                        name: "Theft of resources"
                                     },
                                     {
-                                        name: "Medium"
+                                        name: "The use of means of production"
                                     },
                                     {
-                                        name: "Large"
+                                        name: "The theft of territories"
                                     },
-                                    {
-                                        name: "Extra Large"
-                                    },
-                                    {
-                                        name: "Super mega big",
-                                        correct: true
-                                    },
-                                    {
-                                        name: "Infinite"
-                                    }
                                 ]
-                            }
+                            },
                         ]
                     }
                 ]*/
