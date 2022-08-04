@@ -3,6 +3,7 @@ import { useStarknet} from '@starknet-react/core'
 import styles from '../styles/components/StarknetIdentities.module.css'
 import Loading from "./loading"
 import waitForTransaction from "../utils/waitForTransaction"
+import waitForTransactionQueue from "../utils/waitForTransactionQueue"
 import callApi from "../utils/callApi"
 
 export default function StarknetIdentities(props) {
@@ -32,18 +33,19 @@ export default function StarknetIdentities(props) {
                             const button = document.getElementById("selectButton" + index)
                             button.disabled = true
                             button.innerText = "Contacting the server..."
-                            console.log(props.tokenId)
                             const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId, questId: 4, player: account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
-                            if (!result.transactionHash) {
+                            if (!result) {
                                 button.disabled = false
                                 button.innerText = "Try again"
                                 return;
                             }
-                            button.innerText = "Transaction in progress"
+                            button.innerText = "Transaction queued"
+                            const transactionHash = await waitForTransactionQueue(4, props.tokenId)
+                            button.innerText = "Transaction sent"
                             document.getElementById("aspectButton" + index).innerText = "Aspect"
                             document.getElementById("transaction" +  index).innerText = "Open in voyager"
-                            document.getElementById("transaction" +  index).href = "https://beta-goerli.voyager.online/tx/" + result.transactionHash
-                            await waitForTransaction(result.transactionHash, "selectButton" + index)
+                            document.getElementById("transaction" +  index).href = "https://beta-goerli.voyager.online/tx/" + transactionHash
+                            await waitForTransaction(transactionHash, "selectButton" + index)
                             props.setProgress(props.progress + 1)
                 }} className="button gold">Select</button>
                 <a className={styles.link} href="#" target="_blank" rel="noreferrer" id={"transaction" +  index}></a>

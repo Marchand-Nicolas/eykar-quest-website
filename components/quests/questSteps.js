@@ -10,6 +10,7 @@ import { useStarknet } from '@starknet-react/core'
 import Notification from "../../components/notification";
 import StarknetIdentities from "../starknetIdentities";
 import callApi from "../../utils/callApi";
+import waitForTransactionQueue from "../../utils/waitForTransactionQueue";
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
@@ -159,15 +160,17 @@ export default function QuestSteps(props) {
                             button.disabled = true
                             button.innerText = "Contacting the server..."
                             const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId[0], questId: quest.id, player: account})
-                            if (!result.transactionHash) {
+                            if (!result) {
                                 button.disabled = false
                                 button.innerText = "Try again"
                                 return;
                             }
-                            button.innerText = "Transaction in progress..."
+                            button.innerText = "Transaction queued"
+                            const transactionHash = await waitForTransactionQueue(4, props.tokenId)
+                            button.innerText = "Transaction sent"
                             document.getElementById("transaction").innerText = "Open in voyager"
-                            document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + result.transactionHash
-                            await waitForTransaction(result.transactionHash, "completeStepButton")
+                            document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + transactionHash
+                            await waitForTransaction(transactionHash, "completeStepButton")
                             setProgress(progress + 1)
                         }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>
                         <a className={styles.transactionHash} id="transaction" href="#" target="_blank" rel="noreferrer"></a>
