@@ -30,10 +30,11 @@ export default function Home() {
   const [ tokenIds, setTokenIds ] = useState(undefined)
   const [ reloadDatas, setReloadDatas ] = useState(false)
   const [ reloadTokens, setReloadTokens ] = useState(false)
-  const [questProgress, playerLevel] = GetQuestProgress(12)
-  const [currentTransaction, setCurrentTransaction] = useState(null)
+  const [ questProgress, playerLevel ] = GetQuestProgress(12)
+  const [ currentTransaction, setCurrentTransaction ] = useState(null)
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
+  const [ canCompleteQuest, setCanCompleteQuest ] = useState(false)
   const { transactions } = useStarknetTransactionManager()
 
   const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
@@ -41,8 +42,10 @@ export default function Home() {
   const date = new Date()
   const beginingDate = 1659106966150
   const maxQuest = Math.floor((date.getTime() - beginingDate) / 1000 / 3600 / 24 / 7) + 4
-  const canCompleteQuest = playerLevel < maxQuest
-  const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
+  const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7 + (maxQuest - 4) * 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
+  useEffect(() => {
+    setCanCompleteQuest(playerLevel < maxQuest)
+  }, [tokenId, playerLevel, maxQuest])
 
   useEffect(() => {
     const connectorId = getCookie("connector")
