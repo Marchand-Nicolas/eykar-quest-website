@@ -178,7 +178,7 @@ export default function QuestSteps(props) {
                 </>
             break;
             case 5:
-                action = <StarknetIdentities setProgress={setProgress} progress={progress} tokenId={props.tokenId[0]} />
+                action = <StarknetIdentities account={account} firstTime={true} setProgress={setProgress} progress={progress} tokenId={props.tokenId[0]} />
             break;
             case 6:
                 let customContentIndex = 0

@@ -14,6 +14,8 @@ import QuestSteps from "../components/quests/questSteps";
 import Loading from "../components/loading";
 import waitForIndexation from "../utils/waitForIndexation";
 import WalletMenu from "../components/walletmenu";
+import callApi from "../utils/callApi";
+import Settings from "../components/settings";
 
 export default function Home() {
   const { connect, connectors } = useConnectors()
@@ -35,6 +37,7 @@ export default function Home() {
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
   const [ canCompleteQuest, setCanCompleteQuest ] = useState(false)
+  const [ userDatas, setUserDatas ] = useState({})
   const { transactions } = useStarknetTransactionManager()
 
   const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
@@ -78,6 +81,12 @@ export default function Home() {
           }
         }
 }, [currentTransaction, transactions])
+
+  useEffect(async () => {
+    if (!tokenId || !account) return;
+    const userDatas = await callApi('https://api.eykar.org/get_nft_datas', { tokenId: tokenId, player: account })
+    setUserDatas(userDatas)
+  }, [tokenId, account])
 
   useEffect(() => {
     if (account)
@@ -328,6 +337,9 @@ export default function Home() {
       }
       {
         !account && <WalletMenu />
+      }
+      {
+        (userDatas.identityTokenId && userDatas.identityTokenId != '0') && <Settings account={account} tokenId={tokenId} />
       }
     </div>
   );

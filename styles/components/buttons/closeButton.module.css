@@ -1,0 +1,15 @@
+.button {
+    width: 40px;
+    border: none;
+    background: transparent;
+    color: var(--gold_light);
+    cursor: pointer;
+}
+
+.button svg {
+    transition: 0.3s ease-in-out;
+}
+
+.button:hover svg {
+    rotate: 180deg;
+}
