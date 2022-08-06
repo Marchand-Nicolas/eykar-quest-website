@@ -83,7 +83,7 @@ export default function Home() {
     if (account)
     try {
       if (reloadTokens) setReloadTokens(false)
-      fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}`).then(res => res.json()).then(res => {
+      fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}&sort_by=minted_at&order_by=asc`).then(res => res.json()).then(res => {
       setTokens(res.assets)
         const assets = res.assets.map(asset => asset.token_id)
         setToken(res.assets[0])
