@@ -39,6 +39,7 @@ export default function Home() {
   const [ canCompleteQuest, setCanCompleteQuest ] = useState(false)
   const [ userDatas, setUserDatas ] = useState({})
   const { transactions } = useStarknetTransactionManager()
+  const starknetIdContractAddress = "0x0798e884450c19e072d6620fefdbeb7387d0453d3fd51d95f5ace1f17633d88b"
 
   const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
 
@@ -86,14 +87,24 @@ export default function Home() {
     if (!tokenId || !account) return;
     const userDatas = await callApi('https://api.eykar.org/get_nft_datas', { tokenId: tokenId, player: account })
     setUserDatas(userDatas)
+    if (userDatas.identityTokenId != '0') {
+      function error() {
+        Popup("Error", "Your starknet identity is outdated, please click on the gear icon at the bottom right to change it. Otherwise, some quests will not work.")
+      }
+      try {
+        const res = await (await fetch(`https://api-testnet.aspect.co/api/v0/asset/${starknetIdContractAddress}/${userDatas.identityTokenId}`)).json()
+        if (!res.id) error()
+      }
+      catch {error()}
+    }
   }, [tokenId, account])
 
   useEffect(() => {
     if (account)
     try {
       if (reloadTokens) setReloadTokens(false)
-      fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}&sort_by=minted_at&order_by=asc`).then(res => res.json()).then(res => {
-      setTokens(res.assets)
+      fetch(`https://api-testnet.aspect.co/api/v0/assets?owner_address=${account}&contract_address=${contract.address}&sort_by=minted_at&order_by=asc`).then(res => res.json()).then(async res => {
+        setTokens(res.assets)
         const assets = res.assets.map(asset => asset.token_id)
         setToken(res.assets[0])
         setTokenIds(assets)
