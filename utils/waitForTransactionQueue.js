@@ -1,4 +1,4 @@
-export default async function waitForTransactionQueue (questId, tokenId) {
+export default async function waitForTransactionQueue (questId, tokenId, element) {
     return await new Promise((resolve, reject) => {
         const interval = setInterval(() => {
             fetch("https://api.eykar.org/get_quest_transaction", {
@@ -12,6 +12,11 @@ export default async function waitForTransactionQueue (questId, tokenId) {
                 if (data.transactionHash) {
                     clearInterval(interval);
                     resolve(data.transactionHash);
+                }
+                if (element) {
+                    if (data.queuePosition) {
+                        element.innerHTML = `Transaction queued. Position: ${data.queuePosition}`;
+                    }
                 }
             })
         }, 3000)

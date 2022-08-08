@@ -166,7 +166,7 @@ export default function QuestSteps(props) {
                                 return;
                             }
                             button.innerText = "Transaction queued"
-                            const transactionHash = await waitForTransactionQueue(4, props.tokenId)
+                            const transactionHash = await waitForTransactionQueue(quest.id, props.tokenId, button)
                             button.innerText = "Transaction sent"
                             document.getElementById("transaction").innerText = "Open in voyager"
                             document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + transactionHash

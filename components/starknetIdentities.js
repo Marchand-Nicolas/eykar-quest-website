@@ -39,7 +39,7 @@ export default function StarknetIdentities(props) {
                                     return;
                                 }
                                 button.innerText = "Transaction queued"
-                                const transactionHash = await waitForTransactionQueue(4, props.tokenId)
+                                const transactionHash = await waitForTransactionQueue(4, props.tokenId, button)
                                 button.innerText = "Transaction sent"
                                 document.getElementById("aspectButton" + index).innerText = "Aspect"
                                 document.getElementById("transaction" +  index).innerText = "Open in voyager"
