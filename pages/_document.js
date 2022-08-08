@@ -4,13 +4,13 @@ export default function App () {
     return (
         <Html>
             <Head />
-            <title>Eykar Community HUB</title>
+            <title>Eykar Quests</title>
 
             <meta charSet="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta name="theme-color" content="#cdc6aa" />
             <meta property="og:site_name" content="A decentralizied strategy game" />
-            <meta property="og:title" content="Age of Eykar ⚔️ - Community" />
+            <meta property="og:title" content="Eykar Quests ⚔️" />
             <meta property="og:type" content="website" />
             <meta property="og:description" content="An infinite, unpredictable world driven by a decentralized smartcontract. Expand your empire and conquer the world." />
             <meta property="og:url" content="%PUBLIC_URL%" />
