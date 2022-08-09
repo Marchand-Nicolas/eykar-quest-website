@@ -88,8 +88,7 @@ export default [{
                                     },
                                 ]
                             },
-                            /*{
-                                devOnly: true,
+                            {
                                 name: "Twitter",
                                 id: 8,
                                 description: "Verify your Twitter account on Starknet.id, and unlock exclusive quests.",
@@ -110,9 +109,8 @@ export default [{
                                         ]
                                     }
                                 },
-                                connected: [
+                                /*connected: [
                                     {
-                                        devOnly: true,
                                         name: "Tweet",
                                         id: 9,
                                         description: "Make a tweet mentioning Eykar to support us ❤️",
@@ -123,8 +121,8 @@ export default [{
                                         dependent: true,
                                         steps: [6, 4],
                                     }
-                                ]
-                            }*/
+                                ]*/
+                            }
                             ]
                     },
                 ]
