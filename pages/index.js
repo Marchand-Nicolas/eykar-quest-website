@@ -4,25 +4,33 @@ import styles from '../styles/Home.module.css'
 import React from 'react'
 import Powered from '../components/powered'
 import WalletMenu from '../components/walletmenu'
-import Loading from '../components/loading'
 import { useRouter } from 'next/router'
 import Header from '../components/header' 
 import { getCookie } from "../functions";
+import { StarknetProvider, InjectedConnector } from '@starknet-react/core'
 
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
-  const { connect, connectors } = useConnectors()
+  const { connect, connectors: detectedConnectors } = useConnectors()
+  const [ connectors, setConnectors ] = useState(detectedConnectors)
   const { account } = useStarknet()
   const router = useRouter()
+  
   useEffect(() => {
-    const connectorId = getCookie("connector")
-    console.log(connectors)
+    setConnectors(detectedConnectors.length && false ? detectedConnectors : [
+      new InjectedConnector({ options: { id: 'argentx' } }),
+      new InjectedConnector({ options: { id: 'braavos' } }),
+    ])
+    const connector = connectors[0]
+    console.log(connector)
+    connect(connector)
+    /*const connectorId = getCookie("connector")
     const connector = connectors.find(connector => connector.id() === connectorId)
     if (!connector) return;
     connector.ready().then(ready => {
       connect(connector)
-    }) 
-  }, [connectors])
+    })*/
+  }, [detectedConnectors])
   
   return (
   <div className="default_background">

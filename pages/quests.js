@@ -47,9 +47,18 @@ export default function Home() {
   const beginingDate = 1659106966150
   const maxQuest = Math.floor((date.getTime() - beginingDate) / 1000 / 3600 / 24 / 7) + 4
   const daysLeftBeforeQuest = ((beginingDate + 1000 * 3600 * 24 * 7 + (maxQuest - 4) * 1000 * 3600 * 24 * 7) - date.getTime()) / 1000 / 3600 / 24
+  const hoursLeftBeforeQuest = (daysLeftBeforeQuest - Math.floor(daysLeftBeforeQuest)) * 24
+
   useEffect(() => {
     setCanCompleteQuest(playerLevel < maxQuest)
   }, [tokenId, playerLevel, maxQuest])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setReloadDatas(!reloadDatas)
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [reloadDatas]);
 
   useEffect(() => {
     const connectorId = getCookie("connector")
@@ -140,6 +149,7 @@ export default function Home() {
     }, [questNumber, contract, account, questCompleted, tokenId, reloadDatas])
     return [progress, level, questCompleted, questAction]
   }
+
   useMemo(
     async () => { try {
       // mouse movement system
@@ -342,7 +352,13 @@ export default function Home() {
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
-              <h2>You have completed the maximum number of quests for the moment. You will be able to do one more in {Math.floor(daysLeftBeforeQuest)} days and {Math.floor((daysLeftBeforeQuest - Math.floor(daysLeftBeforeQuest)) * 24)} hours.</h2>
+              <h2>You have completed the maximum number of quests for the moment. You will be able to do one more in 
+                {
+                  daysLeftBeforeQuest > 1 ?
+                  ` ${Math.floor(daysLeftBeforeQuest)} days and ${Math.floor(hoursLeftBeforeQuest)} hours.`
+                  : ` ${Math.floor(hoursLeftBeforeQuest)} hours and ${Math.floor((hoursLeftBeforeQuest - Math.floor(hoursLeftBeforeQuest)) * 60)} minutes.`
+                }
+              </h2>
           </div> 
         </div>
       }
