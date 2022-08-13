@@ -17,19 +17,16 @@ export default function Home() {;
   const router = useRouter()
   
   useEffect(() => {
-    setConnectors(detectedConnectors.length && false ? detectedConnectors : [
+    setConnectors(detectedConnectors.length && true ? detectedConnectors : [
       new InjectedConnector({ options: { id: 'argentx' } }),
       new InjectedConnector({ options: { id: 'braavos' } }),
     ])
-    const connector = connectors[0]
-    console.log(connector)
-    connect(connector)
-    /*const connectorId = getCookie("connector")
+    const connectorId = getCookie("connector")
     const connector = connectors.find(connector => connector.id() === connectorId)
     if (!connector) return;
     connector.ready().then(ready => {
       connect(connector)
-    })*/
+    })
   }, [detectedConnectors])
   
   return (
