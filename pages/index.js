@@ -7,7 +7,7 @@ import WalletMenu from '../components/walletmenu'
 import { useRouter } from 'next/router'
 import Header from '../components/header' 
 import { getCookie } from "../functions";
-import { StarknetProvider, InjectedConnector } from '@starknet-react/core'
+import { InjectedConnector } from '@starknet-react/core'
 
 export default function Home() {;
   const [connectMenuToggled, setConnectMenuToggled] = useState(false);
