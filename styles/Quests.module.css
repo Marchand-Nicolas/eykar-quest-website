@@ -319,8 +319,9 @@
 
 .loading {
     position: fixed !important;
-    bottom: 20px;
-    right: 20px;
+    bottom: 6px;
+    right: 6px;
+    transition: 1s;
 }
 
 .Warningcontainer {

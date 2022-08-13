@@ -132,7 +132,7 @@ export default function Home() {
     useEffect(() => {
       async function getPlayerInfos() {
         setReloadDatas(false)
-        setLoadingDatas(true);
+        setLoadingDatas(true)
         if (questAction) {
           setQuestAction('');
           setQuestCompleted(false);
@@ -345,7 +345,7 @@ export default function Home() {
       </div>
       {menu}
       {(questAction && !questCompleted) ? <QuestTransactionMenu content={questActionContent} questCompleted={questCompleted} questAction={questAction} questActionDescription={questActionDescription} transaction={currentTransaction} /> : null}
-      {loadingDatas && <Loading className={styles.loading} />}
+      <Loading style={{zoom: 0.7, opacity: loadingDatas ? 1 : 0}} className={styles.loading} />
       {
         !canCompleteQuest && <div key={"notification_" + Math.random()}>
           <div className={styles.Warningcontainer}>
