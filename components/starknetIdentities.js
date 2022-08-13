@@ -38,7 +38,7 @@ export default function StarknetIdentities(props) {
                                     button.innerText = "Try again"
                                     return;
                                 }
-                                button.innerText = "Transaction queued"
+                                button.innerText = "Queued, position: ..."
                                 const transactionHash = await waitForTransactionQueue(4, props.tokenId, button)
                                 button.innerText = "Transaction sent"
                                 document.getElementById("aspectButton" + index).innerText = "Aspect"
