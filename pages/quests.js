@@ -16,6 +16,7 @@ import waitForIndexation from "../utils/waitForIndexation";
 import WalletMenu from "../components/walletmenu";
 import callApi from "../utils/callApi";
 import Settings from "../components/settings";
+import CompleteQuestAnim from "../components/quests/completeQuestAnim";
 
 export default function Home() {
   const { connect, connectors } = useConnectors()
@@ -249,18 +250,11 @@ export default function Home() {
                 setReloadDatas(true)
               }
               function completeQuest() {
-                setMenu(null)
-                setQuestAction('-')
-                setQuestCompleted(true)
+                setReloadDatas(true)
                 Notification({message:"Quest completed", icon:"/icons/medals.svg"})
-                if (quest.actionType === "invoke") {
-                  switch (quest.transactionType) {
-                    case 2:
-
-                    break;
-                    default:
-                  }
-                }
+                setMenu(
+                  <CompleteQuestAnim playerLevel={playerLevel} />
+                )
               }
           }} className={`global button dark ${styles.quest_start_button}`}>Start</button> : <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_completed}`}>Completed</button>
         }

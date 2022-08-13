@@ -1,0 +1,80 @@
+.nftCard {
+    position: fixed;
+    width: 400px;
+    aspect-ratio: 1/1;
+    border-radius: 1em;
+    top: 50%;
+    left: 200%;
+    backdrop-filter: var(--menu_filter);
+    background-color: var(--menu_background);
+    transition: 1s;
+    transform: translateY(-12px) translateX(3px) translate(-50%, -50%);
+    animation: nftCard 4s;
+    box-shadow: 0px 0px 100px 80px #e7c878c2;
+}
+
+.nftCard img {
+    width: 100%;
+    height: 100%;
+    border-radius: 1em;
+}
+
+@keyframes nftCard {
+    0% {
+        left: -30%;
+        transform: translate(-50%, -50%) rotateX(89deg) rotateY(89deg) rotateZ(0deg);
+        box-shadow: var(--gold) 0 0 0;
+    }
+    20% {
+        left: 55%;
+        box-shadow: var(--gold) 0 0 0;
+    }
+    40% {
+        left: 50%;
+        transform: translateY(-12px) translateX(3px) translate(-50%, -50%);
+        box-shadow: 0px 0px 100px 80px #e7c878c2;
+    }
+    60% {
+        left: 50%;
+        transform: translateY(-12px) translateX(3px) translate(-50%, -50%);
+        box-shadow: 0px 0px 100px 80px #e7c878c2;
+    }
+    100% {
+        left: 200%;
+        transform: translate(-50%, -50%) rotateX(89deg) rotateY(89deg) rotateZ(0deg);
+        box-shadow: 0px 0px 10px 8px #e7c878c2;
+    }
+}
+
+.goldAnimation {
+    position: fixed;
+    width: 400px;
+    height: 200vh;
+    background-color: var(--gold);
+    transform: rotate(-45deg);
+    animation: goldAnimation 2s ease-in-out;
+    top: 200px;
+    left: -400px;
+}
+
+.goldAnimation.v2 {
+    animation: goldAnimation 2.7s ease-in-out;
+    width: 200px;
+}
+
+.goldAnimation.v3 {
+    animation: goldAnimation 3.4s ease-in-out;
+    width: 100px;
+}
+
+
+@keyframes goldAnimation {
+    30% {
+        background-color: var(--gold);
+    }
+    to      {
+        left: 110vh;
+        top: -120vh;
+        background-color: var(--gold_light);
+    }
+}
