@@ -13,10 +13,9 @@ export default function App () {
             <meta property="og:title" content="Eykar Quests ⚔️" />
             <meta property="og:type" content="website" />
             <meta property="og:description" content="An infinite, unpredictable world driven by a decentralized smartcontract. Expand your empire and conquer the world." />
-            <meta property="og:url" content="%PUBLIC_URL%" />
-            <meta property="og:image" content="%PUBLIC_URL%/logo.svg" />
+            <meta property="og:url" content="https://quests.eykar.org/" />
+            <meta property="og:image" content="https://quests.eykar.org/logo.svg" />
             <meta name="description" content="An infinite, unpredictable world driven by a decentralized smartcontract" />
-
             <link rel="icon" href="/favicon.ico" />
 
             <body className="default_background_color">

@@ -30,9 +30,7 @@ function error(type, datas) {
             );
         break;
         default:
-            Popup(`Error while processing the request`, <>
-                    {datas.error}
-                </>);
+            Popup(`Error while processing the request`, <div dangerouslySetInnerHTML={{__html: `${datas.error}`}}/>);
         break;
     }
 }

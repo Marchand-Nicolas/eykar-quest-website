@@ -66,7 +66,7 @@ export default [{
                                     {
                                         name: "Server",
                                         id: 10,
-                                        description: "Join our discord server ❤️",
+                                        description: "Join our Discord server ❤️",
                                         long_description: "",
                                         dependent: true,
                                         icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -75,7 +75,7 @@ export default [{
                                         steps: [6, 4],
                                         customContent: [
                                             <p>
-                                                Join our server discord, then click Okay
+                                                Join our Discord server, then click Okay
                                             </p>,
                                         ],
                                         details: {
@@ -109,7 +109,7 @@ export default [{
                                         ]
                                     }
                                 },
-                                /*connected: [
+                                connected: [
                                     {
                                         name: "Tweet",
                                         id: 9,
@@ -120,8 +120,13 @@ export default [{
                                         </svg>,
                                         dependent: true,
                                         steps: [6, 4],
+                                        customContent: [
+                                            <p>
+                                                Post <a className='link' href="https://twitter.com/intent/tweet?text=I'm%20leveling%20my%20@AgeOfEykar%20Quest%20%23NFT%20on%20https://quests.eykar.org/%20to%20get%20an%20early%20access%20to%20the%20game.%20%23StarkNet" target="_blank" rel="noreferrer">this tweet</a>, then click Okay
+                                            </p>,
+                                        ],
                                     }
-                                ]*/
+                                ]
                             }
                             ]
                     },
