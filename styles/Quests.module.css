@@ -51,6 +51,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: auto;
 }
 
 .quest_point_icon {
@@ -181,7 +182,7 @@
 
 .contener {
     position: fixed;
-    z-index: 0
+    z-index: 0;
 }
 
 .quest_start_button {
@@ -252,11 +253,12 @@
 
 .player_infos_contener img {
     width: 200px;
-    -webkit-user-drag: none; 
-    -khtml-user-drag: none; 
-    -moz-user-drag: none; 
-    -o-user-drag: none; 
-    user-drag: none; 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .player_infos_contener button {
@@ -324,7 +326,7 @@
     transition: 1s;
 }
 
-.Warningcontainer {
+.warningContainer {
     display: flex;
     align-items: center;
     box-shadow     : var(--menu_shadow);
@@ -340,8 +342,18 @@
     border: none;
     font-weight: lighter;
     font-size: 0.5rem;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.Warningcontainer svg {
+.warningContainer svg {
     width: 40px;
+}
+
+.globalContainer {
+    cursor: grab;
 }

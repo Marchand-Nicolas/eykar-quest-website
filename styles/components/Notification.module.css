@@ -18,12 +18,13 @@
 .container.warning {
     background: var(--gold_light);
     color: var(--metal_dark);
-    border: none
+    border: none;
 }
 .container h2 {
     font-weight: lighter;
     font-size: 1.4rem;
     margin: 0 20px;
+    background-color: red;
 }
 .container.warning h2 {
     font-size: 0.8rem;

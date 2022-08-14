@@ -7,7 +7,7 @@ import Loading from "../loading";
 import Popup from '../../utils/popup'
 import { unmountComponentAtNode } from "react-dom";
 import { useStarknet } from '@starknet-react/core'
-import Notification from "../../components/notification";
+import notify from "../../utils/notify";
 import StarknetIdentities from "../starknetIdentities";
 import callApi from "../../utils/callApi";
 import waitForTransactionQueue from "../../utils/waitForTransactionQueue";
@@ -43,7 +43,7 @@ export default function QuestSteps(props) {
                         <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
                             ethContract.approve(contract.address, [900000000000000, 0]).then(async (transaction) => {
                                 setLoading(true);
-                                Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
+                                notify({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                                 await waitForTransaction(transaction.transaction_hash, "allowButton")
                                 setLoading(false);
                                 setProgress(progress + 1)
@@ -66,7 +66,7 @@ export default function QuestSteps(props) {
                 <button disabled={loading} id="allowButton" onClick={() => {
                     contract.addToApiContract([900000000000000, 0], props.tokenId).then(async (transaction) => {
                         setLoading(true);
-                        Notification({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
+                        notify({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                         await waitForTransaction(transaction.transaction_hash, "allowButton")
                         setLoading(false);
                         setProgress(progress + 1)

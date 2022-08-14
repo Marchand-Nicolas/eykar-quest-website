@@ -2,7 +2,7 @@ import styles from '../styles/components/Notification.module.css'
 import Image from 'next/image'
 import { render } from 'react-dom'
 
-export default function Notification (props) {
+export default function notify(props) {
     if (typeof window !== 'undefined') render(
         <div key={"notification_" + Math.random()}>
         {
