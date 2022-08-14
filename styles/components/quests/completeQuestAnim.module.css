@@ -49,9 +49,9 @@
 .goldAnimation {
     position: fixed;
     width: 400px;
-    height: 200vh;
+    height: calc(100vh + 100vw);
     background-color: var(--gold);
-    transform: rotate(-45deg);
+    transform: rotate(-45deg) translateY(-200px);
     animation: goldAnimation 2s ease-in-out;
     top: 200px;
     left: -400px;
@@ -73,7 +73,7 @@
         background-color: var(--gold);
     }
     to      {
-        left: 110vh;
+        left: calc(100vw + 400px);
         top: -120vh;
         background-color: var(--gold_light);
     }
