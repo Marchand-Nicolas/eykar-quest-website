@@ -114,8 +114,7 @@ export default [{
                                         name: "Tweet",
                                         id: 9,
                                         description: "Make a tweet mentioning Eykar to support us ❤️",
-                                        long_description: "Make a tweet containing at least @AgeOfEykar or eykar.org, with more than 50 characters.",
-                                            icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                                         </svg>,
                                         dependent: true,
@@ -125,6 +124,23 @@ export default [{
                                                 Post <a className='link' href="https://twitter.com/intent/tweet?text=I'm%20leveling%20my%20@AgeOfEykar%20Quest%20%23NFT%20on%20https://quests.eykar.org/%20to%20get%20an%20early%20access%20to%20the%20game.%20%23StarkNet" target="_blank" rel="noreferrer">this tweet</a>, then click Okay
                                             </p>,
                                         ],
+                                        /*connected: [
+                                            {
+                                                name: "Follow",
+                                                id: 11,
+                                                description: "Follow us on Twitter",
+                                                icon: <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                                </svg>,
+                                                dependent: true,
+                                                steps: [6, 4],
+                                                customContent: [
+                                                    <p>
+                                                        <a className='link' href="https://twitter.com/intent/user?screen_name=AgeOfEykar" target="_blank" rel="noreferrer">Follow us</a>, then click Okay
+                                                    </p>,
+                                                ],
+                                            }
+                                        ]*/
                                     }
                                 ]
                             }
