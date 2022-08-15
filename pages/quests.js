@@ -150,58 +150,70 @@ export default function Home() {
     return [progress, level, questCompleted, questAction]
   }
 
+
+  useEffect(async () => {
+    const questContainer = await waitForElm("#questsContainer")
+    document.querySelector("body").style.overscrollBehaviorY = "contain"
+    let beginX = 0
+    let beginY = 0
+    let x = -10
+    let y = window.innerHeight / 2
+    let zoom = 1
+    await waitForElm("#questsContainer")
+    move(0, 0)
+    function move(moveX, moveY) {
+      if (!questContainer) return
+      x =  x + moveX - beginX
+      beginX = moveX
+      y = y + moveY - beginY
+      beginY = moveY
+      questContainer.style.left = x + "px"
+      questContainer.style.top = y + "px"
+    } 
+    const wheel = document.addEventListener('wheel', (e) => {
+      if (e.deltaY < 0) {
+        zoom = zoom * 1.1
+      }
+      if (e.deltaY > 0) {
+        zoom = zoom / 1.1
+      }
+      questContainer.style.transform = `scale(${zoom})`
+    });
+    const touchStart = document.addEventListener("touchstart", (e) => {
+      beginX = e.changedTouches[0].pageX
+      beginY = e.changedTouches[0].pageY
+    });
+    const touchMove = document.addEventListener("touchmove", (e) => {
+      move(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+    });
+    let mousePressed = false
+    const mouseDown = document.addEventListener("mousedown", (e) => {
+      beginX = e.clientX
+      beginY = e.clientY
+      mousePressed = true
+    });
+    const mouseUp = document.addEventListener("mouseup", (e) => {
+      mousePressed = 0
+    });
+    const mouseMove = document.addEventListener("mousemove", (e) => {
+      if (!mousePressed) return
+      move(e.clientX, e.clientY)
+    });
+    return () => {
+      document.removeEventListener('wheel', wheel)
+      document.removeEventListener('touchstart', touchStart)
+      document.removeEventListener('touchmove', touchMove)
+      document.removeEventListener('mousedown', mouseDown)
+      document.removeEventListener('mouseup', mouseUp)
+      document.removeEventListener('mousemove', mouseMove)
+    }
+  }, [])
+
   useMemo(
     async () => { try {
       // mouse movement system
-      const questContainer = await waitForElm("#questsContainer")
       !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,
       "Okay", function(){return setCookie("triedQuests", true, 10000)})
-      document.querySelector("body").style.overscrollBehaviorY = "contain"
-      let beginX = 0
-      let beginY = 0
-      let x = -10
-      let y = window.innerHeight / 2
-      let zoom = 1
-      await waitForElm("#questsContainer")
-      move(0, 0)
-      function move(moveX, moveY) {
-        if (!questContainer) return
-        x =  x + moveX - beginX
-        beginX = moveX
-        y = y + moveY - beginY
-        beginY = moveY
-        questContainer.style.left = x + "px"
-        questContainer.style.top = y + "px"
-      } 
-      document.addEventListener('wheel', (e) => {
-        if (e.deltaY < 0) {
-          zoom = zoom * 1.1
-        }
-        if (e.deltaY > 0) {
-          zoom = zoom / 1.1
-        }
-        questContainer.style.transform = `scale(${zoom})`
-      });
-      document.addEventListener("touchstart", (e) => {
-        beginX = e.changedTouches[0].pageX
-        beginY = e.changedTouches[0].pageY
-      });
-      document.addEventListener("touchmove", (e) => {
-        move(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
-      });
-      let mousePressed = false
-      document.addEventListener("mousedown", (e) => {
-        beginX = e.clientX
-        beginY = e.clientY
-        mousePressed = true
-      });
-      document.addEventListener("mouseup", (e) => {
-        mousePressed = 0
-      });
-      document.addEventListener("mousemove", (e) => {
-        if (!mousePressed) return
-        move(e.clientX, e.clientY)
-      });
   } catch{}
   } ,
     []
