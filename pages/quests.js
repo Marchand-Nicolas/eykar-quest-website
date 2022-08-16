@@ -16,6 +16,7 @@ import WalletMenu from "../components/walletmenu";
 import callApi from "../utils/callApi";
 import Settings from "../components/settings";
 import CompleteQuestAnim from "../components/quests/completeQuestAnim";
+import popup from "../utils/popup";
 
 export default function Home() {
   const { connect, connectors } = useConnectors()
@@ -98,7 +99,7 @@ export default function Home() {
     setUserDatas(userDatas)
     if (userDatas.identityTokenId != '0') {
       function error() {
-        Popup("Error", "Your starknet identity is outdated, please click on the gear icon at the bottom right to change it. Otherwise, some quests will not work.")
+        popup("Error", "Your starknet identity is outdated, please click on the gear icon at the bottom right to change it. Otherwise, some quests will not work.")
       }
       try {
         const res = await (await fetch(`https://api-testnet.aspect.co/api/v0/asset/${starknetIdContractAddress}/${userDatas.identityTokenId}`)).json()
@@ -212,7 +213,7 @@ export default function Home() {
   useMemo(
     async () => { try {
       // mouse movement system
-      !getCookie("triedQuests") && Popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,
+      !getCookie("triedQuests") && popup("Welcome to the quest system!", `Press the left mouse button and move it (or your finger on phones and tablets) to move through the list of quests,\n then click on one of them (a circle) to start completing it.`,
       "Okay", function(){return setCookie("triedQuests", true, 10000)})
   } catch{}
   } ,
