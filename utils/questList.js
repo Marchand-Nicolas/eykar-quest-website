@@ -124,7 +124,7 @@ export default [{
                                                 Post <a className='link' href="https://twitter.com/intent/tweet?text=I'm%20leveling%20my%20@AgeOfEykar%20Quest%20%23NFT%20on%20https://quests.eykar.org/%20to%20get%20an%20early%20access%20to%20the%20game.%20%23StarkNet" target="_blank" rel="noreferrer">this tweet</a>, then click Okay
                                             </p>,
                                         ],
-                                        /*connected: [
+                                        connected: [
                                             {
                                                 name: "Follow",
                                                 id: 11,
@@ -140,7 +140,7 @@ export default [{
                                                     </p>,
                                                 ],
                                             }
-                                        ]*/
+                                        ]
                                     }
                                 ]
                             }
