@@ -27,6 +27,11 @@
 a {
   text-decoration: none;
   color: var(--gold);
+  cursor: pointer !important;
+}
+
+button {
+  cursor: pointer !important;
 }
 
 .link {
