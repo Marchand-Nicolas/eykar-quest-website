@@ -14,8 +14,13 @@ export default async function waitForTransactionQueue (questId, tokenId, element
                     resolve(data.transactionHash);
                 }
                 if (element) {
-                    if (data.queuePosition) {
-                        element.innerHTML = `Queued, position: ${data.queuePosition}`;
+                    try {
+                        if (data.queuePosition) {
+                            element.innerHTML = `Queued, position: ${data.queuePosition}`;
+                        }
+                    }
+                    catch {
+                        reject();
                     }
                 }
             })

@@ -9,7 +9,14 @@ export default async function waitForTransaction(transactionHash, statusElementI
                 }
                 else {
                     const statusElement = document.getElementById(statusElementId);
-                    if (statusElement) statusElement.textContent = data.status;
+                    if (statusElement) {
+                        statusElement.textContent = data.status;
+                    } else {
+                        if (statusElementId) {
+                            clearInterval(interval);
+                            reject();
+                        }
+                    }
                 }
             })
         }, 3000)
