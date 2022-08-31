@@ -30,6 +30,10 @@ a {
   cursor: pointer !important;
 }
 
+a * {
+  cursor: pointer !important;
+}
+
 button {
   cursor: pointer !important;
 }
