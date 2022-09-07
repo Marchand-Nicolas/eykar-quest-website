@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../../styles/components/quests/questSteps.module.css";
 import waitForTransaction from "../../utils/waitForTransaction";
 import { useEthContract  } from "../../hooks/ethContract";
-import { useEykarCommunityContract } from '../../hooks/eykarCommunity'
+import { useEykarCommunityContract } from '../../hooks/mainContract'
 import Loading from "../loading";
 import Popup from '../../utils/popup'
 import { unmountComponentAtNode } from "react-dom";

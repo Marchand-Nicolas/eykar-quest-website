@@ -1,6 +1,6 @@
 import { waitForElm, getCookie, setCookie } from "../functions";
 import { render, unmountComponentAtNode } from "react-dom";
-import { useEykarCommunityContract } from '../hooks/eykarCommunity'
+import { useEykarCommunityContract } from '../hooks/mainContract'
 import { useStarknetInvoke, useStarknet, useConnectors, useStarknetTransactionManager } from '@starknet-react/core'
 import { useState, useEffect, useMemo } from "react";
 import styles from '../styles/Quests.module.css'
