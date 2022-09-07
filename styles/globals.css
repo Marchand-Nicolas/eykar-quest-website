@@ -38,9 +38,17 @@ button {
   cursor: pointer !important;
 }
 
+button * {
+  cursor: pointer !important;
+}
+
 .link {
   color: var(--gold);
   text-decoration: underline;
+}
+
+.link *  {
+  cursor: pointer !important;
 }
 
 body {

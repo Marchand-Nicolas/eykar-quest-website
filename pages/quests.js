@@ -373,7 +373,7 @@ export default function Home() {
         !account && <WalletMenu />
       }
       {
-        (userDatas.identityTokenId && userDatas.identityTokenId != '0') && <Settings account={account} tokenId={tokenId} />
+        (userDatas.identityTokenId && userDatas.identityTokenId != '0' && config.usingStarknetId) && <Settings account={account} tokenId={tokenId} />
       }
     </div>
   );
