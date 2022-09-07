@@ -1,7 +1,9 @@
+import config from "../utils/config"
+
 export default async function waitForTransactionQueue (questId, tokenId, element) {
     return await new Promise((resolve, reject) => {
         const interval = setInterval(() => {
-            fetch("https://api.eykar.org/get_quest_transaction", {
+            fetch(`${config.apiUrl}get_quest_transaction`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({

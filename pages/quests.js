@@ -17,6 +17,7 @@ import callApi from "../utils/callApi";
 import Settings from "../components/settings";
 import CompleteQuestAnim from "../components/quests/completeQuestAnim";
 import popup from "../utils/popup";
+import config from "../utils/config";
 
 export default function Home() {
   const { connect, connectors } = useConnectors()
@@ -95,7 +96,7 @@ export default function Home() {
 
   useEffect(async () => {
     if (!tokenId || !account) return;
-    const userDatas = await callApi('https://api.eykar.org/get_nft_datas', { tokenId: tokenId, player: account })
+    const userDatas = await callApi(`${config.apiUrl}get_nft_datas`, { tokenId: tokenId, player: account })
     setUserDatas(userDatas)
     if (userDatas.identityTokenId != '0') {
       function error() {
@@ -340,7 +341,7 @@ export default function Home() {
       }
       {loadBranch(quests[0], tokenIds && tokenIds.length > 1 ? 50 : 0, 0, true)}  
       {token && <div className={styles.player_infos_contener}>
-        <img src={`https://nft.eykar.org/quest-nft/${playerLevel ? playerLevel[0].words[0] : 0}`} />
+        <img src={`${config.nftUri}${playerLevel ? playerLevel[0].words[0] : 0}`} />
         <p>Level {playerLevel ? playerLevel[0].words[0] : 0}</p>
         <button>
           <a href={token ? token.aspect_link : "#"} target={"_blank"} rel="noreferrer">

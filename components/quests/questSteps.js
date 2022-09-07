@@ -11,6 +11,7 @@ import notify from "../../utils/notify";
 import StarknetIdentities from "../starknetIdentities";
 import callApi from "../../utils/callApi";
 import waitForTransactionQueue from "../../utils/waitForTransactionQueue";
+import config from "../../utils/config";
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
@@ -159,7 +160,7 @@ export default function QuestSteps(props) {
                             const button = document.getElementById("completeStepButton")
                             button.disabled = true
                             button.innerText = "Contacting the server..."
-                            const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId[0], questId: quest.id, player: account})
+                            const result = await callApi(`${config.apiUrl}complete_quest`, {tokenId: props.tokenId[0], questId: quest.id, player: account})
                             if (!result || result ? result.error : false) {
                                 button.disabled = false
                                 button.innerText = "Try again"

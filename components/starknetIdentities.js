@@ -4,6 +4,7 @@ import Loading from "./loading"
 import waitForTransaction from "../utils/waitForTransaction"
 import waitForTransactionQueue from "../utils/waitForTransactionQueue"
 import callApi from "../utils/callApi"
+import config from "../utils/config"
 
 export default function StarknetIdentities(props) {
     const [identities, setIdentities] = useState([])
@@ -32,7 +33,7 @@ export default function StarknetIdentities(props) {
                             button.innerText = "..."
                             if (props.firstTime) {
                                 button.innerText = "Contacting the server..."
-                                const result = await callApi("https://api.eykar.org/complete_quest", {tokenId: props.tokenId, questId: 4, player: props.account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
+                                const result = await callApi(`${config.apiUrl}complete_quest`, {tokenId: props.tokenId, questId: 4, player: props.account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
                                 if (!result || result ? result.error : false) {
                                     button.disabled = false
                                     button.innerText = "Try again"
@@ -48,7 +49,7 @@ export default function StarknetIdentities(props) {
                                 props.setProgress(props.progress + 1)
                             }
                             else {
-                                const result = await callApi("https://api.eykar.org/change_starknet_id", {tokenId: props.tokenId, player: props.account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
+                                const result = await callApi(`${config.apiUrl}change_starknet_id`, {tokenId: props.tokenId, player: props.account, identityTokenId:identity.token_id, aspectTokenId:identity.id})
                                 button.disabled = false
                                 if (!result || result ? result.error : false) {
                                     button.innerText = "Try again"
