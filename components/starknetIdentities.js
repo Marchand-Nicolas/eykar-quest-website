@@ -39,14 +39,18 @@ export default function StarknetIdentities(props) {
                                     button.innerText = "Try again"
                                     return;
                                 }
-                                button.innerText = "Queued, position: ..."
-                                const transactionHash = await waitForTransactionQueue(4, props.tokenId, button)
-                                button.innerText = "Transaction sent"
-                                document.getElementById("aspectButton" + index).innerText = "Aspect"
-                                document.getElementById("transaction" +  index).innerText = "Open in voyager"
-                                document.getElementById("transaction" +  index).href = "https://beta-goerli.voyager.online/tx/" + transactionHash
-                                await waitForTransaction(transactionHash, "selectButton" + index)
-                                props.setProgress(props.progress + 1)
+                                button.disabled = false
+                                button.innerText = "Please approve the transaction"
+                                mainContractProxy.completeQuest(props.tokenId, quest.id, result).then(async (transaction) => {
+                                    const transactionHash = transaction.transaction_hash
+                                    button.disabled = true
+                                    button.innerText = transaction.code
+                                    document.getElementById("aspectButton" + index).innerText = "Aspect"
+                                    document.getElementById("transaction" +  index).innerText = "Open in voyager"
+                                    document.getElementById("transaction" +  index).href = "https://beta-goerli.voyager.online/tx/" + transactionHash
+                                    await waitForTransaction(transactionHash, "completeStepButton")
+                                    setProgress(progress + 1)
+                                })
                             }
                             else {
                                 const result = await callApi(`${config.apiUrl}change_starknet_id`, {tokenId: props.tokenId, player: props.account, identityTokenId:identity.token_id, aspectTokenId:identity.id})

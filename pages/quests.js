@@ -140,7 +140,7 @@ export default function Home() {
           setQuestCompleted(false);
         }
         let questProgressTemp = [];
-        questProgressTemp = await contract.functions.getProgress(12, tokenId)
+        questProgressTemp = await contract.functions.getProgress(questNumber, tokenId)
         setProgress(questProgressTemp);
         let levelTemp = 0
         levelTemp = await contract.functions.getLevel(tokenId)

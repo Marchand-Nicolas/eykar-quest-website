@@ -10,12 +10,13 @@ import { useStarknet } from '@starknet-react/core'
 import notify from "../../utils/notify";
 import StarknetIdentities from "../starknetIdentities";
 import callApi from "../../utils/callApi";
-import waitForTransactionQueue from "../../utils/waitForTransactionQueue";
 import config from "../../utils/config";
+import { useMainContractProxy } from "../../hooks/mainContractProxy";
 
 export default function QuestSteps(props) {
     const { contract } = useEykarCommunityContract()
     const { contract: ethContract } = useEthContract()
+    const { contract: mainContractProxy } = useMainContractProxy()
     const [progress, setProgress] = useState(0);
     const steps = props.quest.steps;
     const [loading, setLoading] = useState(false);
@@ -166,13 +167,17 @@ export default function QuestSteps(props) {
                                 button.innerText = "Try again"
                                 return;
                             }
-                            button.innerText = "Queued, position: ..."
-                            const transactionHash = await waitForTransactionQueue(quest.id, props.tokenId, button)
-                            button.innerText = "Transaction sent"
-                            document.getElementById("transaction").innerText = "Open in voyager"
-                            document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + transactionHash
-                            await waitForTransaction(transactionHash, "completeStepButton")
-                            setProgress(progress + 1)
+                            button.disabled = false
+                            button.innerText = "Please approve the transaction"
+                            mainContractProxy.completeQuest(quest.id, props.tokenId, result).then(async (transaction) => {
+                                const transactionHash = transaction.transaction_hash
+                                button.disabled = true
+                                button.innerText = transaction.code
+                                document.getElementById("transaction").innerText = "Open in voyager"
+                                document.getElementById("transaction").href = "https://beta-goerli.voyager.online/tx/" + transactionHash
+                                await waitForTransaction(transactionHash, "completeStepButton")
+                                setProgress(progress + 1)
+                            })
                         }} className={[styles.completeStepButton, styles.v2].join(" ")}>Validate</button>
                         <a className={styles.transactionHash} id="transaction" href="#" target="_blank" rel="noreferrer"></a>
                     </div>
