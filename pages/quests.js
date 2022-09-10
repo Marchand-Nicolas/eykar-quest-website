@@ -34,7 +34,7 @@ export default function Home() {
   const [ tokenIds, setTokenIds ] = useState(undefined)
   const [ reloadDatas, setReloadDatas ] = useState(false)
   const [ reloadTokens, setReloadTokens ] = useState(false)
-  const [ questProgress, playerLevel ] = GetQuestProgress(12)
+  const [ questProgress, playerLevel ] = GetQuestProgress(20)
   const [ currentTransaction, setCurrentTransaction ] = useState(null)
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
