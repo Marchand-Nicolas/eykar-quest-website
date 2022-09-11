@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../../styles/components/quests/questSteps.module.css";
 import waitForTransaction from "../../utils/waitForTransaction";
 import { useEthContract  } from "../../hooks/ethContract";
-import { useEykarCommunityContract } from '../../hooks/mainContract'
+import { useMainContract } from '../../hooks/mainContract'
 import Loading from "../loading";
 import Popup from '../../utils/popup'
 import { unmountComponentAtNode } from "react-dom";
@@ -11,12 +11,10 @@ import notify from "../../utils/notify";
 import StarknetIdentities from "../starknetIdentities";
 import callApi from "../../utils/callApi";
 import config from "../../utils/config";
-import { useMainContractProxy } from "../../hooks/mainContractProxy";
 
 export default function QuestSteps(props) {
-    const { contract } = useEykarCommunityContract()
+    const { contract } = useMainContract()
     const { contract: ethContract } = useEthContract()
-    const { contract: mainContractProxy } = useMainContractProxy()
     const [progress, setProgress] = useState(0);
     const steps = props.quest.steps;
     const [loading, setLoading] = useState(false);
@@ -45,7 +43,6 @@ export default function QuestSteps(props) {
                         <button key={"button_step_" + progress} disabled={loading} id="allowButton" onClick={() => {
                             ethContract.approve(contract.address, [900000000000000, 0]).then(async (transaction) => {
                                 setLoading(true);
-                                notify({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                                 await waitForTransaction(transaction.transaction_hash, "allowButton")
                                 setLoading(false);
                                 setProgress(progress + 1)
@@ -68,7 +65,6 @@ export default function QuestSteps(props) {
                 <button disabled={loading} id="allowButton" onClick={() => {
                     contract.addToApiContract([900000000000000, 0], props.tokenId).then(async (transaction) => {
                         setLoading(true);
-                        notify({message:"The Goerli network is overloaded, leading to long delays in completing transactions. You can close this page and come back in 10 minutes.", warning: true})
                         await waitForTransaction(transaction.transaction_hash, "allowButton")
                         setLoading(false);
                         setProgress(progress + 1)

@@ -1,6 +1,6 @@
 import { waitForElm, getCookie, setCookie } from "../functions";
 import { render, unmountComponentAtNode } from "react-dom";
-import { useEykarCommunityContract } from '../hooks/mainContract'
+import { useMainContract } from '../hooks/mainContract'
 import { useStarknetInvoke, useStarknet, useConnectors, useStarknetTransactionManager } from '@starknet-react/core'
 import { useState, useEffect, useMemo } from "react";
 import styles from '../styles/Quests.module.css'
@@ -22,7 +22,7 @@ import config from "../utils/config";
 export default function Home() {
   const { connect, connectors } = useConnectors()
   const { account } = useStarknet()
-  const { contract } = useEykarCommunityContract()
+  const { contract } = useMainContract()
   const [questCompleted, setQuestCompleted] = useState(false)
   const [questAction, setQuestAction] = useState("")
   const [questActionDescription, setQuestActionDescription] = useState("")
@@ -34,16 +34,15 @@ export default function Home() {
   const [ tokenIds, setTokenIds ] = useState(undefined)
   const [ reloadDatas, setReloadDatas ] = useState(false)
   const [ reloadTokens, setReloadTokens ] = useState(false)
-  const [ questProgress, playerLevel ] = GetQuestProgress(20)
+  const [ questProgress, playerLevel ] = GetQuestProgress()
   const [ currentTransaction, setCurrentTransaction ] = useState(null)
   const [ currentTransactionType, setCurrentTransactionType ] = useState(null)
   const [ menu, setMenu ] = useState(null)
   const [ canCompleteQuest, setCanCompleteQuest ] = useState(false)
   const [ userDatas, setUserDatas ] = useState({})
   const { transactions } = useStarknetTransactionManager()
-  const starknetIdContractAddress = "0x0798e884450c19e072d6620fefdbeb7387d0453d3fd51d95f5ace1f17633d88b"
 
-  const { data:mintNFTData, invoke:mintNFT } = useStarknetInvoke({ contract, method: 'mintNFT'})
+  const { data:mintNFTData, invoke:mint } = useStarknetInvoke({ contract, method: 'mint'})
 
   const date = new Date()
   const beginingDate = 1659106966150
@@ -55,9 +54,9 @@ export default function Home() {
     setCanCompleteQuest(playerLevel < maxQuest)
   }, [tokenId, playerLevel, maxQuest])
 
-  useEffect(() => {
+  /*useEffect(() => {
     popup("UPDATE - 11 September 2022", "V1 of Eykar Quests has ended. You will be able to migrate your V1 Eykar Quests NFT to V2 within one to two weeks. More information on the Eykar Discord server: https://discord.gg/E8yUd3SHqv")
-  }, [])
+  }, [])*/
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -107,7 +106,7 @@ export default function Home() {
         popup("Error", "Your starknet identity is outdated, please click on the gear icon at the bottom right to change it. Otherwise, some quests will not work.")
       }
       try {
-        const res = await (await fetch(`https://api-testnet.aspect.co/api/v0/asset/${starknetIdContractAddress}/${userDatas.identityTokenId}`)).json()
+        const res = await (await fetch(`https://api-testnet.aspect.co/api/v0/asset/${config.starknetIdContractAddress}/${userDatas.identityTokenId}`)).json()
         if (!res.id) error()
       }
       catch {error()}
@@ -132,7 +131,7 @@ export default function Home() {
   }, [account, reloadTokens])
 
   // load player progress
-  function GetQuestProgress(questNumber) {
+  function GetQuestProgress() {
     const [progress, setProgress] = useState([]);
     const [level, setLevel] = useState(0);
     useEffect(() => {
@@ -143,16 +142,18 @@ export default function Home() {
           setQuestAction('');
           setQuestCompleted(false);
         }
-        let questProgressTemp = [];
-        questProgressTemp = await contract.functions.getProgress(questNumber, tokenId)
+        let res = [];
+        res = await contract.functions.getProgress(tokenId);
+        const questProgressTemp = {}
+        res.forEach(questId => {
+          questProgressTemp[parseInt(questId)] = true
+        });
         setProgress(questProgressTemp);
-        let levelTemp = 0
-        levelTemp = await contract.functions.getLevel(tokenId)
-        setLevel(levelTemp);
+        setLevel(parseInt(res.level));
         setLoadingDatas(false);
       }
       if (((questAction && questCompleted) || questProgress.length === 0 || reloadDatas) && !loadingDatas && account && contract && tokenId ? tokenId[0] : false) getPlayerInfos()
-    }, [questNumber, contract, account, questCompleted, tokenId, reloadDatas])
+    }, [contract, account, questCompleted, tokenId, reloadDatas])
     return [progress, level, questCompleted, questAction]
   }
 
@@ -239,13 +240,13 @@ export default function Home() {
           <button onClick={() => {
             switch (quest.transactionType) {
               case 1:
-                mintNFT({ args: [] })
+                mint({ args: [] })
                 setQuestAction("Minting your first NFT")
                 setQuestActionDescription("Please wait...")
                 setQuestActionContent(<button onClick={() => setQuestAction("")} className="global button highlighted popup v2">Close</button>)
                 setCurrentTransaction(null)
                 setCurrentTransactionType(quest.transactionType)
-                notify({message:"The Goerli network is slow, it is normal to wait a few minutes for the transaction to be completed", warning: true})
+                //notify({message:"The Goerli network is slow, it is normal to wait a few minutes for the transaction to be completed", warning: true})
               break;
               default: setMenu(
                 <div className="global popup contener">
@@ -307,7 +308,7 @@ export default function Home() {
     // convert quest datas to html
     function parseBranch(quest, elementPos, Y, previousQuestCompleted) {
       if (!quest.name) return null
-      const completed = questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false
+      const completed = questProgress ? questProgress[quest.id] : false
       return <div onMouseDown={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : !canCompleteQuest ? styles.quest_point_contener_unavailable : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
           {quest.dependent && !previousQuestCompleted ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
           <div id={"questElement_" + quest.id} className={[styles.quest_point, quest.dependent && !previousQuestCompleted ? styles.quest_point_locked : null].join(" ")}>
@@ -345,8 +346,8 @@ export default function Home() {
       }
       {loadBranch(quests[0], tokenIds && tokenIds.length > 1 ? 50 : 0, 0, true)}  
       {token && <div className={styles.player_infos_contener}>
-        <img src={`${config.nftUri}${playerLevel ? playerLevel[0].words[0] : 0}`} />
-        <p>Level {playerLevel ? playerLevel[0].words[0] : 0}</p>
+        <img src={`${config.nftUri}${playerLevel ? playerLevel : 0}`} />
+        <p>Level {playerLevel ? playerLevel : 0}</p>
         <button>
           <a href={token ? token.aspect_link : "#"} target={"_blank"} rel="noreferrer">
             <img src="/logos/aspect.png" />

@@ -2,11 +2,20 @@ import styles from '../styles/components/WalletMenu.module.css'
 import { useStarknet } from '@starknet-react/core'
 import { setCookie } from '../functions'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 function WalletMenu({ close }) {
-    const {  connectors } = useStarknet()
+    const { connectors } = useStarknet()
+    const [device, setDevice] = useState(0)
     const router = useRouter()
+
+    useEffect(() => {
+        setDevice(1)
+    }, [])
+
+    
     return (
+        device ?
         <div className={styles.menu}>
             {close ? <button className={styles.menu_close} onClick={() => { close() }} >
                 <svg alt="close icon" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -29,6 +38,7 @@ function WalletMenu({ close }) {
                 )
             }
         </div>
+        : null
     );
 
 }

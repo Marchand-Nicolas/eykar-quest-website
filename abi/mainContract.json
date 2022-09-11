@@ -76,16 +76,16 @@
     {
         "inputs": [
             {
-                "name": "questNumber",
-                "type": "felt"
-            },
-            {
                 "name": "tokenId",
                 "type": "Uint256"
             }
         ],
         "name": "getProgress",
         "outputs": [
+            {
+                "name": "level",
+                "type": "felt"
+            },
             {
                 "name": "progress_len",
                 "type": "felt"
@@ -103,12 +103,20 @@
             {
                 "name": "tokenId",
                 "type": "Uint256"
-            }
-        ],
-        "name": "getLevel",
-        "outputs": [
+            },
             {
                 "name": "level",
+                "type": "felt"
+            },
+            {
+                "name": "questId",
+                "type": "felt"
+            }
+        ],
+        "name": "hasCompletedQuest",
+        "outputs": [
+            {
+                "name": "completed",
                 "type": "felt"
             }
         ],
@@ -118,18 +126,14 @@
     {
         "inputs": [
             {
-                "name": "quest_id",
-                "type": "felt"
-            },
-            {
                 "name": "tokenId",
                 "type": "Uint256"
             }
         ],
-        "name": "hasCompletedQuest",
+        "name": "getLevel",
         "outputs": [
             {
-                "name": "quest_progress",
+                "name": "level",
                 "type": "felt"
             }
         ],
@@ -174,6 +178,12 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "setImmutable",
+        "outputs": [],
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "name": "newAddress",
@@ -212,19 +222,23 @@
     },
     {
         "inputs": [],
-        "name": "mintNFT",
+        "name": "mint",
         "outputs": [],
         "type": "function"
     },
     {
         "inputs": [
             {
-                "name": "quest_id",
+                "name": "questId",
                 "type": "felt"
             },
             {
                 "name": "tokenId",
                 "type": "Uint256"
+            },
+            {
+                "name": "sig",
+                "type": "(felt, felt)"
             }
         ],
         "name": "completeQuest",
@@ -233,21 +247,6 @@
     },
     {
         "inputs": [],
-        "name": "test",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "name",
-                "type": "felt"
-            },
-            {
-                "name": "symbol",
-                "type": "felt"
-            }
-        ],
         "name": "constructor",
         "outputs": [],
         "type": "constructor"
