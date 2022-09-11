@@ -230,12 +230,12 @@ export default function Home() {
   async function hoverPoint(quest, pointId) {
     const point = document.getElementById(pointId)
     const pointContener = document.getElementById("contentContener_" + pointId)
-    const questCompleted = questProgress.length > 0 ? questProgress[0][quest.id - 1].words[0] : false
+    const questCompleted = questProgress ? questProgress[quest.id] : false
     render(
       <>
         <p id={"content_" + pointId}>{quest.description}</p>
         {
-          !questCompleted ? 
+          !questCompleted ?
           quest.devOnly || !canCompleteQuest ? <button className={`global button dark ${styles.quest_start_button} ${styles.quest_start_button_locked}`}>Please wait</button> :
           <button onClick={() => {
             switch (quest.transactionType) {
