@@ -18,7 +18,6 @@
     display: flex;
     flex-wrap: wrap;
     pointer-events: none;
-    z-index: 2;
 }
 
 .quest_point_name {
@@ -66,6 +65,7 @@
     -ms-user-select: none;
     user-select: none;
     cursor: auto;
+    z-index: 5;
 }
 
 .quest_point_icon {
