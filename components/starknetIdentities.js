@@ -2,11 +2,12 @@ import { useState, useEffect } from "react"
 import styles from '../styles/components/StarknetIdentities.module.css'
 import Loading from "./loading"
 import waitForTransaction from "../utils/waitForTransaction"
-import waitForTransactionQueue from "../utils/waitForTransactionQueue"
 import callApi from "../utils/callApi"
 import config from "../utils/config"
+import { useMainContract } from "../hooks/mainContract"
 
 export default function StarknetIdentities(props) {
+    const { contract } = useMainContract()
     const [identities, setIdentities] = useState([])
     const [refresh, setRefresh] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -41,14 +42,14 @@ export default function StarknetIdentities(props) {
                                 }
                                 button.disabled = false
                                 button.innerText = "Please approve the transaction"
-                                mainContract.completeQuest(props.tokenId, quest.id, result).then(async (transaction) => {
+                                contract.completeQuest(4, [props.tokenId, 0], result).then(async (transaction) => {
                                     const transactionHash = transaction.transaction_hash
                                     button.disabled = true
                                     button.innerText = transaction.code
                                     document.getElementById("aspectButton" + index).innerText = "Aspect"
                                     document.getElementById("transaction" +  index).innerText = "Open in voyager"
                                     document.getElementById("transaction" +  index).href = "https://beta-goerli.voyager.online/tx/" + transactionHash
-                                    await waitForTransaction(transactionHash, "completeStepButton")
+                                    await waitForTransaction(transactionHash, button.id)
                                     setProgress(progress + 1)
                                 })
                             }
