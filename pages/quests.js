@@ -148,7 +148,6 @@ export default function Home() {
         res.progress.forEach(questId => {
           questProgressTemp[parseInt(questId)] = true
         });
-        console.log(questProgressTemp)
         setProgress(questProgressTemp);
         setLevel(parseInt(res.level));
         setLoadingDatas(false);
@@ -300,7 +299,7 @@ export default function Home() {
       {quest.connected.length > 1 && <div style={{left: elementPos, transform: `translateY(calc(-50% + ${Y}px)) translateX(150px)`}} className={[styles.verticalLine, quest.connected[0].clear ? styles.bottom : quest.connected[quest.connected.length - 1].clear ? styles.top : null].join(" ")} />}
       {quest.connected.map((element, index) => 
         <div key={"branch_" + quest.name + "_" + index}>
-          {loadBranch(element, elementPos, computeChildY(index), quest.name ? questProgress.length > 0 ? quest.id ? questProgress[0][quest.id - 1].words[0] : true : false : previousQuestCompleted)}
+          {loadBranch(element, elementPos, computeChildY(index), quest.name ? questProgress ? quest.id ? questProgress[quest.id] : true : false : previousQuestCompleted)}
         </div>
       )}  
     </div>
@@ -310,19 +309,19 @@ export default function Home() {
     function parseBranch(quest, elementPos, Y, previousQuestCompleted) {
       if (!quest.name) return null
       const completed = questProgress ? questProgress[quest.id] : false
-      return <div onMouseDown={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => quest.dependent && !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : !canCompleteQuest ? styles.quest_point_contener_unavailable : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
-          {quest.dependent && !previousQuestCompleted ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
-          <div id={"questElement_" + quest.id} className={[styles.quest_point, quest.dependent && !previousQuestCompleted ? styles.quest_point_locked : null].join(" ")}>
+      return <div onMouseDown={() => !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} onMouseEnter={() => !previousQuestCompleted ? null : hoverPoint(quest, "point_" + elementPos + "_" + Y)} id={"point_" + elementPos + "_" + Y} className={[styles.quest_point_contener, completed ? styles.quest_point_contener_completed : !canCompleteQuest ? styles.quest_point_contener_unavailable : null].join(" ")} style={{left : elementPos, transform: `translateY(calc(-50% + ${Y}px))`}}>
+          {!previousQuestCompleted ? null : <p className={styles.quest_point_name}>{quest.name}</p>}
+          <div id={"questElement_" + quest.id} className={[styles.quest_point, !previousQuestCompleted ? styles.quest_point_locked : null].join(" ")}>
             {
               completed ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg> : quest.dependent && !previousQuestCompleted ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            </svg> : !previousQuestCompleted ? <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg> : canCompleteQuest ? quest.icon : <svg className={styles.quest_point_icon} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             }
-            {quest.dependent && !previousQuestCompleted ? null : <div className={styles.point_infos_contener} id={quest.name && "contentContener_point_" + elementPos + "_" + Y}></div>}
+            {!previousQuestCompleted ? null : <div className={styles.point_infos_contener} id={quest.name && "contentContener_point_" + elementPos + "_" + Y}></div>}
           </div>
         </div>
     }

@@ -41,7 +41,7 @@ export default function StarknetIdentities(props) {
                                 }
                                 button.disabled = false
                                 button.innerText = "Please approve the transaction"
-                                mainContractProxy.completeQuest(props.tokenId, quest.id, result).then(async (transaction) => {
+                                mainContract.completeQuest(props.tokenId, quest.id, result).then(async (transaction) => {
                                     const transactionHash = transaction.transaction_hash
                                     button.disabled = true
                                     button.innerText = transaction.code
