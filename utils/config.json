@@ -1,6 +1,6 @@
 {
     "mainContractAddress": "0x041e1382e604688da7f22e7fbb6113ba3649b84a87b58f4dc1cf5bfa96dfc2cf",
-    "mainContractProxyAddress": "0x07a9cc26fe907c6c13b57aeb858b8b8635cb6ef469597c8b42c7d53dff0ebe16",
+    "mainContractProxyAddress": "0x06e45483c2b416d6ae5d4bf9cf88956045ecfb70065fa8fc162f1fb3c8f68ed7",
     "apiUrl": "https://api.eykar.org/",
     "nftUri": "https://nft.eykar.org/quest-nft/",
     "usingStarknetId": true

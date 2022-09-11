@@ -167,6 +167,7 @@ export default function QuestSteps(props) {
                                 button.innerText = "Try again"
                                 return;
                             }
+                            console.log(result)
                             button.disabled = false
                             button.innerText = "Please approve the transaction"
                             mainContractProxy.completeQuest(quest.id, props.tokenId, result).then(async (transaction) => {

@@ -19,7 +19,7 @@
     {
         "inputs": [
             {
-                "name": "questId",
+                "name": "quest_id",
                 "type": "felt"
             },
             {
