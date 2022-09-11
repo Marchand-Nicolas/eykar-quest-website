@@ -145,9 +145,10 @@ export default function Home() {
         let res = [];
         res = await contract.functions.getProgress(tokenId);
         const questProgressTemp = {}
-        res.forEach(questId => {
+        res.progress.forEach(questId => {
           questProgressTemp[parseInt(questId)] = true
         });
+        console.log(questProgressTemp)
         setProgress(questProgressTemp);
         setLevel(parseInt(res.level));
         setLoadingDatas(false);
