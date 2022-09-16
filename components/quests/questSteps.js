@@ -7,7 +7,6 @@ import Loading from "../loading";
 import Popup from '../../utils/popup'
 import { unmountComponentAtNode } from "react-dom";
 import { useStarknet } from '@starknet-react/core'
-import notify from "../../utils/notify";
 import StarknetIdentities from "../starknetIdentities";
 import callApi from "../../utils/callApi";
 import config from "../../utils/config";
@@ -165,7 +164,7 @@ export default function QuestSteps(props) {
                             }
                             button.disabled = false
                             button.innerText = "Please approve the transaction"
-                            mainContractProxy.completeQuest(quest.id, props.tokenId, result).then(async (transaction) => {
+                            contract.completeQuest(quest.id, props.tokenId, result).then(async (transaction) => {
                                 const transactionHash = transaction.transaction_hash
                                 button.disabled = true
                                 button.innerText = transaction.code

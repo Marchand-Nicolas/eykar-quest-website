@@ -230,6 +230,10 @@ fieldset.popup button {
   font-size: 0.9em;
 }
 
+.button.gold.normal {
+  margin:  5px 20px;
+}
+
 .button.dark {
   background-color: #232020;
 }

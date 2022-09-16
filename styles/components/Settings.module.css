@@ -1,5 +1,5 @@
 .button {
-    position: absolute;
+    position: fixed;
     right: 12px;
     bottom: 12px;
     background-color: var(--gold);
@@ -8,15 +8,69 @@
     border: none;
     border-radius: 2em;
     padding: 4px;
-    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
 .button svg {
     transition: 0.3s ease-in-out;
+    max-width: 50px;
 }
 
-.button:hover svg {
-    rotate: 90deg;
+.content {
+    display: none;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.content * {
+    animation: grow 0.4s ease-in-out;
+}
+
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.content h1 {
+    position: absolute;
+    left: 80px;
+    top: 25px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.button:hover .content {
+    display: unset;
+}
+
+.button:hover {
+    padding: 15px;
+    right: 0;
+    bottom: 0;
+    width: 400px;
+    height: 250px;
+    border-bottom-right-radius: 0;
+
+}
+
+.item {
+    margin: 25px 15px;
+    color: var(--gold);
+    background-color: black;
+    padding: 10px 25px;
+    cursor: pointer;
+    border-radius: 2em;
 }
 
 .container {
@@ -42,4 +96,9 @@
     position: absolute;
     top: 18px;
     right: 15px;
+}
+
+.sigs p {
+    margin: 0;
+    padding: 0;
 }
