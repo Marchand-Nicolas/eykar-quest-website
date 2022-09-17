@@ -1,7 +1,7 @@
 {
-    "mainContractAddress": "0x027078af4c2b9d623794dfb41f25d7423919c5a17e71664ca488c6c029d33f13",
-    "apiUrl": "https://api.eykar.org/",
-    "nftUri": "https://nft.eykar.org/quest-nft/",
+    "mainContractAddress": "0x04ac4a84b09db3cf80c5cd11d2e2b952c46f6c071c70c0e1e62133d3dd406325",
+    "apiUrl": "https://quest-api.starknet.id/",
+    "nftUri": "https://nft.starknet.id/quest-nft/",
     "usingStarknetId": true,
     "starknetIdContractAddress": "0x0798e884450c19e072d6620fefdbeb7387d0453d3fd51d95f5ace1f17633d88b"
 }
