@@ -54,9 +54,9 @@ export default function Home() {
     setCanCompleteQuest(playerLevel < maxQuest)
   }, [tokenId, playerLevel, maxQuest])
 
-  useEffect(() => {
+  /*useEffect(() => {
     popup("UPDATE - 16 September 2022", "V1 of Eykar Quests has ended. You will be able to migrate your V1 Eykar Quests NFT to V2 within one to two weeks. More information on the Eykar Discord server: https://discord.gg/E8yUd3SHqv")
-  }, [])
+  }, [])*/
 
   useEffect(() => {
     const interval = setInterval(() => {

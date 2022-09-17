@@ -2,19 +2,25 @@ import styles from '../styles/components/V1ToV2Menu.module.css'
 import { useEffect, useState } from 'react'
 import config from '../utils/config'
 import callApi from '../utils/callApi'
+import Loading from './loading'
 
 export default function V1ToV2Menu(props) {
     const [selectedNft, setSelectedNft] = useState(false)
     const [signatures, setSignatures] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (selectedNft) {
-            if (selectedNft) callApi(config.apiUrl + "generate_signatures", {
-                newTokenId: props.tokenId,
-                oldTokenId: selectedNft.token_id,
-            }).then(async (res) => {
-                setSignatures(res)
-            })
+            if (selectedNft) {
+                setLoading(true)
+                callApi(config.apiUrl + "generate_signatures", {
+                    newTokenId: props.tokenId,
+                    oldTokenId: selectedNft.token_id,
+                }).then(async (res) => {
+                    setLoading(false)
+                    setSignatures(res)
+                })
+            }
         }
     }, [selectedNft])
 
@@ -42,6 +48,9 @@ export default function V1ToV2Menu(props) {
                             </div>
                         </div>
                     })
+                }
+                {
+                    loading ? <><br></br><Loading style={{zoom:0.5}} /></> : signatures.length == 0 ? <><br></br><p>No transaction to approve</p></> : null
                 }
             </>
             :
