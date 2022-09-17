@@ -1,5 +1,5 @@
 {
-    "mainContractAddress": "0x04ba17e5c1fe76284734f43e2258853ae51cf70aee43ec4c4c7dd785342d2c7b",
+    "mainContractAddress": "0x027078af4c2b9d623794dfb41f25d7423919c5a17e71664ca488c6c029d33f13",
     "apiUrl": "https://api.eykar.org/",
     "nftUri": "https://nft.eykar.org/quest-nft/",
     "usingStarknetId": true,

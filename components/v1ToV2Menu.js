@@ -35,7 +35,7 @@ export default function V1ToV2Menu(props) {
                                 <p>Transaction {index + 1}</p>
                                 <button className='button gold normal' onClick={() => {
                                     props.contract.completeQuest(signature.questId, [props.tokenId, 0], signature.signatures).then(async (transaction) => {
-                                        console.log(completeQuest)
+                                        console.log(transaction)
                                     })
                                 }}
                                 >Approve</button>

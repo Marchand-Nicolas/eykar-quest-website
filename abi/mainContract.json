@@ -83,10 +83,6 @@
         "name": "getProgress",
         "outputs": [
             {
-                "name": "level",
-                "type": "felt"
-            },
-            {
                 "name": "progress_len",
                 "type": "felt"
             },
@@ -103,10 +99,6 @@
             {
                 "name": "tokenId",
                 "type": "Uint256"
-            },
-            {
-                "name": "level",
-                "type": "felt"
             },
             {
                 "name": "questId",

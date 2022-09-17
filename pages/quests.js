@@ -149,7 +149,7 @@ export default function Home() {
           questProgressTemp[parseInt(questId)] = true
         });
         setProgress(questProgressTemp);
-        setLevel(parseInt(res.level));
+        setLevel(res.progress.length);
         setLoadingDatas(false);
       }
       if (((questAction && questCompleted) || questProgress.length === 0 || reloadDatas) && !loadingDatas && account && contract && tokenId ? tokenId[0] : false) getPlayerInfos()
