@@ -68,7 +68,7 @@ export default function V1ToV2Menu(props) {
             :
             <p>
                 To start, please mint a new NFT. Then we will import the completed quests into it.<br></br>
-                To mint the NFT, you can close this menu and complete the first quest, "First NFT".<br></br>
+                To mint the NFT, you can close this menu and complete the first quest, &quot;First NFT&quot;.<br></br>
                 Once this is done, reopen this menu
             </p>
         }
